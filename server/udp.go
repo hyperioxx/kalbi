@@ -5,11 +5,6 @@ import ("net"
 		
 
 
-
-func HandleFunc(string method, )
-
-
-
 func SIPServer(host string , port int){
 	fmt.Println("Starting Go Sip Server")
 	fmt.Printf("Listening on %s:%d\n", host, port)
