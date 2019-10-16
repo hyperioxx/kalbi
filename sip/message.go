@@ -2,7 +2,6 @@ package sip
 
 
 type SipMessage struct {
-	raw string 
-	headers map[string][]SIPHeader
-
+	Raw string 
+	Headers map[string][]SIPHeader
 }
