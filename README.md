@@ -1,2 +1,2 @@
-# GoSIP - SIP (Session Initiated Protocol) Application Framework
+# Go SIP - SIP Application Framework
 
