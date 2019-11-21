@@ -1,2 +1,2 @@
-# Go SIP - SIP Application Framework
+# Kalbi - SIP Application Server
 

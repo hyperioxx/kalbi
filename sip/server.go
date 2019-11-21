@@ -9,6 +9,7 @@ import ("net"
 
 //ListenAndServe function is an endless loop for listening on the specified host and port
 func ListenAndServe(Host string, Port int){
+	
 	fmt.Println("Starting Go Sip Server")
 	fmt.Printf("Listening on %s:%d\n", Host, Port)
 
@@ -37,8 +38,7 @@ func ListenAndServe(Host string, Port int){
 		newreader := bufio.NewReader(bytesbuffer)
 
 		request := ReadSIPRequest(newreader)
-		function := GetMethodFunction(request.Method)
-		function()
+
 
 		if err != nil{
 			panic(err)
