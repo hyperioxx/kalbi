@@ -6,65 +6,59 @@ import "fmt"
 import "strings"
 import "io"
 
-
-type SIPRequest struct{
-	Method string
+type SIPRequest struct {
+	Method     string
 	RequestURI string
-	Proto string
-	Headers map[string]string
+	Proto      string
+	Headers    map[string]string
 }
 
-
-
 // ReadSIPRequest reads and parses an icoming request
-func ReadSIPRequest(br *bufio.Reader) *SIPRequest{
+func ReadSIPRequest(br *bufio.Reader) *SIPRequest {
 	reader := newTextProtoReader(br)
 	requestline, err := reader.ReadLine()
 
 	var req = new(SIPRequest)
 
 	if err != nil {
-	  fmt.Println(err)
+		fmt.Println(err)
 	}
 
-	req.Method , req.RequestURI , req.Proto = parseRequestLine(requestline)
+	req.Method, req.RequestURI, req.Proto = parseRequestLine(requestline)
 	req.Headers = parseHeaders(reader)
 
-    return req
-	  
-}
+	return req
 
+}
 
 func newTextProtoReader(br *bufio.Reader) *textproto.Reader {
 	return textproto.NewReader(br)
 }
 
-
-func parseRequestLine(requestline string) (method string , uri string, proto string) {
+func parseRequestLine(requestline string) (method string, uri string, proto string) {
 	parsedline := strings.Split(requestline[1:], " ")
-	return parsedline[0] , parsedline[1] , parsedline[2]
+	return parsedline[0], parsedline[1], parsedline[2]
 }
 
-
-func parseHeaders(reader *textproto.Reader)  map[string]string {
+func parseHeaders(reader *textproto.Reader) map[string]string {
 
 	var headers map[string]string
 
-	for{
+	for {
 		line, err := reader.ReadLine()
-		if err == io.EOF{
-		   break
+		if err == io.EOF {
+			break
 		}
-		if err != nil{
+		if err != nil {
 			fmt.Println(err)
 		}
 		if line != "<nil>" {
-			headermatch := strings.Index(line,":")
+			headermatch := strings.Index(line, ":")
 			if headermatch != -1 {
-				headers[strings.ToLower(line[:headermatch])] = line[headermatch + 1:]
+				headers[strings.ToLower(line[:headermatch])] = line[headermatch+1:]
 			}
 		}
-	 }
-	
+	}
+
 	return headers
 }
