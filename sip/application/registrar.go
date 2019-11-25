@@ -1,4 +1,4 @@
-package server
+package application
 
 
 type Registrar struct {

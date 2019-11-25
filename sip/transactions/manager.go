@@ -1,4 +1,4 @@
-package sip
+package transaction
 
 //TransactionManager handles SIP transactions
 type TransactionManager struct {

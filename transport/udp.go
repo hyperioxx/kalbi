@@ -6,16 +6,21 @@ import (
 	"fmt"
 	"net"
 	"Kalbi/sip/message"
-    "Kalbi/log"
+	"Kalbi/log"
+	"Kalbi/sip/application"
 )
 
 //ListenAndServe function is an endless loop for listening on the specified host and port
 func ListenAndServe(Host string, Port int) {
     log.Log.Info("Starting Kalbi Server")
 	log.Log.Info("Listening on "+ Host)
+	
+    inputChannel := make(chan *message.Request)
 
+	appManager := application.NewAppManager(inputChannel)
 
-
+	go appManager.Start()
+	
 	buffer := make([]byte, 2048)
 
 	addr := net.UDPAddr{
@@ -42,8 +47,8 @@ func ListenAndServe(Host string, Port int) {
 		newreader := bufio.NewReader(bytesbuffer)
 
 		request := message.ReadSIPRequest(newreader)
-        
-		log.Log.Info(request)
+		
+		inputChannel <- request
 
 		if err != nil {
 			panic(err)
