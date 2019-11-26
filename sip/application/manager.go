@@ -1,29 +1,30 @@
 package application
 
-import "fmt"
 import "Kalbi/sip/message"
 
-//ApplicationManager manages sip applications
-type ApplicationManager struct {
-     input chan *message.Request
+//Manager manages sip applications
+type Manager struct {
+	input chan *message.Request
+	
 }
 
-//SetChannels sets channel
-func (am *ApplicationManager) SetChannel(input chan *message.Request){
+//SetChannel sets channel
+func (am *Manager) SetChannel(input chan *message.Request){
     am.input = input
 }
 
 //Start starts application manager
-func (am *ApplicationManager) Start(){
+func (am *Manager) Start(){
+	registrar := new(Registrar)
+	b2bua := new(B2BUA)
 	for {
 		request := <- am.input
 		
 		switch request.Method{
 		case "REGISTER":
-			fmt.Println("Handle REGISTER")
+			registrar.HandleRequest(request)
 		default:
-			fmt.Println("HANDLE")
-
+			b2bua.HandleRequest(request)
 		}
 
 	}
@@ -33,8 +34,8 @@ func (am *ApplicationManager) Start(){
 
 
 //NewAppManager creates new App Manager
-func NewAppManager(input chan *message.Request) *ApplicationManager{
-	appManager := new(ApplicationManager)
+func NewAppManager(input chan *message.Request) *Manager{
+	appManager := new(Manager)
 	appManager.SetChannel(input)
 	return appManager
 }

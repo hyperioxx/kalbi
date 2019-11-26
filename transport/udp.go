@@ -8,6 +8,7 @@ import (
 	"Kalbi/sip/message"
 	"Kalbi/log"
 	"Kalbi/sip/application"
+	"Kalbi/sip/parser"
 )
 
 //ListenAndServe function is an endless loop for listening on the specified host and port
@@ -46,7 +47,7 @@ func ListenAndServe(Host string, Port int) {
 
 		newreader := bufio.NewReader(bytesbuffer)
 
-		request := message.ReadSIPRequest(newreader)
+		request := parser.Read(newreader)
 		
 		inputChannel <- request
 
