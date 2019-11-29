@@ -3,11 +3,11 @@ package transport
 import (
 	"bufio"
 	"bytes"
-	//"fmt"
+	"fmt"
 	"net"
 	"Kalbi/sip/message"
-	"Kalbi/log"
-	"Kalbi/sip/transaction"
+	//"Kalbi/log"
+	//"Kalbi/sip/transaction"
 )
 
 
@@ -22,6 +22,9 @@ type UDPTransport struct {
 func (ut *UDPTransport) Read() *message.Request{
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFromUDP(buffer)
+	if err != nil {
+		fmt.Println(err)
+	}
 	bytesbuffer := bytes.NewBuffer(buffer[:n])
 	newreader := bufio.NewReader(bytesbuffer)
 	request := message.Read(newreader)
@@ -45,7 +48,7 @@ func (ut *UDPTransport) Build(host string, port int){
 
 
 
-
+/*
 //ListenAndServe function is an endless loop for listening on the specified host and port
 func ListenAndServe(Host string, Port int) {
     log.Log.Info("Starting Kalbi Server")
@@ -92,3 +95,4 @@ func ListenAndServe(Host string, Port int) {
 	}
 
 }
+*/

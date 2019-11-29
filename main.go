@@ -16,6 +16,7 @@ package main
 import "fmt"
 
 //import "Kalbi/log"
+import "Kalbi/transport"
 
 var title string = `
 			██╗  ██╗ █████╗ ██╗     ██████╗ ██╗ 
@@ -30,5 +31,7 @@ var title string = `
 
 func main() {
 	fmt.Println(title)
+	transport.NewTransportListenPoint("udp", "127.0.0.1", 5060)
+	
 	//transport.ListenAndServe("127.0.0.1", 5060)
 }
