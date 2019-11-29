@@ -1,19 +1,18 @@
-package parser
+package message
 
 import "bufio"
 import "net/textproto"
 import "fmt"
 import "strings"
 import "io"
-import "net/url"
-import "Kalbi/sip/message"
 
 
-func Read(br *bufio.Reader) *message.Request {
+
+func Read(br *bufio.Reader) *Request {
 	reader := newTextProtoReader(br)
 	requestline, err := reader.ReadLine()
 
-	var req = new(message.Request)
+	var req = new(Request)
 
 	if err != nil {
 		fmt.Println(err)
@@ -22,25 +21,10 @@ func Read(br *bufio.Reader) *message.Request {
 	req.Method, req.RequestURI, req.Proto = parseRequestLine(requestline)
 	req.Headers = parseHeaders(reader)
 
-	/*req.Via , err = parseVia(req.Headers["via"])
-	if err != nil {
-		fmt.Println(err)
-	}*/
-	req.Contact, err = parseURI(req.Headers["contact"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	req.From, err = parseURI(req.Headers["from"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	req.To, err = parseURI(req.Headers["to"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
+	req.Contact = parseURI(req.Headers["contact"])
+	req.From = parseURI(req.Headers["from"])
+	req.To = parseURI(req.Headers["to"])
+	//req.Via = parseURI(req.Headers["via"])
 	return req
 
 }
@@ -80,15 +64,3 @@ func parseHeaders(reader *textproto.Reader) map[string]string {
 }
 
 
-
-func parseURI(_uri string) (*url.URL, error) {
-	_uri = cleanURI(_uri)
-	uri, err := url.Parse(_uri)
-	return uri, err
-}
-
-
-func cleanURI(uri string) string{
-	uri = uri[1:len(uri)-1]
-	return uri
-}

@@ -9,5 +9,5 @@ type B2BUA struct {
 }
 
 func (b *B2BUA) HandleRequest(req *message.Request){
-	fmt.Println(req.To.Hostname)
+	fmt.Println(req.Contact.Port)
 }
