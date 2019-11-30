@@ -1,10 +1,22 @@
-package logger
+package log
 
-// 01-01-2000 00:00:00 nice and simple timestamp 
-const c_DATE_FORMAT = "01-01-2000 00:00:00"
+import "os"
+import "github.com/sirupsen/logrus"
 
 
-type Logger struct {
 
+var Log = logrus.New()
+
+func init(){
+	Log.Out = os.Stdout
 }
+
+
+
+
+
+
+
+
+
 
