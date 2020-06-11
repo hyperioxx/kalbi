@@ -14,9 +14,11 @@ package main
 
 
 import "fmt"
-
-//import "Kalbi/log"
+import "flag"
+import "Kalbi/sip/message"
 import "Kalbi/transport"
+import "Kalbi/dispatcher"
+import "Kalbi/sip/transaction"
 
 var title string = `
 			██╗  ██╗ █████╗ ██╗     ██████╗ ██╗ 
@@ -31,7 +33,18 @@ var title string = `
 
 func main() {
 	fmt.Println(title)
-	transport.NewTransportListenPoint("udp", "127.0.0.1", 5060)
-	
-	//transport.ListenAndServe("127.0.0.1", 5060)
+
+	port := flag.Int("port", 5060, "port number the listening point binds to. default port number 5060")
+	host := flag.String("host", "127.0.0.1", "host the listening point binds to. default 127.0.0.1")
+	flag.Parse()
+
+	c := make(chan message.Request)
+	mainloop := new(dispatcher.EventDispatcher)
+	mainloop.AddChannel(c)
+	udp := transport.NewTransportListenPoint("udp", *host, *port)
+	transactionLayer := transaction.NewManager(c)
+	transactionLayer.SetChannel(c)
+	go transactionLayer.Start()
+    mainloop.AddListenPoint(udp)
+    mainloop.Start()
 }

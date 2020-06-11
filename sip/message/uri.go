@@ -12,12 +12,15 @@ type URI struct {
 	Params string
 	Headers string
 	Branch string
-
+	Orig string
 }
+
+
 
 
 func parseURI(uri string) *URI{
 	newuri := new(URI)
+	newuri.Orig = uri
 	re := regexp.MustCompile(`(?P<scheme>\w+):(?:(?P<user>[+\w\.\-]+):?(?P<password>[\w\.]+)?@)?\[?(?P<host>(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|(?:(?:[0-9a-fA-F]{1,4}):){7}[0-9a-fA-F]{1,4}|(?:(?:[0-9A-Za-z]+\.)+[0-9A-Za-z]+))\]?:?(?P<port>\d{1,6})?(.*;)?(tag=(?P<tag>.*))?\;?(?:\?(?P<headers>.*))?`)
 	match := re.FindStringSubmatch(uri)
 	for i, name := range re.SubexpNames() {

@@ -5,9 +5,10 @@ import (
 	"bytes"
 	"fmt"
 	"net"
-	"Kalbi/sip/message"
-	//"Kalbi/log"
-	//"Kalbi/sip/transaction"
+	"io"
+	"strings"
+	"Kalbi/sip/parser"
+	"Kalbi/log"
 )
 
 
@@ -25,9 +26,15 @@ func (ut *UDPTransport) Read() *message.Request{
 	if err != nil {
 		fmt.Println(err)
 	}
-	bytesbuffer := bytes.NewBuffer(buffer[:n])
-	newreader := bufio.NewReader(bytesbuffer)
-	request := message.Read(newreader)
+	//bytesbuffer := bytes.NewBuffer(buffer[:n])
+	//newreader := bufio.NewReader(bytesbuffer)
+	//buf := new(strings.Builder)
+	//_, err = io.Copy(buf, newreader)
+	//if err != nil {
+		log.Log.Error(err)
+	//}
+
+	request := message.Read(string(buffer[:n]))
     return request
 }
 
@@ -47,52 +54,18 @@ func (ut *UDPTransport) Build(host string, port int){
 }
 
 
-
-/*
-//ListenAndServe function is an endless loop for listening on the specified host and port
-func ListenAndServe(Host string, Port int) {
-    log.Log.Info("Starting Kalbi Server")
-	log.Log.Info("Listening on "+ Host)
-	
-    inputChannel := make(chan *message.Request)
-
-	transManager := transaction.NewManager(inputChannel)
-
-	go transManager.Start()
-	
-	buffer := make([]byte, 2048)
-
-	addr := net.UDPAddr{
-		IP:   net.ParseIP(Host),
-		Port: Port,
+func UdpSend(host string, port string, msg string){
+	addr, err := net.ResolveUDPAddr("udp", host + ":" + port)
+	if err != nil{
+		log.Log.Error(err)
 	}
-
-	conn , err = net.ListenUDP("udp", &addr)
-
-	if err != nil {
-		log.Log.Error("Unable to bind to socket")
-	}
-
-	for {
-		n, _, err := conn.ReadFromUDP(buffer)
-
-		if err != nil {
-			log.Log.Error("Unable to read from socket")
-		}
-        
-		bytesbuffer := bytes.NewBuffer(buffer[:n])
-
-		newreader := bufio.NewReader(bytesbuffer)
-
-		request := message.Read(newreader)
-		
-		inputChannel <- request
-
-		if err != nil {
-			panic(err)
-		}
-
-	}
+    conn, err := net.DialUDP("udp", nil, addr)
+    if err != nil {
+        fmt.Printf("Some error %v", err)
+        return
+    }
+    fmt.Fprintf(conn, msg)
+    conn.Close()
 
 }
-*/
+
