@@ -1,15 +1,18 @@
 package transaction
 
-//import "fmt"
-import "Kalbi/sip/message"
+
+import (
+	"github.com/marv2097/siprocket"
+	//"Kalbi/sip/message"
 //import "Kalbi/log"
-import "github.com/looplab/fsm"
+	"github.com/looplab/fsm"
+)
 
 //TransactionManager handles SIP transactions
 type Manager struct {
 	ctx map[string] *ClientTransaction
 	stx map[string] *ServerTransaction
-	input chan message.Request
+	input chan siprocket.SipMsg
 }
 
 func (tm *Manager) Init(){
@@ -18,18 +21,19 @@ func (tm *Manager) Init(){
 }
 
 //SetChannels setup input & output channels for 
-func (tm *Manager) SetChannel(input chan message.Request){
+func (tm *Manager) SetChannel(input chan siprocket.SipMsg){
     tm.input = input
 }
 
 // Start runs TransManager
 func (tm *Manager) Start() {
 	for{
+		var trans *ServerTransaction
 		request := <- tm.input
-		trans := tm.FindServerTransaction(request.Branch)
-		if trans == nil{
-            trans = tm.NewServerTransaction(&request)
-		}
+		
+		trans = tm.NewServerTransaction(&request)
+	
+		
 		trans.Receive(&request)
        
 	}
@@ -45,7 +49,7 @@ func (tm *Manager) FindServerTransaction(branch string) *ServerTransaction{
     return nil
 }
 
-func (tm * Manager) NewClientTransaction(msg *message.Request) *ClientTransaction{
+func (tm * Manager) NewClientTransaction(msg *siprocket.SipMsg) *ClientTransaction{
 
 	
 	tx := new(ClientTransaction)
@@ -63,7 +67,7 @@ func (tm * Manager) NewClientTransaction(msg *message.Request) *ClientTransactio
 
 }
 
-func (tm * Manager) NewServerTransaction(msg *message.Request) *ServerTransaction{
+func (tm * Manager) NewServerTransaction(msg *siprocket.SipMsg) *ServerTransaction{
 	
 
 	
@@ -74,7 +78,7 @@ func (tm * Manager) NewServerTransaction(msg *message.Request) *ServerTransactio
 		{Name: "Completed", Src: []string{"Calling", "Proceeding"}, Dst: "Completed"},
 		{Name: "Terminated", Src: []string{"Calling", "Proceeding","Completed"}, Dst: "Terminated"},
     }, fsm.Callbacks{"enter_state": tx.Run},)
-	tm.stx[msg.Branch] = tx
+	//tm.stx[msg.Branch] = tx
 	
 	return tx
 
@@ -82,7 +86,7 @@ func (tm * Manager) NewServerTransaction(msg *message.Request) *ServerTransactio
 
 
 
-func NewManager(input chan message.Request) *Manager{
+func NewManager(input chan siprocket.SipMsg) *Manager{
 	transManager := new(Manager)
 	transManager.SetChannel(input)
 	transManager.Init()

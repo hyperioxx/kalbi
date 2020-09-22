@@ -1,12 +1,9 @@
 package transport
 
 import (
-	"bufio"
-	"bytes"
 	"fmt"
 	"net"
-	"io"
-	"strings"
+	"github.com/marv2097/siprocket"
 	"Kalbi/sip/parser"
 	"Kalbi/log"
 )
@@ -20,7 +17,7 @@ type UDPTransport struct {
 }
 
 //Read from UDP Socket
-func (ut *UDPTransport) Read() *message.Request{
+func (ut *UDPTransport) Read() *siprocket.SipMsg {
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFromUDP(buffer)
 	if err != nil {
@@ -34,7 +31,8 @@ func (ut *UDPTransport) Read() *message.Request{
 		log.Log.Error(err)
 	//}
 
-	request := message.Read(string(buffer[:n]))
+	fmt.Println(string(buffer[:n]))
+	request := parser.Read(buffer[:n])
     return request
 }
 
@@ -55,6 +53,7 @@ func (ut *UDPTransport) Build(host string, port int){
 
 
 func UdpSend(host string, port string, msg string){
+	fmt.Println(msg)
 	addr, err := net.ResolveUDPAddr("udp", host + ":" + port)
 	if err != nil{
 		log.Log.Error(err)

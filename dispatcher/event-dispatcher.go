@@ -1,7 +1,7 @@
 package dispatcher
 
 //import "fmt"
-import "Kalbi/sip/message"
+import "github.com/marv2097/siprocket"
 import "Kalbi/transport"
 import "Kalbi/log"
 
@@ -10,7 +10,7 @@ import "Kalbi/log"
 //EventDispatcher has multiple protocol listning points 
 type EventDispatcher struct {
     ListeningPoints []transport.ListeningPoint
-    OutputPoints [] chan message.Request
+    OutputPoints [] chan siprocket.SipMsg
 }
 
 //AddListenPoint adds listening point to the event dispatcher
@@ -19,7 +19,7 @@ func (ed *EventDispatcher) AddListenPoint(listenpoint transport.ListeningPoint){
 }
 
 //AddChannel give the ability to add channels for callbacks on each request
-func (ed *EventDispatcher) AddChannel(c chan message.Request){
+func (ed *EventDispatcher) AddChannel(c chan siprocket.SipMsg){
      ed.OutputPoints = append(ed.OutputPoints, c)
 }
 

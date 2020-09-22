@@ -1,28 +1,31 @@
 package transaction
 
-import "fmt"
-import "github.com/looplab/fsm"
-import "Kalbi/sip/message"
-import "Kalbi/log"
-import "Kalbi/transport"
+import (
+	"github.com/marv2097/siprocket"
+	"github.com/looplab/fsm"
+	"Kalbi/sip/message"
+	"Kalbi/log"
+	"Kalbi/transport"
+	"Kalbi/sdp"
+	//"fmt"
+)
 //import "github.com/davecgh/go-spew/spew"
 
 
 
 
 type Transaction interface {
-    Receive(msg *message.Request)
+    Receive(msg *siprocket.SipMsg)
 }
 
 
 type ClientTransaction struct {
 	ID string
 	FSM *fsm.FSM
-	msg_history[] *message.Request
+	msg_history[] *siprocket.SipMsg
 }
 
-func (ct *ClientTransaction) Receive(msg *message.Request){
-	 fmt.Println(msg.Method)
+func (ct *ClientTransaction) Receive(msg *siprocket.SipMsg){
 	 ct.msg_history = append(ct.msg_history, msg)
 }
 
@@ -32,25 +35,27 @@ func (ct *ClientTransaction) Receive(msg *message.Request){
 type ServerTransaction struct {
 	ID string
 	FSM *fsm.FSM
-	msg_history[] *message.Request
+	msg_history[] *siprocket.SipMsg
 }
 
-func (st *ServerTransaction) Receive(msg *message.Request){
-	//spew.Dump(msg)
+func (st *ServerTransaction) Receive(msg *siprocket.SipMsg){
 	st.msg_history = append(st.msg_history, msg)
-	if msg.Method == "CANCEL" {
+	if  string(msg.Req.Method) == "ACK" {
+        return
+	}
+	if string(msg.Req.Method) == "CANCEL" ||  string(msg.Req.Method) == "BYE" {
 		response := message.NewResponse(200, msg)
-		port := msg.Contact.Port
-		transport.UdpSend(msg.Contact.Host, port, response)
+		port := string(msg.Contact.Port)
+		transport.UdpSend(string(msg.Contact.Host), string(port), response)
 	}else if st.FSM.Current() == "" {
 		st.FSM.Event("Proceeding")
-		msg.Headers.Set("Content-Length", "0")
-	    //response := message.NewResponse(100, msg)
+	    response := message.NewResponse(100, msg)
 		port := msg.Contact.Port
-		log.Log.Info("returning response to : " + msg.Contact.Host + ":" + port)
-		//transport.UdpSend(msg.Contact.Host, port, response)
-		response := message.NewResponse(200, msg)
-		transport.UdpSend(msg.Contact.Host, port, response)
+		log.Log.Info("returning response to : " + string(msg.Contact.Host) + ":" + string(port))
+		transport.UdpSend(string(msg.Contact.Host), string(port), response)
+		sdp.HandleSdp(msg.Sdp)		
+		response = message.NewResponse(200, msg)
+		transport.UdpSend(string(msg.Contact.Host), string(port), response)
 
 	}
 

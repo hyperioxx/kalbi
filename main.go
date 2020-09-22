@@ -13,12 +13,15 @@ package main
 
 
 
-import "fmt"
-import "flag"
-import "Kalbi/sip/message"
-import "Kalbi/transport"
-import "Kalbi/dispatcher"
-import "Kalbi/sip/transaction"
+import (
+	"github.com/marv2097/siprocket"
+	"fmt"
+	"flag"
+	//"Kalbi/sip/message"
+	"Kalbi/transport"
+	"Kalbi/dispatcher"
+	"Kalbi/sip/transaction"
+)
 
 var title string = `
 			██╗  ██╗ █████╗ ██╗     ██████╗ ██╗ 
@@ -38,7 +41,7 @@ func main() {
 	host := flag.String("host", "127.0.0.1", "host the listening point binds to. default 127.0.0.1")
 	flag.Parse()
 
-	c := make(chan message.Request)
+	c := make(chan siprocket.SipMsg)
 	mainloop := new(dispatcher.EventDispatcher)
 	mainloop.AddChannel(c)
 	udp := transport.NewTransportListenPoint("udp", *host, *port)
