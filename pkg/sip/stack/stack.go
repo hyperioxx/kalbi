@@ -3,13 +3,28 @@ package stack
 //import "fmt"
 import "github.com/marv2097/siprocket"
 import "Kalbi/pkg/transport"
+import "Kalbi/pkg/sip/provider"
 import "Kalbi/pkg/log"
+
+//NewSipStack  creates new sip stack
+func NewSipStack(Name string) *SipStack{
+	stack := new(SipStack)
+	stack.Name = Name
+}
+
 
 //SipStack has multiple protocol listning points
 type SipStack struct {
+	Name            string
+	SipProviders    []SipProvider
 	ListeningPoints []transport.ListeningPoint
 	OutputPoints    []chan siprocket.SipMsg
 	Alive           bool
+}
+
+//CreateSipProvider creates a SipServiceProvider
+func (ed *SipStack) CreateSipProvider(listeningpoint transport.ListeningPoint){
+     
 }
 
 //CreateListenPoint creates listening point to the event dispatcher
