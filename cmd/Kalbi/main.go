@@ -1,25 +1,24 @@
 package main
-/* 
-			██╗  ██╗ █████╗ ██╗     ██████╗ ██╗ 
-			██║ ██╔╝██╔══██╗██║     ██╔══██╗██║
-			█████╔╝ ███████║██║     ██████╔╝██║
-			██╔═██╗ ██╔══██║██║     ██╔══██╗██║
-			██║  ██╗██║  ██║███████╗██████╔╝██║
-			╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝
-			===================================
-			SIP Application Server in GoLang
-			Maintainer: Aaron Parfitt
+
+/*
+	██╗  ██╗ █████╗ ██╗     ██████╗ ██╗
+	██║ ██╔╝██╔══██╗██║     ██╔══██╗██║
+	█████╔╝ ███████║██║     ██████╔╝██║
+	██╔═██╗ ██╔══██║██║     ██╔══██╗██║
+	██║  ██╗██║  ██║███████╗██████╔╝██║
+	╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝
+	===================================
+	SIP Application Server in GoLang
+	Maintainer: Aaron Parfitt
 */
 
-
-
 import (
-	"github.com/marv2097/siprocket"
-	"fmt"
-	"flag"
-	"Kalbi/internal/kalbi/transport"
 	"Kalbi/internal/kalbi/dispatcher"
 	"Kalbi/internal/kalbi/sip/transaction"
+	"Kalbi/internal/kalbi/transport"
+	"flag"
+	"fmt"
+	"github.com/marv2097/siprocket"
 )
 
 var title string = `
@@ -47,6 +46,6 @@ func main() {
 	transactionLayer := transaction.NewManager(c)
 	transactionLayer.SetChannel(c)
 	go transactionLayer.Start()
-    mainloop.AddListenPoint(udp)
-    mainloop.Start()
+	mainloop.AddListenPoint(udp)
+	mainloop.Start()
 }
