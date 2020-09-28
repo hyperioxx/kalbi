@@ -25,8 +25,8 @@ func NewTransportListenPoint(protocol string, host string, port int) ListeningPo
 		listner.Build(host, port)
 		return listner
 	default:
-		log.Log.Info("Unkown protocol specified")
-		panic("Unkown protocol specified")
+		log.Log.Info("Unknown protocol specified")
+		panic("Unknown protocol specified")
 
 	}
 
