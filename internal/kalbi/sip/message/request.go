@@ -17,18 +17,16 @@ type Request struct {
 	Cseq       string
 	CallID     string
 	SDP        *sdp.Session
-	
 }
 
-
-func (r *Request)GetHeader(header string) string{
+func (r *Request) GetHeader(header string) string {
 	if val, ok := r.Headers[header]; ok {
 		return val[0]
 	}
 	return ""
 }
 
-func (r *Request)SetHeader(header string, value string) string{
+func (r *Request) SetHeader(header string, value string) string {
 	if val, ok := r.Headers[header]; ok {
 		return val[0]
 	}

@@ -3,28 +3,25 @@ package message
 import "regexp"
 
 type URI struct {
-	Scheme string
-	User string
+	Scheme   string
+	User     string
 	Password string
-	Host string
-	Port string
-	Tag string
-	Params string
-	Headers string
-	Branch string
-	Orig string
+	Host     string
+	Port     string
+	Tag      string
+	Params   string
+	Headers  string
+	Branch   string
+	Orig     string
 }
 
-
-
-
-func parseURI(uri string) *URI{
+func parseURI(uri string) *URI {
 	newuri := new(URI)
 	newuri.Orig = uri
 	re := regexp.MustCompile(`(?P<scheme>\w+):(?:(?P<user>[+\w\.\-]+):?(?P<password>[\w\.]+)?@)?\[?(?P<host>(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|(?:(?:[0-9a-fA-F]{1,4}):){7}[0-9a-fA-F]{1,4}|(?:(?:[0-9A-Za-z]+\.)+[0-9A-Za-z]+))\]?:?(?P<port>\d{1,6})?(.*;)?(tag=(?P<tag>.*))?\;?(?:\?(?P<headers>.*))?`)
 	match := re.FindStringSubmatch(uri)
 	for i, name := range re.SubexpNames() {
-        if i != 0 && i <= len(match) {
+		if i != 0 && i <= len(match) {
 			switch name {
 			case "scheme":
 				newuri.Scheme = match[i]
@@ -40,9 +37,9 @@ func parseURI(uri string) *URI{
 				newuri.Tag = match[i]
 			default:
 
-			}  
-        }
-    }
-    
+			}
+		}
+	}
+
 	return newuri
 }
