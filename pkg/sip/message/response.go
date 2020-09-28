@@ -34,7 +34,6 @@ func buildResponse(response string, request *siprocket.SipMsg) string {
 	response_message += "To: " + string(request.To.Src) + "\r\n"
 	response_message += "Cseq: " + string(request.Cseq.Src) + "\r\n"
 	response_message += "Call-ID: " + string(request.CallId.Value) + "\r\n"
-	response_message += "Server: Kalbi Server 0.1" + "\r\n"
 	response_message += "Contact: " + string(request.Contact.Src) + "\r\n"
 
 	response_message += "\r\n\r\n"

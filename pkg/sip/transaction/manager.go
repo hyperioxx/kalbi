@@ -68,7 +68,7 @@ func (tm *Manager) NewServerTransaction(msg *siprocket.SipMsg) *ServerTransactio
 		{Name: "Proceeding", Src: []string{""}, Dst: "Proceeding"},
 		{Name: "Completed", Src: []string{"Calling", "Proceeding"}, Dst: "Completed"},
 		{Name: "Terminated", Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
-	}, fsm.Callbacks{"enter_state": tx.Run})
+	}, fsm.Callbacks{})
 	//tm.stx[msg.Branch] = tx
 
 	return tx

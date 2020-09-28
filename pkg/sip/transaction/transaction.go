@@ -7,14 +7,20 @@ import (
 	"Kalbi/internal/kalbi/transport"
 	"github.com/looplab/fsm"
 	"github.com/marv2097/siprocket"
-	//"fmt"
+	
 )
 
 //import "github.com/davecgh/go-spew/spew"
 
 type Transaction interface {
-	Receive(msg *siprocket.SipMsg)
+	GetBranchId()
+	GetDialog()
+	GetRequest()
+	GetState()
+	
 }
+
+
 
 type ClientTransaction struct {
 	ID          string
@@ -22,9 +28,19 @@ type ClientTransaction struct {
 	msg_history []*siprocket.SipMsg
 }
 
-func (ct *ClientTransaction) Receive(msg *siprocket.SipMsg) {
+
+
+func (ct *ClientTransaction) SendRequest(msg *siprocket.SipMsg) {
 	ct.msg_history = append(ct.msg_history, msg)
 }
+
+
+
+
+
+
+
+
 
 type ServerTransaction struct {
 	ID          string
@@ -55,9 +71,7 @@ func (st *ServerTransaction) Receive(msg *siprocket.SipMsg) {
 
 }
 
-func (st *ServerTransaction) Run(e *fsm.Event) {
+func (st *ServerTransaction) Respond(response string){
 
-	log.Log.Info(e)
-	//st.FSM.Event("open")
 
 }

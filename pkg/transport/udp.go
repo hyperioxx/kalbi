@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"Kalbi/internal/kalbi/log"
-	"Kalbi/internal/kalbi/sip/parser"
+	"Kalbi/pkg/log"
+	"Kalbi/pkg/sip/parser"
 	"fmt"
 	"github.com/marv2097/siprocket"
 	"net"
