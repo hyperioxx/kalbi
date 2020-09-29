@@ -2,6 +2,8 @@
 
 # Kalbi - Golang Session Initiated Protocol Framework  
 
+# STILL IN DEVELOPMENT
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/hyperioxx/Kalbi)](https://goreportcard.com/report/github.com/hyperioxx/Kalbi)
 
 
@@ -9,4 +11,3 @@
 
 ![Kalbi Logo](https://raw.githubusercontent.com/hyperioxx/Kalbi/master/doc/BasicView.png "Kalbi Logo")
 
-# STILL IN DEVELOPMENT
