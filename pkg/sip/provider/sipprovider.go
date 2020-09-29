@@ -3,13 +3,12 @@ package sipprovider
 import "Kalbi/pkg/transport"
 
 func NewSipProvider() *SipProvider {
-	sp := new(SipProvider)
-	sp.ListeningPoint 
+	sp := new(SipProvider) 
 }
 
 
 type SipProvider struct {
-	ListeningPoint  
+	Listenpoint transport.ListeningPoint
 	
 }
 

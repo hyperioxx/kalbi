@@ -14,7 +14,6 @@ import (
 
 type Transaction interface {
 	GetBranchId()
-	GetDialog()
 	GetRequest()
 	GetState()
 	
@@ -24,6 +23,8 @@ type Transaction interface {
 
 type ClientTransaction struct {
 	ID          string
+	BranchID    string
+    Origin      
 	FSM         *fsm.FSM
 	msg_history []*siprocket.SipMsg
 }

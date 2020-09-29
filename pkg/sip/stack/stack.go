@@ -20,6 +20,8 @@ type SipStack struct {
 	ListeningPoints []transport.ListeningPoint
 	OutputPoints    []chan siprocket.SipMsg
 	Alive           bool
+	TxMng           
+
 }
 
 //CreateSipProvider creates a SipServiceProvider
@@ -41,6 +43,18 @@ func (ed *SipStack) AddChannel(c chan siprocket.SipMsg) {
 
 func (ed *SipStack) IsAlive() bool {
     return ed.Alive
+}
+
+func (ed *SipStack) runListeners(){
+	for ed.Alive == true {
+		for _, listeningPoint := range ed.ListeningPoints {
+			msg := listeningPoint.Read()
+			for _, OutputPoint := range ed.OutputPoints {
+				OutputPoint <- *msg
+			}
+
+		}
+	}
 }
 
 //Start starts the sip stack
