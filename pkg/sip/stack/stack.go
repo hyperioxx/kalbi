@@ -1,33 +1,37 @@
 package stack
 
 //import "fmt"
-import "github.com/marv2097/siprocket"
-import "Kalbi/pkg/transport"
-import "Kalbi/pkg/sip/provider"
-import "Kalbi/pkg/log"
+import (
+	"Kalbi/pkg/sip/events"
+	"github.com/marv2097/siprocket"
+	"Kalbi/pkg/transport"
+	"Kalbi/pkg/sip/transaction"
+	"Kalbi/pkg/log"
+)
 
 //NewSipStack  creates new sip stack
-func NewSipStack(Name string) *SipStack{
+func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
+	stack.TxMng = transaction.NewTransactionManager()
+	stack.OutputPoint = stack.TxMng.GetInputChannel()
+	stack.InputPoint = stack.TxMng.GetOutputChannel()
+	return stack
 }
 
 
 //SipStack has multiple protocol listning points
 type SipStack struct {
-	Name            string
-	SipProviders    []SipProvider
-	ListeningPoints []transport.ListeningPoint
-	OutputPoints    []chan siprocket.SipMsg
-	Alive           bool
-	TxMng           
+	Name              string
+	ListeningPoints   []transport.ListeningPoint
+	OutputPoint       chan siprocket.SipMsg
+	InputPoint        chan siprocket.SipMsg
+	Alive             bool
+	TxMng             *transaction.TransactionManager
+	EventChannelList  []chan events.Event
 
 }
 
-//CreateSipProvider creates a SipServiceProvider
-func (ed *SipStack) CreateSipProvider(listeningpoint transport.ListeningPoint){
-     
-}
 
 //CreateListenPoint creates listening point to the event dispatcher
 func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) transport.ListeningPoint {
@@ -36,26 +40,17 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) tr
     return listenpoint
 }
 
-//AddChannel give the ability to add channels for callbacks on each request
-func (ed *SipStack) AddChannel(c chan siprocket.SipMsg) {
-	ed.OutputPoints = append(ed.OutputPoints, c)
+func (ed *SipStack) CreateEventsChannel() chan events.Event {
+	eventChannel := make(chan events.Event)
+	ed.EventChannelList = append(ed.EventChannelList, eventChannel)
+	return eventChannel 
 }
+
 
 func (ed *SipStack) IsAlive() bool {
     return ed.Alive
 }
 
-func (ed *SipStack) runListeners(){
-	for ed.Alive == true {
-		for _, listeningPoint := range ed.ListeningPoints {
-			msg := listeningPoint.Read()
-			for _, OutputPoint := range ed.OutputPoints {
-				OutputPoint <- *msg
-			}
-
-		}
-	}
-}
 
 //Start starts the sip stack
 func (ed *SipStack) Start() {
@@ -64,11 +59,12 @@ func (ed *SipStack) Start() {
 	for ed.Alive == true {
 		for _, listeningPoint := range ed.ListeningPoints {
 			msg := listeningPoint.Read()
-			for _, OutputPoint := range ed.OutputPoints {
-				OutputPoint <- *msg
+		    ed.TxMng.Handle(msg)
+			event := events.NewEvent(*msg, ed.TxMng.FindTransaction(string(msg.Via[0].Branch)))
+			for _, eventchannel := range ed.EventChannelList{
+				  eventchannel <- *event
 			}
-
 		}
+       
 	}
-
 }

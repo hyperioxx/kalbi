@@ -19,17 +19,8 @@ func (ut *UDPTransport) Read() *siprocket.SipMsg {
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFromUDP(buffer)
 	if err != nil {
-		fmt.Println(err)
+		log.Log.Error(err)
 	}
-	//bytesbuffer := bytes.NewBuffer(buffer[:n])
-	//newreader := bufio.NewReader(bytesbuffer)
-	//buf := new(strings.Builder)
-	//_, err = io.Copy(buf, newreader)
-	//if err != nil {
-	log.Log.Error(err)
-	//}
-
-	fmt.Println(string(buffer[:n]))
 	request := parser.Read(buffer[:n])
 	return request
 }
@@ -48,7 +39,7 @@ func (ut *UDPTransport) Build(host string, port int) {
 
 }
 
-func UdpSend(host string, port string, msg string) {
+func Send(host string, port string, msg string) {
 	fmt.Println(msg)
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)
 	if err != nil {
