@@ -9,5 +9,7 @@
 
 # High Level Architecture View
 
+Withing your application create a struct following the EventListener interface and register it to the SIPStack either with a go channel or a callback function for SIP Events
+
 ![Kalbi Logo](https://raw.githubusercontent.com/hyperioxx/Kalbi/master/doc/BasicView.png "Kalbi Logo")
 
