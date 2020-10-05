@@ -2,6 +2,7 @@ package stack
 
 //import "fmt"
 import (
+	"fmt"
 	"Kalbi/pkg/sip/events"
 	"github.com/marv2097/siprocket"
 	"Kalbi/pkg/transport"
@@ -14,8 +15,6 @@ func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
 	stack.TxMng = transaction.NewTransactionManager()
-	stack.OutputPoint = stack.TxMng.GetInputChannel()
-	stack.InputPoint = stack.TxMng.GetOutputChannel()
 	return stack
 }
 
@@ -58,7 +57,9 @@ func (ed *SipStack) Start() {
     ed.Alive = true
 	for ed.Alive == true {
 		for _, listeningPoint := range ed.ListeningPoints {
+			fmt.Print(listeningPoint)
 			msg := listeningPoint.Read()
+			fmt.Println(msg)
 		    ed.TxMng.Handle(msg)
 			event := events.NewEvent(*msg, ed.TxMng.FindTransaction(string(msg.Via[0].Branch)))
 			for _, eventchannel := range ed.EventChannelList{

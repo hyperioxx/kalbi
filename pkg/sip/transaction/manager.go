@@ -11,8 +11,6 @@ import (
 //NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
-	txmng.input = make(chan siprocket.SipMsg)
-	txmng.output = make(chan siprocket.SipMsg)
 	txmng.tx = make(map[string]Transaction)
 	return txmng
 }
@@ -29,15 +27,7 @@ type TransactionManager struct {
 }
 
 
-func (tm *TransactionManager) GetInputChannel() chan siprocket.SipMsg {
-	return tm.input
 
-}
-
-func (tm *TransactionManager) GetOutputChannel() chan siprocket.SipMsg {
-	return tm.output
-
-}
 
 
 // Start runs TransManager
