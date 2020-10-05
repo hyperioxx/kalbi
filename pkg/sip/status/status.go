@@ -2,12 +2,12 @@ package status
 
 const (
 
-	TRYING_100 string = "100 Trying"
-	RINGING_180 string = "180 Ringing"
+	TRYING_100 = "100 Trying"
+	RINGING_180 = "180 Ringing"
 	CALL_IS_BEING_FORWARDED_181 = "181 Call Is Being Forwarded"
 	QUEUED_182 = "182 Queued"
 	SESSION_PROGRESS_183 = "183 Session Progress"
-	OK_200 string = "200 OK"
+	OK_200 ="200 OK"
 	MULTIPLE_CHOICES_300 = "300 Multiple Choices"
 	MOVED_PERMANENTLY_301 = "301 Moved Permanently"
 	MOVED_TEMPORARILY_302 = "302 Moved Temporarily"
