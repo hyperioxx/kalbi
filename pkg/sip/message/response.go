@@ -7,17 +7,17 @@ import (
 
 
 
-func NewResponse(code int) string {
-	var response string
+func NewResponse(code int) Response {
+	var response Response
 
 	switch code {
 	case 100:
-		response = response + "SIP/2.0 " + status.TRYING_100 + "\r\n"
+		response.ResponseCode =  "SIP/2.0 " + status.TRYING_100 + "\r\n"
 	case 200:
-		response = response + "SIP/2.0 " + status.OK_200 + "\r\n"
+		response.ResponseCode =  "SIP/2.0 "+ status.OK_200 + "\r\n"
 	}
 
-	return msg
+	return response
 }
 
 func buildResponse(response string) Response {
