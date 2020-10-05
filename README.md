@@ -2,10 +2,14 @@
 
 # Kalbi - Golang Session Initiated Protocol Framework  
 
-# STILL IN DEVELOPMENT
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/hyperioxx/Kalbi)](https://goreportcard.com/report/github.com/hyperioxx/Kalbi)
 
+[![Discord](https://discordapp.com/api/guilds/762641136425762816/widget.png)](https://discord.gg/6NCKgrz)
+
+## Join The Discord
+
+Discord - https://discord.gg/6NCKgrz
 
 # High Level Architecture View
 
