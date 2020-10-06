@@ -7,6 +7,10 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/Hyperioxx/Kalbi?style=social)  ![GitHub forks](https://img.shields.io/github/forks/hyperioxx/Kalbi?style=social)
 ![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/Kalbi?style=social)
 
+## Description
+
+Golang SIP/VoIP SDK's used to build large platforms for VoIP and realtime communications
+
 ## Join The Discord
 
 Discord - https://discord.gg/6NCKgrz
