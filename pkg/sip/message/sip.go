@@ -47,7 +47,9 @@ func (sm *SipMsg) Export() string{
 	sipmsg += sm.Cseq.Export() + "\r\n"
 	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
+	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n\r\n"
+
 	return sipmsg
 }
 
@@ -60,6 +62,10 @@ type SdpMsg struct {
 type SipVal struct {
 	Value []byte // Sip Value
 	Src   []byte // Full source if needed
+}
+
+func (sv *SipVal) SetValue(value string)  {
+    sv.Value = []byte(value)
 }
 
 func (sv *SipVal) Export() string {
