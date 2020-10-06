@@ -1,7 +1,7 @@
 package status
 
 const (
-
+    
 	TRYING_100 = "100 Trying"
 	RINGING_180 = "180 Ringing"
 	CALL_IS_BEING_FORWARDED_181 = "181 Call Is Being Forwarded"

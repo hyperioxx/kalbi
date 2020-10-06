@@ -1,53 +1,71 @@
 package transaction
 
 import (
-	//"Kalbi/pkg/log"
-	//"Kalbi/pkg/sdp"
 	"Kalbi/pkg/sip/message"
-	//"Kalbi/pkg/transport"
+	"Kalbi/pkg/transport"
 	"github.com/looplab/fsm"
 	
 )
 
 
 type Transaction interface {
-	GetBranchId() string
+	GetBranchId()       string
+	GetOrigin()         *message.SipMsg
+	SetListeningPoint(transport.ListeningPoint)
+	Send(*message.SipMsg, string, string)  
 }
 
 
 
 type ClientTransaction struct {
-	ID          string
-	BranchID    string
-    Origin      string
-	FSM         *fsm.FSM
-	msg_history []*message.SipMsg
+	ID               string
+	BranchID         string
+    Origin           *message.SipMsg
+	FSM              *fsm.FSM
+	ListeningPoint   transport.ListeningPoint
+
+}
+
+func (ct *ClientTransaction) SetListeningPoint(lp transport.ListeningPoint){
+    ct.ListeningPoint = lp
 }
 
 func (ct *ClientTransaction) GetBranchId() string{
     return ct.BranchID
 }
 
-func (ct *ClientTransaction) SendRequest(msg *message.SipMsg) {
-	ct.msg_history = append(ct.msg_history, msg)
+func (ct *ClientTransaction) GetOrigin() *message.SipMsg{
+    return ct.Origin
+}
+
+func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string) {
+	ct.ListeningPoint.Send(host, port, msg.Export())
 }
 
 
 
 type ServerTransaction struct {
-	ID          string
-	BranchID    string
-	FSM         *fsm.FSM
-	msg_history []*message.SipMsg
+	ID               string
+	BranchID         string
+	Origin           *message.SipMsg
+	FSM              *fsm.FSM
+	msg_history      []*message.SipMsg
+	ListeningPoint   transport.ListeningPoint
 
+}
+
+func (st *ServerTransaction) SetListeningPoint(lp transport.ListeningPoint){
+    st.ListeningPoint = lp
 }
 
 func (st *ServerTransaction) GetBranchId() string{
     return st.BranchID
 }
 
+func (st *ServerTransaction) GetOrigin() *message.SipMsg{
+    return st.Origin
+}
 
-
-func (st *ServerTransaction) Respond(response string){
-
+func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string) {
+	st.ListeningPoint.Send(host, port, msg.Export())
 }

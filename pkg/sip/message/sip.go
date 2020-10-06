@@ -27,6 +27,30 @@ type SipMsg struct {
 	Sdp SdpMsg
 }
 
+func (sm *SipMsg) CopyMessage(msg *SipMsg){
+	sm.From = msg.From
+	sm.To = msg.To
+	sm.Contact = msg.Contact
+	sm.Via = msg.Via
+	sm.CallId = msg.CallId
+	sm.Cseq = msg.Cseq
+	sm.MaxFwd = msg.MaxFwd
+}
+
+func (sm *SipMsg) Export() string{
+	sipmsg := ""
+	sipmsg += sm.Req.Export() + "\r\n"
+	sipmsg += sm.From.Export() + "\r\n"
+	sipmsg += sm.Via[0].Export() + "\r\n"
+	sipmsg += sm.To.Export() + "\r\n"
+	sipmsg += sm.Contact.Export() + "\r\n"
+	sipmsg += sm.Cseq.Export() + "\r\n"
+	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
+	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
+	sipmsg += "\r\n\r\n"
+	return sipmsg
+}
+
 type SdpMsg struct {
 	MediaDesc sdpMediaDesc
 	Attrib    []sdpAttrib
@@ -37,6 +61,12 @@ type SipVal struct {
 	Value []byte // Sip Value
 	Src   []byte // Full source if needed
 }
+
+func (sv *SipVal) Export() string {
+    return string(sv.Value)
+}
+
+
 
 // Main parsing routine, passes by value
 func Parse(v []byte) (output SipMsg) {

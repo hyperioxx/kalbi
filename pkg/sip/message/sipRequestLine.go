@@ -20,6 +20,51 @@ type SipReq struct {
 	Src        []byte // Full source if needed
 }
 
+func (sr *SipReq) SetMethod(method string){
+    sr.Method = []byte(method)
+}
+
+func (sr *SipReq) SetUriType(uriType string){
+	sr.UriType = uriType
+}
+
+func (sr *SipReq) SetStatusCode(code string){
+    sr.StatusCode = []byte(code)
+}
+
+func (sr *SipReq) SetStatusDesc(desc string){
+	sr.StatusDesc = []byte(desc)
+}
+
+func (sr *SipReq) SetUser(user string){
+    sr.User = []byte(user)
+}
+
+func (sr * SipReq) SetHost(host string){
+     sr.Host = []byte(host)
+}
+
+func (sr *SipReq) SetPort(port string){
+	sr.Port = []byte(port)
+}
+
+func (sr *SipReq) SetUserType(userType string){
+    sr.UserType = []byte(userType)
+}
+
+func (sr *SipReq) Export() string {
+	requestline := ""
+    if sr.Method != nil { 
+	   requestline += string(sr.Method)
+	   return requestline + " " + sr.UriType + ":" + string(sr.User) + "@" + string(sr.Host) + " " + string(sr.UserType) + "SIP/2.0"
+	   
+	} else {
+		return requestline + "SIP/2.0 " + string(sr.StatusCode) + " " + string(sr.StatusDesc)
+	}
+
+}
+
+
 func ParseSipReq(v []byte, out *SipReq) {
 
 	pos := 0
