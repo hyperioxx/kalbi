@@ -50,5 +50,4 @@ func (st *ServerTransaction) GetBranchId() string{
 
 func (st *ServerTransaction) Respond(response string){
 
-
 }

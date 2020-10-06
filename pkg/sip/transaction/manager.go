@@ -45,10 +45,13 @@ func (tm *TransactionManager) Handle(request *siprocket.SipMsg)  {
 }
 
 
-
-
 func (tm *TransactionManager) FindTransaction(branch string) Transaction {
 	return tm.tx[branch]
+}
+
+
+func (tm *TransactionManager) DeleteTransaction(branch string){
+	delete(tm.tx, branch)
 }
 
 

@@ -20,11 +20,6 @@ func NewResponse(code int) Response {
 	return response
 }
 
-func buildResponse(response string) Response {
-
-	return Response
-
-}
 
 //Request sip request struct
 type Response struct {
