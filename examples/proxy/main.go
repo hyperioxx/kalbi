@@ -14,7 +14,6 @@ type Proxy struct {
 	stack *stack.SipStack
 	requestschannel chan transaction.Transaction
 	responseschannel chan transaction.Transaction
-
 }
 
 
@@ -33,11 +32,22 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 		fmt.Println(msg2.Export())
 		tx.Send(msg2, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
-	}else{
-		fmt.Println(string(tx.GetOrigin().Req.Method))
+	}else if string(tx.GetOrigin().Req.Method) == method.REGISTER{
+		msg := message.NewResponse(status.OK_200, "@", "@")
+		msg.CopyMessage(tx.GetOrigin())
+		
+		msg.ContLen.SetValue("0")
+		fmt.Println(msg.Export())
+		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+
+	}else if string(tx.GetOrigin().Req.Method) == method.BYE{
+		msg := message.NewResponse(status.OK_200, "@", "@")
+		msg.CopyMessage(tx.GetOrigin())
+		msg.ContLen.SetValue("0")
+		fmt.Println(msg.Export())
+		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 	}
-	
-	
+
 }
 
 

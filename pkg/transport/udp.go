@@ -43,6 +43,7 @@ func (ut *UDPTransport) Send(host string, port string, msg string) {
 	if err != nil {
 		log.Log.Error(err)
 	}
+	log.Log.Info("Sending message to " + host+":"+port)
 	conn, err := net.DialUDP("udp", nil, addr)
 	if err != nil {
 		fmt.Printf("Some error %v", err)

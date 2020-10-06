@@ -42,7 +42,7 @@ func (sf *SipTo) SetTag(tag string){
 
 func (sf *SipTo) Export() string {
 	requestline := "To: "
-	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + "> "
+	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
 	if sf.Tag != nil {
         requestline += ";tag=" + string(sf.Tag)
 	}

@@ -28,10 +28,10 @@ type SipMsg struct {
 }
 
 func (sm *SipMsg) CopyMessage(msg *SipMsg){
+	sm.Via = msg.Via
 	sm.From = msg.From
 	sm.To = msg.To
 	sm.Contact = msg.Contact
-	sm.Via = msg.Via
 	sm.CallId = msg.CallId
 	sm.Cseq = msg.Cseq
 	sm.MaxFwd = msg.MaxFwd
@@ -40,8 +40,8 @@ func (sm *SipMsg) CopyMessage(msg *SipMsg){
 func (sm *SipMsg) Export() string{
 	sipmsg := ""
 	sipmsg += sm.Req.Export() + "\r\n"
-	sipmsg += sm.From.Export() + "\r\n"
 	sipmsg += sm.Via[0].Export() + "\r\n"
+	sipmsg += sm.From.Export() + "\r\n"
 	sipmsg += sm.To.Export() + "\r\n"
 	sipmsg += sm.Contact.Export() + "\r\n"
 	sipmsg += sm.Cseq.Export() + "\r\n"
