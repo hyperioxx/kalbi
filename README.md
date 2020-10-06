@@ -5,6 +5,8 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/hyperioxx/Kalbi)](https://goreportcard.com/report/github.com/hyperioxx/Kalbi) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/KalbiProject/Kalbi/LICENCE)  [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/KalbiProject/Kalbi/graphs/contributors/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Hyperioxx/Kalbi) [![Discord](https://discordapp.com/api/guilds/762641136425762816/widget.png)](https://discord.gg/6NCKgrz) 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Hyperioxx/Kalbi?style=social)  ![GitHub forks](https://img.shields.io/github/forks/hyperioxx/Kalbi?style=social)
+![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/Kalbi?style=social)
+
 ## Join The Discord
 
 Discord - https://discord.gg/6NCKgrz
