@@ -3,8 +3,7 @@ package transport
 import (
 	"os"
 	"Kalbi/pkg/log"
-	"Kalbi/pkg/sip/parser"
-	"github.com/marv2097/siprocket"
+	"Kalbi/pkg/sip/message"
 	"net"
 )
 
@@ -15,7 +14,7 @@ type TCPTransport struct {
 }
 
 
-func (tt *TCPTransport) Read()  *siprocket.SipMsg {
+func (tt *TCPTransport) Read()  *message.SipMsg {
 
 	buffer := make([]byte, 2048)
 	conn, err := tt.listener.Accept()
@@ -24,8 +23,8 @@ func (tt *TCPTransport) Read()  *siprocket.SipMsg {
 	}
 	n,  err := conn.Read(buffer)
 	
-	request := parser.Read(buffer[:n])
-	return request
+	request := message.Parse(buffer[:n])
+	return &request
 
 }
 

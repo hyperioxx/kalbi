@@ -1,4 +1,5 @@
-package siprocket
+package message
+
 
 import (
 	"bytes"
@@ -10,18 +11,18 @@ var sip_type = 0
 var keep_src = true
 
 type SipMsg struct {
-	Req      sipReq
-	From     sipFrom
-	To       sipTo
-	Contact  sipContact
-	Via      []sipVia
-	Cseq     sipCseq
-	Ua       sipVal
-	Exp      sipVal
-	MaxFwd   sipVal
-	CallId   sipVal
-	ContType sipVal
-	ContLen  sipVal
+	Req      SipReq
+	From     SipFrom
+	To       SipTo
+	Contact  SipContact
+	Via      []SipVia
+	Cseq     SipCseq
+	Ua       SipVal
+	Exp      SipVal
+	MaxFwd   SipVal
+	CallId   SipVal
+	ContType SipVal
+	ContLen  SipVal
 
 	Sdp SdpMsg
 }
@@ -32,7 +33,7 @@ type SdpMsg struct {
 	ConnData  sdpConnData
 }
 
-type sipVal struct {
+type SipVal struct {
 	Value []byte // Sip Value
 	Src   []byte // Full source if needed
 }
@@ -42,7 +43,7 @@ func Parse(v []byte) (output SipMsg) {
 
 	// Allow multiple vias and media Attribs
 	via_idx := 0
-	output.Via = make([]sipVia, 0, 8)
+	output.Via = make([]SipVia, 0, 8)
 	attr_idx := 0
 	output.Sdp.Attrib = make([]sdpAttrib, 0, 8)
 
@@ -53,7 +54,7 @@ func Parse(v []byte) (output SipMsg) {
 		line = bytes.TrimSpace(line)
 		if i == 0 {
 			// For the first line parse the request
-			parseSipReq(line, &output.Req)
+			ParseSipReq(line, &output.Req)
 		} else {
 			// For subsequent lines split in sep (: for sip, = for sdp)
 			spos, stype := indexSep(line)
@@ -66,15 +67,15 @@ func Parse(v []byte) (output SipMsg) {
 				//fmt.Println(i, string(lhdr), string(lval))
 				switch {
 				case lhdr == "f" || lhdr == "from":
-					parseSipFrom(lval, &output.From)
+					ParseSipFrom(lval, &output.From)
 				case lhdr == "t" || lhdr == "to":
-					parseSipTo(lval, &output.To)
+					ParseSipTo(lval, &output.To)
 				case lhdr == "m" || lhdr == "contact":
-					parseSipContact(lval, &output.Contact)
+					ParseSipContact(lval, &output.Contact)
 				case lhdr == "v" || lhdr == "via":
-					var tmpVia sipVia
+					var tmpVia SipVia
 					output.Via = append(output.Via, tmpVia)
-					parseSipVia(lval, &output.Via[via_idx])
+					ParseSipVia(lval, &output.Via[via_idx])
 					via_idx++
 				case lhdr == "i" || lhdr == "call-id":
 					output.CallId.Value = lval
@@ -89,7 +90,7 @@ func Parse(v []byte) (output SipMsg) {
 				case lhdr == "max-forwards":
 					output.MaxFwd.Value = lval
 				case lhdr == "cseq":
-					parseSipCseq(lval, &output.Cseq)
+					ParseSipCseq(lval, &output.Cseq)
 				} // End of Switch
 			}
 			if spos == 1 && stype == '=' {

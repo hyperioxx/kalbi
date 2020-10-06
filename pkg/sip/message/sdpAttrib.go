@@ -1,4 +1,4 @@
-package siprocket
+package message
 
 /*
   RFC4566 - https://tools.ietf.org/html/rfc4566#section-5.14

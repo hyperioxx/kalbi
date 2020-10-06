@@ -4,7 +4,7 @@ package stack
 import (
 	"fmt"
 	"Kalbi/pkg/sip/events"
-	"github.com/marv2097/siprocket"
+	"Kalbi/pkg/sip/message"
 	"Kalbi/pkg/transport"
 	"Kalbi/pkg/sip/transaction"
 	"Kalbi/pkg/log"
@@ -23,8 +23,8 @@ func NewSipStack(Name string) *SipStack {
 type SipStack struct {
 	Name              string
 	ListeningPoints   []transport.ListeningPoint
-	OutputPoint       chan siprocket.SipMsg
-	InputPoint        chan siprocket.SipMsg
+	OutputPoint       chan message.SipMsg
+	InputPoint        chan message.SipMsg
 	Alive             bool
 	TxMng             *transaction.TransactionManager
 	EventChannelList  []chan events.Event

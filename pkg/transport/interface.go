@@ -1,10 +1,11 @@
 package transport
 
 import (
-	"github.com/marv2097/siprocket"
+	"Kalbi/pkg/sip/message"
+	
 )
 
 type ListeningPoint interface {
-	Read() *siprocket.SipMsg
+	Read() *message.SipMsg
 	Build(string, int)
 }

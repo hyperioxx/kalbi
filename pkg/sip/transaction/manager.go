@@ -3,8 +3,8 @@ package transaction
 import (
 	//"fmt"
 	"Kalbi/pkg/log"
+	"Kalbi/pkg/sip/message"
 	"github.com/looplab/fsm"
-	"github.com/marv2097/siprocket"
 )
 
 
@@ -22,16 +22,14 @@ func NewTransactionManager() *TransactionManager {
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
 	tx   map[string] Transaction
-	input chan siprocket.SipMsg
-	output chan siprocket.SipMsg
+	input chan message.SipMsg
+	output chan message.SipMsg
 }
 
 
 
-
-
 // Start runs TransManager
-func (tm *TransactionManager) Handle(request *siprocket.SipMsg)  {
+func (tm *TransactionManager) Handle(request *message.SipMsg)  {
 	
 		if string(request.Req.StatusCode) != "" {
 			log.Log.Info("Client transaction")
@@ -55,7 +53,7 @@ func (tm *TransactionManager) DeleteTransaction(branch string){
 }
 
 
-func (tm *TransactionManager) NewClientTransaction(msg *siprocket.SipMsg) *ClientTransaction {
+func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
 	tx := new(ClientTransaction)
 
@@ -75,7 +73,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *siprocket.SipMsg) *Clien
 
 }
 
-func (tm *TransactionManager) NewServerTransaction(msg *siprocket.SipMsg) *ServerTransaction {
+func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerTransaction {
 
 	tx := new(ServerTransaction)
 

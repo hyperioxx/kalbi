@@ -1,4 +1,4 @@
-package siprocket
+package message
 
 
 /*
@@ -14,13 +14,13 @@ package siprocket
 
 */
 
-type sipCseq struct {
+type SipCseq struct {
 	Id     []byte // Cseq ID
 	Method []byte // Cseq Method
 	Src    []byte // Full source if needed
 }
 
-func parseSipCseq(v []byte, out *sipCseq) {
+func ParseSipCseq(v []byte, out *SipCseq) {
 
 	pos := 0
 	state := FIELD_ID
