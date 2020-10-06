@@ -1,9 +1,9 @@
 package events
 
-import "github.com/marv2097/siprocket"
 import "Kalbi/pkg/sip/transaction"
+import "Kalbi/pkg/sip/message"
 
-func NewEvent(msg siprocket.SipMsg, tx transaction.Transaction) *Event{
+func NewEvent(msg message.SipMsg, tx transaction.Transaction) *Event{
 	event := new(Event)
 	event.Message = &msg
 	event.Transaction = tx
@@ -19,7 +19,7 @@ func NewEvent(msg siprocket.SipMsg, tx transaction.Transaction) *Event{
 
 type Event struct {
 	Type string
-	Message *siprocket.SipMsg
+	Message *message.SipMsg
 	Transaction transaction.Transaction
 }
 

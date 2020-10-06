@@ -1,7 +1,6 @@
 package message
 
 import (
-	"github.com/marv2097/siprocket"
 	"Kalbi/pkg/sip/status"
 )
 
@@ -36,7 +35,7 @@ type Response struct {
 }
 
 
-func (r *Response) buildResponse(response string) string {
+/*func (r *Response) buildResponse(response string) string {
 	response_message := ""
 	response_message += response
 	for _, header := range r.Via {
@@ -52,5 +51,5 @@ func (r *Response) buildResponse(response string) string {
 
 	return response_message
 
-}
+}*/
 

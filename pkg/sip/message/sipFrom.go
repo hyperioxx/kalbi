@@ -1,37 +1,25 @@
-package siprocket
+package message
 
 /*
+Parses a single line that is in the format of a from line, v
+Also requires a pointer to a struct of type sipFrom to write output to
 
-RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.8 Contact
-
-   The Contact header field provides a SIP or SIPS URI that can be used
-   to contact that specific instance of the UA for subsequent requests.
-   The Contact header field MUST be present and contain exactly one SIP
-   or SIPS URI in any request that can result in the establishment of a
-   dialog.
-
-Examples:
-
-   Contact: "Mr. Watson" <sip:watson@worcester.bell-telephone.com>
-      ;q=0.7; expires=3600,
-      "Mr. Watson" <mailto:watson@bell-telephone.com> ;q=0.1
-   m: <sips:bob@192.0.2.4>;expires=60
+RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.3 From
 
 */
 
-type sipContact struct {
-	UriType string // Type of URI sip, sips, tel etc
-	Name    []byte // Named portion of URI
-	User    []byte // User part
-	Host    []byte // Host part
-	Port    []byte // Port number
-	Tran    []byte // Transport
-	Qval    []byte // Q Value
-	Expires []byte // Expires
-	Src     []byte // Full source if needed
+type SipFrom struct {
+	UriType  string // Type of URI sip, sips, tel etc
+	Name     []byte // Named portion of URI
+	User     []byte // User part
+	Host     []byte // Host part
+	Port     []byte // Port number
+	Tag      []byte // Tag
+	UserType []byte // User Type
+	Src      []byte // Full source if needed
 }
 
-func parseSipContact(v []byte, out *sipContact) {
+func ParseSipFrom(v []byte, out *SipFrom) {
 
 	pos := 0
 	state := FIELD_BASE
@@ -42,9 +30,8 @@ func parseSipContact(v []byte, out *sipContact) {
 	out.User = nil
 	out.Host = nil
 	out.Port = nil
-	out.Tran = nil
-	out.Qval = nil
-	out.Expires = nil
+	out.Tag = nil
+	out.UserType = nil
 	out.Src = nil
 
 	// Keep the source line if needed
@@ -83,28 +70,22 @@ func parseSipContact(v []byte, out *sipContact) {
 					out.UriType = "tel"
 					continue
 				}
-				// Look for a Q identifier
-				if getString(v, pos, pos+2) == "q=" {
-					state = FIELD_Q
-					pos = pos + 2
-					continue
-				}
-				// Look for a Expires identifier
-				if getString(v, pos, pos+8) == "expires=" {
-					state = FIELD_EXPIRES
-					pos = pos + 8
-					continue
-				}
-				// Look for a transport identifier
-				if getString(v, pos, pos+10) == "transport=" {
-					state = FIELD_TRAN
-					pos = pos + 10
+				// Look for a Tag identifier
+				if getString(v, pos, pos+4) == "tag=" {
+					state = FIELD_TAG
+					pos = pos + 4
 					continue
 				}
 				// Look for other identifiers and ignore
 				if v[pos] == '=' {
 					state = FIELD_IGNORE
 					pos = pos + 1
+					continue
+				}
+				// Look for a User Type identifier
+				if getString(v, pos, pos+5) == "user=" {
+					state = FIELD_USERTYPE
+					pos = pos + 5
 					continue
 				}
 				// Check for other chrs
@@ -159,29 +140,21 @@ func parseSipContact(v []byte, out *sipContact) {
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_TRAN:
+		case FIELD_USERTYPE:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = FIELD_BASE
 				pos++
 				continue
 			}
-			out.Tran = append(out.Tran, v[pos])
+			out.UserType = append(out.UserType, v[pos])
 
-		case FIELD_Q:
+		case FIELD_TAG:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = FIELD_BASE
 				pos++
 				continue
 			}
-			out.Qval = append(out.Qval, v[pos])
-
-		case FIELD_EXPIRES:
-			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
-				pos++
-				continue
-			}
-			out.Expires = append(out.Expires, v[pos])
+			out.Tag = append(out.Tag, v[pos])
 
 		case FIELD_IGNORE:
 			if v[pos] == ';' || v[pos] == '>' {
@@ -189,7 +162,6 @@ func parseSipContact(v []byte, out *sipContact) {
 				pos++
 				continue
 			}
-
 		}
 		pos++
 	}

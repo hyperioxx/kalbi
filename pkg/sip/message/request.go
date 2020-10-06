@@ -20,6 +20,6 @@ type Request struct {
 	Cseq         string
 }
 
-func (r *Request) CopyHeader(){
+func (r *Request) CopyHeader(header string, ){
 
 }
