@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"Kalbi/pkg/sip/stack"
-	
 	"Kalbi/pkg/sip/status"
 	"Kalbi/pkg/sip/method"
 	"Kalbi/pkg/sip/transaction"
@@ -23,13 +22,14 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 	if string(tx.GetOrigin().Req.Method) == method.INVITE{
 		msg := message.NewResponse(status.TRYING_100, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
+		msg.ContLen.SetValue("0")
 		fmt.Println(msg.Export())
-		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
+		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
         msg2 := message.NewResponse(status.OK_200, "@", "@")
 		msg2.CopyMessage(tx.GetOrigin())
-	
+		msg2.ContLen.SetValue("0")
 		fmt.Println(msg2.Export())
 		tx.Send(msg2, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 

@@ -29,5 +29,7 @@ func NewRequest(request string, to string, from string) *SipMsg{
 	r.From.SetUriType("sip")
 	r.From.SetUser(from_[0])
 	r.From.SetHost(from_[1])
+
+	
 	return r
 }

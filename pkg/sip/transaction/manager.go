@@ -13,7 +13,7 @@ import (
 //NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
-	txmng.tx = make(map[string]Transaction)
+	txmng.TX = make(map[string]Transaction)
 	return txmng
 }
 
@@ -23,7 +23,7 @@ func NewTransactionManager() *TransactionManager {
 
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	tx         map[string] Transaction
+	TX         map[string] Transaction
 	RequestChannel    chan Transaction
 	ResponseChannel   chan Transaction
 	ListeningPoint    transport.ListeningPoint
@@ -65,13 +65,13 @@ func (tm *TransactionManager) Handle(request *message.SipMsg)  {
 
 
 func (tm *TransactionManager) FindTransaction(branch string) (Transaction, bool) {
-	tx , exists := tm.tx[branch]
+	tx , exists := tm.TX[branch]
 	return tx , exists
 }
 
 
 func (tm *TransactionManager) DeleteTransaction(branch string){
-	delete(tm.tx, branch)
+	delete(tm.TX, branch)
 }
 
 
@@ -90,7 +90,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 	tx.BranchID = string(msg.Via[0].Branch)
 	tx.Origin = msg
 
-	tm.tx[string(msg.Via[0].Branch)] = tx
+	tm.TX[string(msg.Via[0].Branch)] = tx
 
 	return tx
 
@@ -110,7 +110,7 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 	tx.BranchID = string(msg.Via[0].Branch)
 	tx.Origin = msg
 
-	tm.tx[string(msg.Via[0].Branch)] = tx
+	tm.TX[string(msg.Via[0].Branch)] = tx
 
 	return tx
 
