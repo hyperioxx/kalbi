@@ -4,8 +4,10 @@ import (
 	//"fmt"
 	"Kalbi/pkg/log"
 	"Kalbi/pkg/sip/message"
+	"Kalbi/pkg/transport"
 	"github.com/looplab/fsm"
 )
+
 
 
 //NewTransactionManager returns a new TransactionManager
@@ -21,9 +23,10 @@ func NewTransactionManager() *TransactionManager {
 
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	tx   map[string] Transaction
-	input chan message.SipMsg
-	output chan message.SipMsg
+	tx         map[string] Transaction
+	RequestChannel    chan Transaction
+	ResponseChannel   chan Transaction
+	ListeningPoint    transport.ListeningPoint
 }
 
 
@@ -31,20 +34,39 @@ type TransactionManager struct {
 // Start runs TransManager
 func (tm *TransactionManager) Handle(request *message.SipMsg)  {
 	
-		if string(request.Req.StatusCode) != "" {
+		if  request.Req.StatusCode != nil {
 			log.Log.Info("Client transaction")
-			tm.NewClientTransaction(request)
 
-		} else if string(request.Req.Method) != "" {
+			tx, exists := tm.FindTransaction(string(request.Via[0].Branch))
+			if(exists){
+				log.Log.Info("Client Transaction aready exists")
+				tm.ResponseChannel <- tx 
+				
+			}else{
+				tx = tm.NewClientTransaction(request)
+				tx.SetListeningPoint(tm.ListeningPoint)
+			    tm.ResponseChannel <- tx  
+			}
+		} else if request.Req.Method != nil {
 			log.Log.Info("Server transaction")
-			tm.NewServerTransaction(request)
+			tx, exists := tm.FindTransaction(string(request.Via[0].Branch))
+			if(exists){
+				log.Log.Info("Server Transaction aready exists")
+				tm.RequestChannel <- tx 
+				
+			}else{
+				tx = tm.NewServerTransaction(request)
+				tx.SetListeningPoint(tm.ListeningPoint)
+				tm.RequestChannel <- tx
+			}
 		}	
         
 }
 
 
-func (tm *TransactionManager) FindTransaction(branch string) Transaction {
-	return tm.tx[branch]
+func (tm *TransactionManager) FindTransaction(branch string) (Transaction, bool) {
+	tx , exists := tm.tx[branch]
+	return tx , exists
 }
 
 
@@ -66,6 +88,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 	}, fsm.Callbacks{})
 
 	tx.BranchID = string(msg.Via[0].Branch)
+	tx.Origin = msg
 
 	tm.tx[string(msg.Via[0].Branch)] = tx
 
@@ -85,6 +108,7 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 	}, fsm.Callbacks{})
 
 	tx.BranchID = string(msg.Via[0].Branch)
+	tx.Origin = msg
 
 	tm.tx[string(msg.Via[0].Branch)] = tx
 

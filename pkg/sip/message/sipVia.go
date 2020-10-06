@@ -11,6 +11,8 @@ usage of the procedures in [4]).
 
 */
 
+
+
 type SipVia struct {
 	Trans  string // Type of Transport udp, tcp, tls, sctp etc
 	Host   []byte // Host part
@@ -22,6 +24,11 @@ type SipVia struct {
 	Rcvd   []byte //
 	Src    []byte // Full source if needed
 }
+
+func (sv *SipVia) Export() string {
+	return "Via: "+ string(sv.Src)
+}
+
 
 func ParseSipVia(v []byte, out *SipVia) {
 

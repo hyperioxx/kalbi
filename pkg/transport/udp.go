@@ -38,8 +38,7 @@ func (ut *UDPTransport) Build(host string, port int) {
 
 }
 
-func Send(host string, port string, msg string) {
-	fmt.Println(msg)
+func (ut *UDPTransport) Send(host string, port string, msg string) {
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)
 	if err != nil {
 		log.Log.Error(err)

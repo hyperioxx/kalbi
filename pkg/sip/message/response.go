@@ -1,55 +1,39 @@
 package message
 
-import (
-	"Kalbi/pkg/sip/status"
-)
+
+import ("strings")
 
 
 
-func NewResponse(code int) Response {
-	var response Response
+func NewResponse(response string, to string , from string) *SipMsg {
+	to_ := strings.Split(to, "@")
+	from_ := strings.Split(from, "@")
+	_response := strings.Split(response, " ")
+	r := new(SipMsg)
+	r.Req = *new(SipReq)
+	r.To = *new(SipTo)
+	r.From = *new(SipFrom)
 
-	switch code {
-	case 100:
-		response.ResponseCode =  "SIP/2.0 " + status.TRYING_100 + "\r\n"
-	case 200:
-		response.ResponseCode =  "SIP/2.0 "+ status.OK_200 + "\r\n"
-	}
+	r.Req.SetStatusCode(_response[0])
+	r.Req.SetStatusDesc(_response[1])
+	r.Req.SetUriType("sip")
+	r.Req.SetUser(to_[0])
+	r.Req.SetHost(to_[1])
 
-	return response
+	r.To.SetUriType("sip")
+	r.To.SetUser(to_[0])
+	r.To.SetHost(to_[1])
+
+	r.From.SetUriType("sip")
+	r.From.SetUser(from_[0])
+	r.From.SetHost(from_[1])
+	return r
+
 }
 
 
-//Request sip request struct
-type Response struct {
-	ResponseCode string
-	RequestURI   string
-	Proto        string
-	Headers      map[string]string
-	Via          []*URI
-	Contact      []*URI
-	To           *URI
-	From         *URI
-	Branch       string
-	Cseq         string
-}
 
 
-/*func (r *Response) buildResponse(response string) string {
-	response_message := ""
-	response_message += response
-	for _, header := range r.Via {
-		response_message += "Via: " + string(header.Scheme) + "\r\n"
-	}
-	response_message += "From: " + string(request.From.Src) + "\r\n"
-	response_message += "To: " + string(request.To.Src) + "\r\n"
-	response_message += "Cseq: " + string(request.Cseq.Src) + "\r\n"
-	response_message += "Call-ID: " + string(request.CallId.Value) + "\r\n"
-	response_message += "Contact: " + string(request.Contact.Src) + "\r\n"
 
-	response_message += "\r\n\r\n"
 
-	return response_message
-
-}*/
 

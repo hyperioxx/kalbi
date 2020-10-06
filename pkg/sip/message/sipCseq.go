@@ -20,6 +20,12 @@ type SipCseq struct {
 	Src    []byte // Full source if needed
 }
 
+func (sc *SipCseq) Export() string {
+	line := "CSeq: "
+	line += string(sc.Method) + " " + string(sc.Id)
+    return line
+}
+
 func ParseSipCseq(v []byte, out *SipCseq) {
 
 	pos := 0

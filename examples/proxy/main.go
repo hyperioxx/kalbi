@@ -3,25 +3,64 @@ package main
 import (
 	"fmt"
 	"Kalbi/pkg/sip/stack"
-	"Kalbi/pkg/sip/events"
+	
+	"Kalbi/pkg/sip/status"
+	"Kalbi/pkg/sip/method"
+	"Kalbi/pkg/sip/transaction"
+    "Kalbi/pkg/sip/message"
 )
 
 
 type Proxy struct {
 	stack *stack.SipStack
-	eventschannel chan events.Event
+	requestschannel chan transaction.Transaction
+	responseschannel chan transaction.Transaction
 
 }
 
 
-func (p *Proxy) HandleRequest(request events.Event){
-	fmt.Println("I am handling a request")
+func (p *Proxy) HandleRequest(tx transaction.Transaction){
+	if string(tx.GetOrigin().Req.Method) == method.INVITE{
+		msg := message.NewResponse(status.TRYING_100, "@", "@")
+		msg.CopyMessage(tx.GetOrigin())
+		fmt.Println(msg.Export())
+		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+
+
+        msg2 := message.NewResponse(status.OK_200, "@", "@")
+		msg2.CopyMessage(tx.GetOrigin())
+	
+		fmt.Println(msg2.Export())
+		tx.Send(msg2, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+
+	}else{
+		fmt.Println(string(tx.GetOrigin().Req.Method))
+	}
+	
 	
 }
 
 
-func (p *Proxy) HandleResponse(response events.Event){
-	fmt.Println("I am handling a response")
+func (p *Proxy) HandleResponse(response transaction.Transaction){
+	fmt.Println(string(response.GetOrigin().Req.Src))
+	
+}
+
+func(p *Proxy) ServeRequests(){
+
+	for{
+		tx := <- p.requestschannel
+		p.HandleRequest(tx)
+	}
+
+
+}
+
+func (p *Proxy) ServeResponses(){
+	for {
+	    tx := <-p.responseschannel
+        p.HandleResponse(tx)
+    }
 }
 
 
@@ -30,17 +69,12 @@ func (p *Proxy) HandleResponse(response events.Event){
 func (p *Proxy) Start() {
         p.stack = stack.NewSipStack("Basic")
 		p.stack.CreateListenPoint("udp", "0.0.0.0", 5060)
-		p.eventschannel = p.stack.CreateEventsChannel()
+		p.requestschannel = p.stack.CreateRequestsChannel()
+		p.responseschannel = p.stack.CreateResponseChannel()
 		go p.stack.Start()
-
-		for{
-		   event := <-p.eventschannel
-		   if event.Type == "Server"{
-			   p.HandleRequest(event)
-		   }else if event.Type == "Client"{
-			   p.HandleResponse(event)
-		   }
-		}
+		go p.ServeRequests()
+		p.ServeResponses()
+	
 }
 
 
