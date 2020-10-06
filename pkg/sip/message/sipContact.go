@@ -35,9 +35,9 @@ func (sc *SipContact) Export() string {
 	line := "Contact: "
 	line += "<" + sc.UriType + ":" + string(sc.User) + "@" + string(sc.Host) 
 	if sc.Port != nil{
-		line += ":" + string(sc.Port) + "> "
+		line += ":" + string(sc.Port) + ">"
 	}else{
-		line += "> "
+		line += ">"
 	}
 	if sc.Tran != nil {
         line += ";transport=" + string(sc.Tran)
