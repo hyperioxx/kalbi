@@ -2,7 +2,7 @@ package transaction
 
 import ("fmt"
 		"math/rand"
-	    "Kalbi/pkg/log")
+	    "github.com/KalbiProject/Kalbi/pkg/log")
 
 func GenerateBranchId() string {
 	b := make([]byte, 8)

@@ -2,10 +2,10 @@ package transaction
 
 import (
 	"sync"
-	"Kalbi/pkg/log"
-	"Kalbi/pkg/sip/message"
-	"Kalbi/pkg/transport"
-	"github.com/sirupsen/logrus"	
+	"github.com/KalbiProject/Kalbi/pkg/log"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/transport"
+	"github.com/KalbiProject/github.com/sirupsen/logrus"	
 )
 
 

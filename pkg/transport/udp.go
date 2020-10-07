@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"Kalbi/pkg/log"
-	"Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/log"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
 	"fmt"
 	"net"
 )

@@ -3,11 +3,11 @@ package stack
 //import "fmt"
 import (
 	//"fmt"
-	"Kalbi/pkg/sip/message"
-	"Kalbi/pkg/transport"
-	"Kalbi/pkg/sip/transaction"
-	"Kalbi/pkg/sip/dialog"
-	"Kalbi/pkg/log"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/transport"
+	"github.com/KalbiProject/Kalbi/pkg/sip/transaction"
+	"github.com/KalbiProject/Kalbi/pkg/sip/dialog"
+	"github.com/KalbiProject/Kalbi/pkg/log"
 )
 
 //NewSipStack  creates new sip stack

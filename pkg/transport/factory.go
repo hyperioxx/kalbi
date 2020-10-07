@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"Kalbi/pkg/log"
+	"github.com/KalbiProject/Kalbi/pkg/log"
 	"strconv"
 )
 
