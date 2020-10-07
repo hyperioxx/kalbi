@@ -6,8 +6,10 @@ import ("strings")
 
 
 func NewResponse(response string, to string , from string) *SipMsg {
+	 //TODO: need more elegant way to create responses
 	to_ := strings.Split(to, "@")
 	from_ := strings.Split(from, "@")
+	
 	_response := strings.Split(response, " ")
 	r := new(SipMsg)
 	r.Req = *new(SipReq)

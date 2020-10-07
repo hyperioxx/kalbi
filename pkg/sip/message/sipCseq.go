@@ -20,9 +20,17 @@ type SipCseq struct {
 	Src    []byte // Full source if needed
 }
 
+func (sc *SipCseq) SetID(id string){
+	sc.Id = []byte(id)
+}
+
+func (sc *SipCseq) SetMethod(method string){
+	sc.Method = []byte(method)
+}
+
 func (sc *SipCseq) Export() string {
 	line := "Cseq: "
-	line += string(sc.Method) + " " + string(sc.Id)
+	line +=  string(sc.Id)+ " " + string(sc.Method)
     return line
 }
 

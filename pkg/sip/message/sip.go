@@ -3,8 +3,9 @@ package message
 
 import (
 	"bytes"
-	"fmt"
+	//"fmt"
 	"strings"
+	"strconv"
 )
 
 var sip_type = 0
@@ -23,8 +24,17 @@ type SipMsg struct {
 	CallId   SipVal
 	ContType SipVal
 	ContLen  SipVal
+	Src      []byte
 
 	Sdp SdpMsg
+}
+
+func (sm *SipMsg) GetStatusCode() int {
+	code, err := strconv.Atoi(string(sm.Req.StatusCode))
+	if err != nil{
+		return 0
+	}
+	return code
 }
 
 func (sm *SipMsg) CopyMessage(msg *SipMsg){
@@ -73,10 +83,9 @@ func (sv *SipVal) Export() string {
 }
 
 
-
 // Main parsing routine, passes by value
 func Parse(v []byte) (output SipMsg) {
-
+    output.Src = v
 	// Allow multiple vias and media Attribs
 	via_idx := 0
 	output.Via = make([]SipVia, 0, 8)
@@ -210,50 +219,50 @@ func getBytes(sl []byte, from, to int) []byte {
 }
 
 // Function to print all we know about the struct in a readable format
-func PrintSipStruct(data *SipMsg) {
-	fmt.Println("-SIP --------------------------------")
-
-	fmt.Println("  [REQ]")
-	fmt.Println("    [UriType] =>", data.Req.UriType)
-	fmt.Println("    [Method] =>", string(data.Req.Method))
-	fmt.Println("    [StatusCode] =>", string(data.Req.StatusCode))
-	fmt.Println("    [User] =>", string(data.Req.User))
-	fmt.Println("    [Host] =>", string(data.Req.Host))
-	fmt.Println("    [Port] =>", string(data.Req.Port))
-	fmt.Println("    [UserType] =>", string(data.Req.UserType))
-	fmt.Println("    [Src] =>", string(data.Req.Src))
+func MessageDetails(data *SipMsg) string {
+	msg := "- SIP --------------------------------\n\n"
+    msg += "[REQ]\n"
+	msg += "\t[UriType] => " + string(data.Req.UriType) + "\n"
+	msg += "\t[Method] =>" + string(data.Req.Method)+ "\n"
+	msg += "\t[StatusCode] =>" + string(data.Req.StatusCode)+ "\n"
+	msg += "\t[User] =>" + string(data.Req.User)+ "\n"
+	msg += "\t[Host] =>" + string(data.Req.Host)+ "\n"
+	msg += "\t[Port] =>" + string(data.Req.Port)+ "\n"
+	msg += "\t[UserType] =>" + string(data.Req.UserType)+ "\n"
+	msg += "\t[Src] =>" + string(data.Req.Src)+ "\n"
 
 	// FROM
-	fmt.Println("  [FROM]")
-	fmt.Println("    [UriType] =>", data.From.UriType)
-	fmt.Println("    [Name] =>", string(data.From.Name))
-	fmt.Println("    [User] =>", string(data.From.User))
-	fmt.Println("    [Host] =>", string(data.From.Host))
-	fmt.Println("    [Port] =>", string(data.From.Port))
-	fmt.Println("    [Tag] =>", string(data.From.Tag))
-	fmt.Println("    [Src] =>", string(data.From.Src))
+	msg += "[FROM]" + "\n"
+	msg += "\t[UriType] =>" + data.From.UriType+ "\n"
+	msg += "\t[Name] =>" + string(data.From.Name)+ "\n"
+	msg += "\t[User] =>" + string(data.From.User)+ "\n"
+	msg += "\t[Host] =>" + string(data.From.Host)+ "\n"
+	msg += "\t[Port] =>"+ string(data.From.Port)+ "\n"
+	msg += "\t[Tag] =>" + string(data.From.Tag)+ "\n"
+	msg += "\t[Src] =>"+ string(data.From.Src)+ "\n"
 	// TO
-	fmt.Println("  [TO]")
-	fmt.Println("    [UriType] =>", data.To.UriType)
-	fmt.Println("    [Name] =>", string(data.To.Name))
-	fmt.Println("    [User] =>", string(data.To.User))
-	fmt.Println("    [Host] =>", string(data.To.Host))
-	fmt.Println("    [Port] =>", string(data.To.Port))
-	fmt.Println("    [Tag] =>", string(data.To.Tag))
-	fmt.Println("    [UserType] =>", string(data.To.UserType))
-	fmt.Println("    [Src] =>", string(data.To.Src))
+	msg += "[TO]" + "\n"
+	msg += "\t[UriType] =>" + data.To.UriType + "\n"
+	msg += "\t[Name] =>" + string(data.To.Name)+ "\n"
+	msg += "\t[User] =>" + string(data.To.User)+ "\n"
+	msg += "\t[Host] =>" + string(data.To.Host)+ "\n"
+	msg += "\t[Port] =>" + string(data.To.Port)+ "\n"
+	msg += "\t[Tag] =>" + string(data.To.Tag)+ "\n"
+	msg += "\t[UserType] =>" + string(data.To.UserType)+ "\n"
+	msg += "\t[Src] =>" + string(data.To.Src)+ "\n"
 	// TO
-	fmt.Println("  [Contact]")
-	fmt.Println("    [UriType] =>", data.Contact.UriType)
-	fmt.Println("    [Name] =>", string(data.Contact.Name))
-	fmt.Println("    [User] =>", string(data.Contact.User))
-	fmt.Println("    [Host] =>", string(data.Contact.Host))
-	fmt.Println("    [Port] =>", string(data.Contact.Port))
-	fmt.Println("    [Transport] =>", string(data.Contact.Tran))
-	fmt.Println("    [Q] =>", string(data.Contact.Qval))
-	fmt.Println("    [Expires] =>", string(data.Contact.Expires))
-	fmt.Println("    [Src] =>", string(data.Contact.Src))
+	msg += "[Contact]" + "\n"
+	msg += "\t[UriType] =>" + data.Contact.UriType + "\n"
+	msg += "\t[Name] =>"+ string(data.Contact.Name) + "\n"
+	msg += "\t[User] =>"+ string(data.Contact.User)+ "\n"
+	msg += "\t[Host] =>"+ string(data.Contact.Host)+ "\n"
+	msg += "\t[Port] =>"+ string(data.Contact.Port)+ "\n"
+	msg += "\t[Transport] =>"+ string(data.Contact.Tran)+ "\n"
+	msg += "\t[Q] =>"+ string(data.Contact.Qval)+ "\n"
+	msg += "\t[Expires] =>"+ string(data.Contact.Expires)+ "\n"
+	msg += "\t[Src] =>"+ string(data.Contact.Src)+ "\n"
 	// UA
+	/*
 	fmt.Println("  [Cseq]")
 	fmt.Println("    [Id] =>", string(data.Cseq.Id))
 	fmt.Println("    [Method] =>", string(data.Cseq.Method))
@@ -315,8 +324,9 @@ func PrintSipStruct(data *SipMsg) {
 		fmt.Println("      [Cat] =>", string(attr.Cat))
 		fmt.Println("      [Val] =>", string(attr.Val))
 		fmt.Println("      [Src] =>", string(attr.Src))
-	}
-	fmt.Println("-------------------------------------")
+	}*/
+	msg += "-------------------------------------"
+    return msg
 
 }
 

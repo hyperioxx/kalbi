@@ -1,11 +1,10 @@
 package dialog
 
-import ("Kalbi/pkg/sip/transaction"
-        "Kalbi/pkg/sip/utils")
+import ("Kalbi/pkg/sip/transaction")
 
 func NewDialog() *Dialog{
 	diag := new(Dialog)
-	diag.DialogId = utils.GenerateDialogId()
+	diag.DialogId = GenerateDialogId()
 	return diag
 }
 
@@ -15,6 +14,7 @@ type Dialog struct {
 	CallId    string
 	To_tag    string 
 	From_tag  string 
-	CurrentTx transaction.Transaction
+	ServerTx  transaction.Transaction
+	ClientTx  transaction.Transaction
 	Cseq      uint32
 }

@@ -31,8 +31,16 @@ type SipContact struct {
 	Src     []byte // Full source if needed
 }
 
+func (sc *SipContact) SetName(name string){
+	sc.Name = []byte(name)
+
+} 
+
 func (sc *SipContact) Export() string {
 	line := "Contact: "
+	if sc.Name != nil {
+		line += string(sc.Name) + " "
+	}
 	line += "<" + sc.UriType + ":" + string(sc.User) + "@" + string(sc.Host) 
 	if sc.Port != nil{
 		line += ":" + string(sc.Port) + ">"

@@ -14,7 +14,7 @@ import (
 func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
-	stack.TxMng = transaction.NewTransactionManager()
+	stack.TransManager = transaction.NewTransactionManager()
 	
 	return stack
 }
@@ -27,13 +27,17 @@ type SipStack struct {
 	OutputPoint       chan message.SipMsg
 	InputPoint        chan message.SipMsg
 	Alive             bool
-	TxMng             *transaction.TransactionManager
+	TransManager      *transaction.TransactionManager
 	Dialogs           []dialog.Dialog
 	RequestChannel    chan transaction.Transaction
 	ResponseChannel   chan transaction.Transaction
 
 }
 
+
+func (ed *SipStack) GetTransactionManager() *transaction.TransactionManager{
+    return ed.TransManager
+}
 
 //CreateListenPoint creates listening point to the event dispatcher
 func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) transport.ListeningPoint {
@@ -42,17 +46,18 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) tr
     return listenpoint
 }
 
+
 func (ed *SipStack) CreateRequestsChannel() chan transaction.Transaction {
 	Channel := make(chan transaction.Transaction)
 	ed.RequestChannel =  Channel
-	ed.TxMng.RequestChannel = Channel
+	ed.TransManager.RequestChannel = Channel
 	return Channel 
 }
 
 func (ed *SipStack) CreateResponseChannel() chan transaction.Transaction {
 	Channel := make(chan transaction.Transaction)
 	ed.ResponseChannel = Channel
-	ed.TxMng.ResponseChannel = Channel
+	ed.TransManager.ResponseChannel = Channel
 	return Channel 
 }
 
@@ -68,12 +73,12 @@ func (ed *SipStack) Stop(){
 //Start starts the sip stack
 func (ed *SipStack) Start() {
 	log.Log.Info("Starting SIPStack...")
-	ed.TxMng.ListeningPoint = ed.ListeningPoints[0]
+	ed.TransManager.ListeningPoint = ed.ListeningPoints[0]
     ed.Alive = true
 	for ed.Alive == true {
 		for _, listeningPoint := range ed.ListeningPoints {
 			msg := listeningPoint.Read()
-		    ed.TxMng.Handle(msg)
+		    ed.TransManager.Handle(msg)
 			
 		}
        
