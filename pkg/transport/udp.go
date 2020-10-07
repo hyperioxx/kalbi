@@ -38,7 +38,7 @@ func (ut *UDPTransport) Build(host string, port int) {
 
 }
 
-func (ut *UDPTransport) Send(host string, port string, msg string) {
+func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)
 	if err != nil {
 		log.Log.Error(err)
@@ -47,9 +47,9 @@ func (ut *UDPTransport) Send(host string, port string, msg string) {
 	conn, err := net.DialUDP("udp", nil, addr)
 	if err != nil {
 		fmt.Printf("Some error %v", err)
-		return
+		return err
 	}
-	fmt.Fprintf(conn, msg)
+	conn.Write([]byte(msg))
 	conn.Close()
-
+    return nil
 }

@@ -1,11 +1,11 @@
 package transaction
 
 import (
-	//"fmt"
+	"sync"
 	"Kalbi/pkg/log"
 	"Kalbi/pkg/sip/message"
 	"Kalbi/pkg/transport"
-	"github.com/looplab/fsm"
+	"github.com/sirupsen/logrus"	
 )
 
 
@@ -14,6 +14,8 @@ import (
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
 	txmng.TX = make(map[string]Transaction)
+	txmng.txLock = &sync.RWMutex{}
+
 	return txmng
 }
 
@@ -27,38 +29,45 @@ type TransactionManager struct {
 	RequestChannel    chan Transaction
 	ResponseChannel   chan Transaction
 	ListeningPoint    transport.ListeningPoint
+	txLock            *sync.RWMutex
+
 }
 
 
 
 // Start runs TransManager
-func (tm *TransactionManager) Handle(request *message.SipMsg)  {
+func (tm *TransactionManager) Handle(message *message.SipMsg)  {
 	
-		if  request.Req.StatusCode != nil {
+		if  message.Req.StatusCode != nil {
 			log.Log.Info("Client transaction")
 
-			tx, exists := tm.FindTransaction(string(request.Via[0].Branch))
+		    tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
 			if(exists){
 				log.Log.Info("Client Transaction aready exists")
-				tm.ResponseChannel <- tx 
-				
 			}else{
-				tx = tm.NewClientTransaction(request)
-				tx.SetListeningPoint(tm.ListeningPoint)
-			    tm.ResponseChannel <- tx  
+				tx = tm.NewClientTransaction(message)
+				tx.SetListeningPoint(tm.ListeningPoint)  
 			}
-		} else if request.Req.Method != nil {
+
+
+            tx.Receive(message)
+			tm.ResponseChannel <- tx
+			
+		} else if message.Req.Method != nil {
 			log.Log.Info("Server transaction")
-			tx, exists := tm.FindTransaction(string(request.Via[0].Branch))
+			tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
+
 			if(exists){
 				log.Log.Info("Server Transaction aready exists")
-				tm.RequestChannel <- tx 
 				
 			}else{
-				tx = tm.NewServerTransaction(request)
+				tx = tm.NewServerTransaction(message)
 				tx.SetListeningPoint(tm.ListeningPoint)
-				tm.RequestChannel <- tx
+				tm.PutTransaction(tx)
 			}
+
+			tx.Receive(message)
+			tm.RequestChannel <- tx 
 		}	
         
 }
@@ -69,29 +78,38 @@ func (tm *TransactionManager) FindTransaction(branch string) (Transaction, bool)
 	return tx , exists
 }
 
+func (tm *TransactionManager) PutTransaction(tx Transaction) {
+	tm.txLock.Lock()
+	tm.TX[string(tx.GetBranchId())] = tx
+    tm.txLock.Unlock()
+}
+
 
 func (tm *TransactionManager) DeleteTransaction(branch string){
+	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Info("Current transaction count before DeleteTransaction() is called")
+	tm.txLock.Lock()
 	delete(tm.TX, branch)
+	tm.txLock.Unlock()
+	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Info("Current transaction count after DeleteTransaction() is called")
 }
+
 
 
 func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
 	tx := new(ClientTransaction)
+	tx.TransManager = tm
 
-	tx.FSM = fsm.NewFSM("", fsm.Events{
-		{Name: "Calling", Src: []string{""}, Dst: "Proceeding"},
-		{Name: "Trying", Src: []string{""}, Dst: "Proceeding"},
-		{Name: "Proceeding", Src: []string{"Calling"}, Dst: "Proceeding"},
-		{Name: "Completed", Src: []string{"Calling", "Proceeding"}, Dst: "Completed"},
-		{Name: "Terminated", Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
-	}, fsm.Callbacks{})
+	tx.InitFSM(msg)
 
-	tx.BranchID = string(msg.Via[0].Branch)
+
+	tx.BranchID = GenerateBranchId()
+
 	tx.Origin = msg
-
-	tm.TX[string(msg.Via[0].Branch)] = tx
-
+	
+	tm.txLock.Lock()
+	tm.TX[string(tx.BranchID)] = tx
+    tm.txLock.Unlock()
 	return tx
 
 }
@@ -100,18 +118,12 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 
 	tx := new(ServerTransaction)
 
-	tx.FSM = fsm.NewFSM("", fsm.Events{
-		{Name: "Trying", Src: []string{""}, Dst: "Proceeding"},
-		{Name: "Proceeding", Src: []string{""}, Dst: "Proceeding"},
-		{Name: "Completed", Src: []string{"Calling", "Proceeding"}, Dst: "Completed"},
-		{Name: "Terminated", Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
-	}, fsm.Callbacks{})
+	tx.TransManager = tm
+
+    tx.InitFSM(msg)
 
 	tx.BranchID = string(msg.Via[0].Branch)
 	tx.Origin = msg
-
-	tm.TX[string(msg.Via[0].Branch)] = tx
-
 	return tx
 
 }

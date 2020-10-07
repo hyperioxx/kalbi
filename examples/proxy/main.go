@@ -14,6 +14,7 @@ type Proxy struct {
 	stack *stack.SipStack
 	requestschannel chan transaction.Transaction
 	responseschannel chan transaction.Transaction
+	
 }
 
 
@@ -22,14 +23,12 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 		msg := message.NewResponse(status.TRYING_100, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
-		fmt.Println(msg.Export())
-
-		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+        tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
         msg2 := message.NewResponse(status.OK_200, "@", "@")
 		msg2.CopyMessage(tx.GetOrigin())
 		msg2.ContLen.SetValue("0")
-		fmt.Println(msg2.Export())
+
 		tx.Send(msg2, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	}else if string(tx.GetOrigin().Req.Method) == method.REGISTER{
@@ -37,14 +36,13 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 		msg.CopyMessage(tx.GetOrigin())
 		
 		msg.ContLen.SetValue("0")
-		fmt.Println(msg.Export())
+
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	}else if string(tx.GetOrigin().Req.Method) == method.BYE{
 		msg := message.NewResponse(status.OK_200, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
-		fmt.Println(msg.Export())
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 	}
 

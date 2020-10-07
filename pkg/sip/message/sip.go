@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
+	"strconv"
 )
 
 var sip_type = 0
@@ -23,8 +24,17 @@ type SipMsg struct {
 	CallId   SipVal
 	ContType SipVal
 	ContLen  SipVal
+	Src      []byte
 
 	Sdp SdpMsg
+}
+
+func (sm *SipMsg) GetStatusCode() int {
+	code, err := strconv.Atoi(string(sm.Req.StatusCode))
+	if err != nil{
+		return 0
+	}
+	return code
 }
 
 func (sm *SipMsg) CopyMessage(msg *SipMsg){
@@ -76,7 +86,7 @@ func (sv *SipVal) Export() string {
 
 // Main parsing routine, passes by value
 func Parse(v []byte) (output SipMsg) {
-
+    output.Src = v
 	// Allow multiple vias and media Attribs
 	via_idx := 0
 	output.Via = make([]SipVia, 0, 8)

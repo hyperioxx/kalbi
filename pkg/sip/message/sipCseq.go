@@ -22,7 +22,7 @@ type SipCseq struct {
 
 func (sc *SipCseq) Export() string {
 	line := "Cseq: "
-	line += string(sc.Method) + " " + string(sc.Id)
+	line +=  string(sc.Id)+ " " + string(sc.Method)
     return line
 }
 
