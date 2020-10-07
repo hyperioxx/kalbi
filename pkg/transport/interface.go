@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
 	
 )
 

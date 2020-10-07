@@ -2,10 +2,10 @@ package transaction
 
 import (
 	"time"
-	"Kalbi/pkg/sip/message"
-	"Kalbi/pkg/transport"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/transport"
 	"github.com/looplab/fsm"
-	"Kalbi/pkg/sip/method"
+	"github.com/KalbiProject/Kalbi/pkg/sip/method"
 	
 )
 

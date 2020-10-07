@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"Kalbi/pkg/sip/stack"
-	"Kalbi/pkg/sip/status"
-	"Kalbi/pkg/sip/method"
-	"Kalbi/pkg/sip/transaction"
-    "Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/sip/stack"
+	"github.com/KalbiProject/Kalbi/pkg/sip/status"
+	"github.com/KalbiProject/Kalbi/pkg/sip/method"
+	"github.com/KalbiProject/Kalbi/pkg/sip/transaction"
+    "github.com/KalbiProject/Kalbi/pkg/sip/message"
 )
 
 

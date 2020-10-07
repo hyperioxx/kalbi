@@ -1,8 +1,8 @@
 package transaction
 
 import (
-	"Kalbi/pkg/sip/message"
-	"Kalbi/pkg/transport"
+	"github.com/KalbiProject/Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/pkg/transport"
 	
 )
 

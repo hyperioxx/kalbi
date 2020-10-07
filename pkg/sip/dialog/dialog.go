@@ -1,6 +1,6 @@
 package dialog
 
-import ("Kalbi/pkg/sip/transaction")
+import ("github.com/KalbiProject/Kalbi/pkg/sip/transaction")
 
 func NewDialog() *Dialog{
 	diag := new(Dialog)
