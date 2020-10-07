@@ -5,7 +5,7 @@ import (
 	"github.com/KalbiProject/Kalbi/pkg/log"
 	"github.com/KalbiProject/Kalbi/pkg/sip/message"
 	"github.com/KalbiProject/Kalbi/pkg/transport"
-	"github.com/KalbiProject/github.com/sirupsen/logrus"	
+	"github.com/sirupsen/logrus"	
 )
 
 
