@@ -15,6 +15,11 @@ Golang SIP/VoIP SDK's used to build large platforms for VoIP and realtime commun
 
 Discord - https://discord.gg/6NCKgrz
 
+
+## Examples
+
+[KalbiProxy](https://github.com/KalbiProject/KalbiProxy) - KalbiProxy is a SIP Proxy/Registrar Server built using the Kalbi Framework/SDK
+
 # High Level Architecture View
 
 Withing your application create a struct following the EventListener interface and register it to the SIPStack either with a go channel or a callback function for SIP Events
