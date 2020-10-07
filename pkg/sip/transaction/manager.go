@@ -20,20 +20,15 @@ func NewTransactionManager() *TransactionManager {
 }
 
 
-
-
-
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	TX         map[string] Transaction
+	TX                map[string] Transaction
 	RequestChannel    chan Transaction
 	ResponseChannel   chan Transaction
 	ListeningPoint    transport.ListeningPoint
 	txLock            *sync.RWMutex
 
 }
-
-
 
 // Start runs TransManager
 func (tm *TransactionManager) Handle(message *message.SipMsg)  {
@@ -45,8 +40,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg)  {
 			if(exists){
 				log.Log.Info("Client Transaction aready exists")
 			}else{
-				tx = tm.NewClientTransaction(message)
-				tx.SetListeningPoint(tm.ListeningPoint)  
+				tx = tm.NewClientTransaction(message)  
 			}
 
 
@@ -62,7 +56,6 @@ func (tm *TransactionManager) Handle(message *message.SipMsg)  {
 				
 			}else{
 				tx = tm.NewServerTransaction(message)
-				tx.SetListeningPoint(tm.ListeningPoint)
 				tm.PutTransaction(tx)
 			}
 
@@ -86,11 +79,12 @@ func (tm *TransactionManager) PutTransaction(tx Transaction) {
 
 
 func (tm *TransactionManager) DeleteTransaction(branch string){
-	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Info("Current transaction count before DeleteTransaction() is called")
+	log.Log.Info("Deleting transaction with ID: " + branch)
+	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count before DeleteTransaction() is called")
 	tm.txLock.Lock()
 	delete(tm.TX, branch)
 	tm.txLock.Unlock()
-	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Info("Current transaction count after DeleteTransaction() is called")
+	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count after DeleteTransaction() is called")
 }
 
 
@@ -98,10 +92,10 @@ func (tm *TransactionManager) DeleteTransaction(branch string){
 func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
 	tx := new(ClientTransaction)
+	tx.SetListeningPoint(tm.ListeningPoint)
 	tx.TransManager = tm
 
 	tx.InitFSM(msg)
-
 
 	tx.BranchID = GenerateBranchId()
 
@@ -117,6 +111,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerTransaction {
 
 	tx := new(ServerTransaction)
+	tx.SetListeningPoint(tm.ListeningPoint)
 
 	tx.TransManager = tm
 

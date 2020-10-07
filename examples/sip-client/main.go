@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"Kalbi/pkg/sip/stack"
-	"Kalbi/pkg/sip/status"
+	//"Kalbi/pkg/sip/status"
 	"Kalbi/pkg/sip/method"
 	"Kalbi/pkg/sip/transaction"
     "Kalbi/pkg/sip/message"
@@ -39,6 +39,15 @@ func(p *SipClient) ServeRequests(){
 }
 
 func (p *SipClient) ServeResponses(){
+
+	msg := message.NewRequest(method.INVITE, "123@127.0.0.1", "321@127.0.0.1")
+	fmt.Println(msg)
+	txmng := p.stack.GetTransactionManager()
+	fmt.Println(txmng)
+	tx := txmng.NewClientTransaction(msg)
+	fmt.Println(tx)
+	tx.Send(msg, "193.168.10.138", "5060")
+
 	for {
 	    tx := <-p.responseschannel
         p.HandleResponse(tx)
@@ -61,7 +70,7 @@ func (p *SipClient) Start() {
 		p.responseschannel = p.stack.CreateResponseChannel()
 		go p.stack.Start()
 		go p.ServeRequests()
-		go p.ServeResponses()
+		p.ServeResponses()
 	
 }
 
@@ -70,6 +79,8 @@ func (p *SipClient) Start() {
 func main(){
    proxy := new(SipClient)
    proxy.Start()
-   
+
+
+
 
 }

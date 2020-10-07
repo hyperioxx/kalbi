@@ -1,5 +1,6 @@
 package message
 
+
 /*
  RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.7 Via
 
@@ -40,6 +41,7 @@ func (sv *SipVia) SetPort(value string){
 func (sv *SipVia) SetBranch(value string){
 	sv.Branch = []byte(value)
 }
+
 	
 
 

@@ -84,6 +84,7 @@ func (st *ServerTransaction) GetOrigin() *message.SipMsg{
 func (st *ServerTransaction) Receive(msg *message.SipMsg){
 	  st.LastMessage = msg
 	  log.Log.Info("Message Received for transactionId "+ st.BranchID +": \n" + string(msg.Src))
+	  log.Log.Info(message.MessageDetails(msg))
 	  if msg.Req.Method != nil || string(msg.Req.Method) != method.ACK {
 		  st.FSM.Event(server_input_request)
 	  }
@@ -92,7 +93,7 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg){
 
 func (st *ServerTransaction)Respond(msg *message.SipMsg){
 	//TODO: this will change due to issue https://github.com/KalbiProject/Kalbi/issues/20
-	log.Log.Info("Message Sent for transactionId "+ st.BranchID +": \n" + string(msg.Export()))
+	log.Log.Info("Message Sent for transactionId "+ st.BranchID +": \n" + message.MessageDetails(msg))
 	if msg.GetStatusCode() < 200 { 
 		st.FSM.Event(server_input_user_1xx)
 	}else if msg.GetStatusCode() < 300 {
