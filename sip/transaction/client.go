@@ -59,7 +59,7 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg){
 			{Name: server_input_ack, Src: []string{"Completed"}, Dst: "Confirmed"},
 			{Name: server_input_user_2xx, Src: []string{ "Proceeding"}, Dst: "Terminated"},
 		}, fsm.Callbacks{})
-}
+    }
 }
 
 func (ct *ClientTransaction) SetListeningPoint(lp transport.ListeningPoint){
