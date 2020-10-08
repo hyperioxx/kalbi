@@ -2,10 +2,10 @@ package transaction
 
 import (
 	"time"
-	"github.com/KalbiProject/Kalbi/pkg/sip/message"
-	"github.com/KalbiProject/Kalbi/pkg/transport"
+	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/Kalbi/transport"
 	"github.com/looplab/fsm"
-	"github.com/KalbiProject/Kalbi/pkg/sip/method"
+	"github.com/KalbiProject/Kalbi/sip/method"
 	
 )
 
@@ -59,7 +59,7 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg){
 			{Name: server_input_ack, Src: []string{"Completed"}, Dst: "Confirmed"},
 			{Name: server_input_user_2xx, Src: []string{ "Proceeding"}, Dst: "Terminated"},
 		}, fsm.Callbacks{})
-}
+    }
 }
 
 func (ct *ClientTransaction) SetListeningPoint(lp transport.ListeningPoint){
