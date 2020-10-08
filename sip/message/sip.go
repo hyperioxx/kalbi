@@ -65,7 +65,7 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
-	sipmsg += "\r\n\r\n"
+	sipmsg += "\r\n"
 	
 	sipmsg += string(sm.Sdp.MediaDesc.Src)
 	sipmsg += string(sm.Sdp.ConnData.Src) 
