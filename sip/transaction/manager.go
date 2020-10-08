@@ -2,9 +2,9 @@ package transaction
 
 import (
 	"sync"
-	"github.com/KalbiProject/Kalbi/pkg/log"
-	"github.com/KalbiProject/Kalbi/pkg/sip/message"
-	"github.com/KalbiProject/Kalbi/pkg/transport"
+	"github.com/KalbiProject/Kalbi/log"
+	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/Kalbi/transport"
 	"github.com/sirupsen/logrus"	
 )
 
