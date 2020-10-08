@@ -49,7 +49,7 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg){
 			{Name: server_input_user_300_plus , Src: []string{"Proceeding"}, Dst: "Completed"},
 			{Name: server_input_ack, Src: []string{"Completed"}, Dst: "Confirmed"},
 			{Name: server_input_user_2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
-		}, fsm.Callbacks{server_input_user_2xx : })
+		}, fsm.Callbacks{)
 	
 	default:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
