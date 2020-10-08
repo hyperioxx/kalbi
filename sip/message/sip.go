@@ -71,12 +71,14 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
+
+	sipmsg += sm.GetSdp()
 	
-	sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
+	/*sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
 	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
 	for _, i := range sm.Sdp.Attrib {
 		sipmsg += string(i.Src) + "\r\n"
-	}
+	}*/
         
 	
 
