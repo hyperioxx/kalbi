@@ -1,5 +1,7 @@
 package message
 
+import ("strconv")
+
 /*
  RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt
 
@@ -28,8 +30,8 @@ func (sr *SipReq) SetUriType(uriType string){
 	sr.UriType = uriType
 }
 
-func (sr *SipReq) SetStatusCode(code string){
-    sr.StatusCode = []byte(code)
+func (sr *SipReq) SetStatusCode(code int){
+    sr.StatusCode = []byte(strconv.Itoa(code))
 }
 
 func (sr *SipReq) SetStatusDesc(desc string){

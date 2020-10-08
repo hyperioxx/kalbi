@@ -1,23 +1,22 @@
 package message
 
+import (
+	"strings"
+	"github.com/KalbiProject/Kalbi/sip/status"
+)
 
-import ("strings")
-
-
-
-func NewResponse(response string, to string , from string) *SipMsg {
+func NewResponse(response int, to string , from string) *SipMsg {
 	 //TODO: need more elegant way to create responses
 	to_ := strings.Split(to, "@")
 	from_ := strings.Split(from, "@")
 	
-	_response := strings.Split(response, " ")
 	r := new(SipMsg)
 	r.Req = *new(SipReq)
 	r.To = *new(SipTo)
 	r.From = *new(SipFrom)
 
-	r.Req.SetStatusCode(_response[0])
-	r.Req.SetStatusDesc(_response[1])
+	r.Req.SetStatusCode(response)
+	r.Req.SetStatusDesc(status.StatusText(response))
 	r.Req.SetUriType("sip")
 	r.Req.SetUser(to_[0])
 	r.Req.SetHost(to_[1])
@@ -32,12 +31,4 @@ func NewResponse(response string, to string , from string) *SipMsg {
 
 	r.ContLen = *new(SipVal)
 	return r
-
 }
-
-
-
-
-
-
-

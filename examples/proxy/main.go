@@ -23,7 +23,7 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 	if string(tx.GetOrigin().Req.Method) == method.INVITE{
 
 
-		msg := message.NewResponse(status.StatusText(status.Trying), "@", "@")
+		msg := message.NewResponse(status.Trying, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
         tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
@@ -35,13 +35,13 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction){
 
 	}else if string(tx.GetOrigin().Req.Method) == method.REGISTER{
         
-		msg := message.NewResponse(status.StatusText(status.OK), "@", "@")
+		msg := message.NewResponse(status.OK, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	}else if string(tx.GetOrigin().Req.Method) == method.BYE{
-		msg := message.NewResponse(status.StatusText(status.OK), "@", "@")
+		msg := message.NewResponse(status.OK, "@", "@")
 		msg.CopyMessage(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
