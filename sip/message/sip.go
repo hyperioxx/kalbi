@@ -67,8 +67,8 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 	
-	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
 	sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
+	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
 	for _, i := range sm.Sdp.Attrib {
 		sipmsg += string(i.Src) + "\r\n"
 	}
