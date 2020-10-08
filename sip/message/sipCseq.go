@@ -30,12 +30,11 @@ func (sc *SipCseq) SetMethod(method string){
 
 func (sc *SipCseq) Export() string {
 	line := "Cseq: "
-	line +=  string(sc.Id)+ " " + string(sc.Method)
+	line += string(sc.Id)+ " " + string(sc.Method)
     return line
 }
 
 func ParseSipCseq(v []byte, out *SipCseq) {
-
 	pos := 0
 	state := FIELD_ID
 
@@ -68,3 +67,4 @@ func ParseSipCseq(v []byte, out *SipCseq) {
 		pos++
 	}
 }
+
