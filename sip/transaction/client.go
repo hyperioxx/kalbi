@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"time"
+	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/transport"
 	"github.com/looplab/fsm"
@@ -102,7 +103,14 @@ func (ct *ClientTransaction) resend() {
 }
 
 
+func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, port string){
+	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
+	
+	if err != nil {
+		log.Log.Error("Transport error for transactionID : "+ ct.BranchID)
+	}
 
+}
 
 func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string) {
 	ct.Origin = msg

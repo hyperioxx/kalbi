@@ -37,7 +37,7 @@ func (sm *SipMsg) GetStatusCode() int {
 	return code
 }
 
-func (sm *SipMsg) CopyMessage(msg *SipMsg){
+func (sm *SipMsg) CopyHeaders(msg *SipMsg){
 	sm.Via = msg.Via
 	sm.From = msg.From
 	sm.To = msg.To
@@ -46,6 +46,13 @@ func (sm *SipMsg) CopyMessage(msg *SipMsg){
 	sm.Cseq = msg.Cseq
 	sm.MaxFwd = msg.MaxFwd
 }
+
+func (sm *SipMsg) CopySdp(msg *SipMsg){
+	sm.Sdp = msg.Sdp
+	
+}
+
+
 
 func (sm *SipMsg) Export() string{
 	sipmsg := ""
@@ -59,6 +66,15 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n\r\n"
+
+	
+	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
+	sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
+	for _, i := range sm.Sdp.Attrib {
+		sipmsg += string(i.Src)+ "\r\n"
+	}
+        
+	
 
 	return sipmsg
 }
