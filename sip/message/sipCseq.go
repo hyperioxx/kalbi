@@ -1,6 +1,5 @@
 package message
 
-
 /*
  RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.5 CSeq
 
@@ -20,18 +19,18 @@ type SipCseq struct {
 	Src    []byte // Full source if needed
 }
 
-func (sc *SipCseq) SetID(id string){
+func (sc *SipCseq) SetID(id string) {
 	sc.Id = []byte(id)
 }
 
-func (sc *SipCseq) SetMethod(method string){
+func (sc *SipCseq) SetMethod(method string) {
 	sc.Method = []byte(method)
 }
 
 func (sc *SipCseq) Export() string {
 	line := "Cseq: "
-	line += string(sc.Id)+ " " + string(sc.Method)
-    return line
+	line += string(sc.Id) + " " + string(sc.Method)
+	return line
 }
 
 func ParseSipCseq(v []byte, out *SipCseq) {
@@ -67,4 +66,3 @@ func ParseSipCseq(v []byte, out *SipCseq) {
 		pos++
 	}
 }
-

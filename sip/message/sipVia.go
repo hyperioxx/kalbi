@@ -1,6 +1,5 @@
 package message
 
-
 /*
  RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.7 Via
 
@@ -11,8 +10,6 @@ used to reach the next hop has been selected (which may involve the
 usage of the procedures in [4]).
 
 */
-
-
 
 type SipVia struct {
 	Trans  string // Type of Transport udp, tcp, tls, sctp etc
@@ -27,23 +24,20 @@ type SipVia struct {
 }
 
 func (sv *SipVia) Export() string {
-	return "Via: SIP/2.0/UDP " + string(sv.Host) +":" + string(sv.Port) + ";branch=" + string(sv.Branch)
+	return "Via: SIP/2.0/UDP " + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
 }
 
-func (sv *SipVia) SetHost(value string){
-    sv.Host = []byte(value)
+func (sv *SipVia) SetHost(value string) {
+	sv.Host = []byte(value)
 }
 
-func (sv *SipVia) SetPort(value string){
-    sv.Port = []byte(value)
+func (sv *SipVia) SetPort(value string) {
+	sv.Port = []byte(value)
 }
 
-func (sv *SipVia) SetBranch(value string){
+func (sv *SipVia) SetBranch(value string) {
 	sv.Branch = []byte(value)
 }
-
-	
-
 
 func ParseSipVia(v []byte, out *SipVia) {
 

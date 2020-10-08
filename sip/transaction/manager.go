@@ -1,14 +1,12 @@
 package transaction
 
 import (
-	"sync"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/transport"
-	"github.com/sirupsen/logrus"	
+	"github.com/sirupsen/logrus"
+	"sync"
 )
-
-
 
 //NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
@@ -19,66 +17,61 @@ func NewTransactionManager() *TransactionManager {
 	return txmng
 }
 
-
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	TX                map[string] Transaction
-	RequestChannel    chan Transaction
-	ResponseChannel   chan Transaction
-	ListeningPoint    transport.ListeningPoint
-	txLock            *sync.RWMutex
-
+	TX              map[string]Transaction
+	RequestChannel  chan Transaction
+	ResponseChannel chan Transaction
+	ListeningPoint  transport.ListeningPoint
+	txLock          *sync.RWMutex
 }
 
 // Start runs TransManager
-func (tm *TransactionManager) Handle(message *message.SipMsg)  {
-	
-		if  message.Req.StatusCode != nil {
-			log.Log.Info("Client transaction")
+func (tm *TransactionManager) Handle(message *message.SipMsg) {
 
-		    tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
-			if(exists){
-				log.Log.Info("Client Transaction aready exists")
-			}else{
-				tx = tm.NewClientTransaction(message)  
-			}
+	if message.Req.StatusCode != nil {
+		log.Log.Info("Client transaction")
 
+		tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
+		if exists {
+			log.Log.Info("Client Transaction aready exists")
+		} else {
+			tx = tm.NewClientTransaction(message)
+		}
 
-            tx.Receive(message)
-			tm.ResponseChannel <- tx
-			
-		} else if message.Req.Method != nil {
-			log.Log.Info("Server transaction")
-			tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
+		tx.Receive(message)
+		tm.ResponseChannel <- tx
 
-			if(exists){
-				log.Log.Info("Server Transaction aready exists")
-				
-			}else{
-				tx = tm.NewServerTransaction(message)
-				tm.PutTransaction(tx)
-			}
+	} else if message.Req.Method != nil {
+		log.Log.Info("Server transaction")
+		tx, exists := tm.FindTransaction(string(message.Via[0].Branch))
 
-			tx.Receive(message)
-			tm.RequestChannel <- tx 
-		}	
-        
+		if exists {
+			log.Log.Info("Server Transaction aready exists")
+
+		} else {
+			tx = tm.NewServerTransaction(message)
+			tm.PutTransaction(tx)
+		}
+
+		tx.Receive(message)
+		tm.RequestChannel <- tx
+	}
+
 }
 
-
 func (tm *TransactionManager) FindTransaction(branch string) (Transaction, bool) {
-	tx , exists := tm.TX[branch]
-	return tx , exists
+	tx, exists := tm.TX[branch]
+	return tx, exists
 }
 
 func (tm *TransactionManager) PutTransaction(tx Transaction) {
 	tm.txLock.Lock()
 	tm.TX[string(tx.GetBranchId())] = tx
-    tm.txLock.Unlock()
+	tm.txLock.Unlock()
 }
 
-
-func (tm *TransactionManager) DeleteTransaction(branch string){
+func (tm *TransactionManager) DeleteTransaction(branch string) {
 	log.Log.Info("Deleting transaction with ID: " + branch)
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count before DeleteTransaction() is called")
 	tm.txLock.Lock()
@@ -86,8 +79,6 @@ func (tm *TransactionManager) DeleteTransaction(branch string){
 	tm.txLock.Unlock()
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count after DeleteTransaction() is called")
 }
-
-
 
 func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
@@ -100,10 +91,10 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 	tx.BranchID = GenerateBranchId()
 
 	tx.Origin = msg
-	
+
 	tm.txLock.Lock()
 	tm.TX[string(tx.BranchID)] = tx
-    tm.txLock.Unlock()
+	tm.txLock.Unlock()
 	return tx
 
 }
@@ -115,12 +106,10 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 
 	tx.TransManager = tm
 
-    tx.InitFSM(msg)
+	tx.InitFSM(msg)
 
 	tx.BranchID = string(msg.Via[0].Branch)
 	tx.Origin = msg
 	return tx
 
 }
-
-

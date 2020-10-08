@@ -31,24 +31,24 @@ type SipContact struct {
 	Src     []byte // Full source if needed
 }
 
-func (sc *SipContact) SetName(name string){
+func (sc *SipContact) SetName(name string) {
 	sc.Name = []byte(name)
 
-} 
+}
 
 func (sc *SipContact) Export() string {
 	line := "Contact: "
 	if sc.Name != nil {
 		line += string(sc.Name) + " "
 	}
-	line += "<" + sc.UriType + ":" + string(sc.User) + "@" + string(sc.Host) 
-	if sc.Port != nil{
+	line += "<" + sc.UriType + ":" + string(sc.User) + "@" + string(sc.Host)
+	if sc.Port != nil {
 		line += ":" + string(sc.Port) + ">"
-	}else{
+	} else {
 		line += ">"
 	}
 	if sc.Tran != nil {
-        line += ";transport=" + string(sc.Tran)
+		line += ";transport=" + string(sc.Tran)
 	}
 	if sc.Qval != nil {
 		line += ";q=" + string(sc.Qval)
@@ -56,7 +56,7 @@ func (sc *SipContact) Export() string {
 	if sc.Expires != nil {
 		line += ";expires=" + string(sc.Expires)
 	}
-	return line 
+	return line
 }
 
 func ParseSipContact(v []byte, out *SipContact) {

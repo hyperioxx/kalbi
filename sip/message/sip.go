@@ -1,11 +1,10 @@
 package message
 
-
 import (
 	"bytes"
 	//"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 var sip_type = 0
@@ -31,13 +30,13 @@ type SipMsg struct {
 
 func (sm *SipMsg) GetStatusCode() int {
 	code, err := strconv.Atoi(string(sm.Req.StatusCode))
-	if err != nil{
+	if err != nil {
 		return 0
 	}
 	return code
 }
 
-func (sm *SipMsg) CopyHeaders(msg *SipMsg){
+func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.Via = msg.Via
 	sm.From = msg.From
 	sm.To = msg.To
@@ -48,18 +47,16 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg){
 	sm.ContLen = msg.ContLen
 }
 
-func (sm *SipMsg) CopySdp(msg *SipMsg){
+func (sm *SipMsg) CopySdp(msg *SipMsg) {
 	sm.Sdp = msg.Sdp
 }
 
-func (sm *SipMsg) GetSdp() string{
+func (sm *SipMsg) GetSdp() string {
 	sdp := strings.Split(string(sm.Src), "\r\n\r\n")
 	return sdp[1]
 }
 
-
-
-func (sm *SipMsg) Export() string{
+func (sm *SipMsg) Export() string {
 	sipmsg := ""
 	sipmsg += sm.Req.Export() + "\r\n"
 	sipmsg += sm.Via[0].Export() + "\r\n"
@@ -72,16 +69,14 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 
-	// TODO: fix this 
+	// TODO: fix this
 	//sipmsg += sm.GetSdp()
-	
+
 	/*sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
 	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
 	for _, i := range sm.Sdp.Attrib {
 		sipmsg += string(i.Src) + "\r\n"
 	}*/
-        
-	
 
 	return sipmsg
 }
@@ -97,18 +92,17 @@ type SipVal struct {
 	Src   []byte // Full source if needed
 }
 
-func (sv *SipVal) SetValue(value string)  {
-    sv.Value = []byte(value)
+func (sv *SipVal) SetValue(value string) {
+	sv.Value = []byte(value)
 }
 
 func (sv *SipVal) Export() string {
-    return string(sv.Value)
+	return string(sv.Value)
 }
-
 
 // Main parsing routine, passes by value
 func Parse(v []byte) (output SipMsg) {
-    output.Src = v
+	output.Src = v
 	// Allow multiple vias and media Attribs
 	via_idx := 0
 	output.Via = make([]SipVia, 0, 8)
@@ -206,10 +200,10 @@ func indexSep(s []byte) (int, byte) {
 func getString(sl []byte, from, to int) string {
 	// Remove negative values
 	if from < 0 {
-	    from = 0
+		from = 0
 	}
 	if to < 0 {
-	    to = 0
+		to = 0
 	}
 	// Limit if over len
 	if from > len(sl) || from > to {
@@ -226,10 +220,10 @@ func getString(sl []byte, from, to int) string {
 func getBytes(sl []byte, from, to int) []byte {
 	// Remove negative values
 	if from < 0 {
-	    from = 0
+		from = 0
 	}
 	if to < 0 {
-	    to = 0
+		to = 0
 	}
 	// Limit if over len
 	if from > len(sl) || from > to {
@@ -244,112 +238,112 @@ func getBytes(sl []byte, from, to int) []byte {
 // Function to print all we know about the struct in a readable format
 func MessageDetails(data *SipMsg) string {
 	msg := "- SIP --------------------------------\n\n"
-    msg += "[REQ]\n"
+	msg += "[REQ]\n"
 	msg += "\t[UriType] => " + string(data.Req.UriType) + "\n"
-	msg += "\t[Method] =>" + string(data.Req.Method)+ "\n"
-	msg += "\t[StatusCode] =>" + string(data.Req.StatusCode)+ "\n"
-	msg += "\t[User] =>" + string(data.Req.User)+ "\n"
-	msg += "\t[Host] =>" + string(data.Req.Host)+ "\n"
-	msg += "\t[Port] =>" + string(data.Req.Port)+ "\n"
-	msg += "\t[UserType] =>" + string(data.Req.UserType)+ "\n"
-	msg += "\t[Src] =>" + string(data.Req.Src)+ "\n"
+	msg += "\t[Method] =>" + string(data.Req.Method) + "\n"
+	msg += "\t[StatusCode] =>" + string(data.Req.StatusCode) + "\n"
+	msg += "\t[User] =>" + string(data.Req.User) + "\n"
+	msg += "\t[Host] =>" + string(data.Req.Host) + "\n"
+	msg += "\t[Port] =>" + string(data.Req.Port) + "\n"
+	msg += "\t[UserType] =>" + string(data.Req.UserType) + "\n"
+	msg += "\t[Src] =>" + string(data.Req.Src) + "\n"
 
 	// FROM
 	msg += "[FROM]" + "\n"
-	msg += "\t[UriType] =>" + data.From.UriType+ "\n"
-	msg += "\t[Name] =>" + string(data.From.Name)+ "\n"
-	msg += "\t[User] =>" + string(data.From.User)+ "\n"
-	msg += "\t[Host] =>" + string(data.From.Host)+ "\n"
-	msg += "\t[Port] =>"+ string(data.From.Port)+ "\n"
-	msg += "\t[Tag] =>" + string(data.From.Tag)+ "\n"
-	msg += "\t[Src] =>"+ string(data.From.Src)+ "\n"
+	msg += "\t[UriType] =>" + data.From.UriType + "\n"
+	msg += "\t[Name] =>" + string(data.From.Name) + "\n"
+	msg += "\t[User] =>" + string(data.From.User) + "\n"
+	msg += "\t[Host] =>" + string(data.From.Host) + "\n"
+	msg += "\t[Port] =>" + string(data.From.Port) + "\n"
+	msg += "\t[Tag] =>" + string(data.From.Tag) + "\n"
+	msg += "\t[Src] =>" + string(data.From.Src) + "\n"
 	// TO
 	msg += "[TO]" + "\n"
 	msg += "\t[UriType] =>" + data.To.UriType + "\n"
-	msg += "\t[Name] =>" + string(data.To.Name)+ "\n"
-	msg += "\t[User] =>" + string(data.To.User)+ "\n"
-	msg += "\t[Host] =>" + string(data.To.Host)+ "\n"
-	msg += "\t[Port] =>" + string(data.To.Port)+ "\n"
-	msg += "\t[Tag] =>" + string(data.To.Tag)+ "\n"
-	msg += "\t[UserType] =>" + string(data.To.UserType)+ "\n"
-	msg += "\t[Src] =>" + string(data.To.Src)+ "\n"
+	msg += "\t[Name] =>" + string(data.To.Name) + "\n"
+	msg += "\t[User] =>" + string(data.To.User) + "\n"
+	msg += "\t[Host] =>" + string(data.To.Host) + "\n"
+	msg += "\t[Port] =>" + string(data.To.Port) + "\n"
+	msg += "\t[Tag] =>" + string(data.To.Tag) + "\n"
+	msg += "\t[UserType] =>" + string(data.To.UserType) + "\n"
+	msg += "\t[Src] =>" + string(data.To.Src) + "\n"
 	// TO
 	msg += "[Contact]" + "\n"
 	msg += "\t[UriType] =>" + data.Contact.UriType + "\n"
-	msg += "\t[Name] =>"+ string(data.Contact.Name) + "\n"
-	msg += "\t[User] =>"+ string(data.Contact.User)+ "\n"
-	msg += "\t[Host] =>"+ string(data.Contact.Host)+ "\n"
-	msg += "\t[Port] =>"+ string(data.Contact.Port)+ "\n"
-	msg += "\t[Transport] =>"+ string(data.Contact.Tran)+ "\n"
-	msg += "\t[Q] =>"+ string(data.Contact.Qval)+ "\n"
-	msg += "\t[Expires] =>"+ string(data.Contact.Expires)+ "\n"
-	msg += "\t[Src] =>"+ string(data.Contact.Src)+ "\n"
+	msg += "\t[Name] =>" + string(data.Contact.Name) + "\n"
+	msg += "\t[User] =>" + string(data.Contact.User) + "\n"
+	msg += "\t[Host] =>" + string(data.Contact.Host) + "\n"
+	msg += "\t[Port] =>" + string(data.Contact.Port) + "\n"
+	msg += "\t[Transport] =>" + string(data.Contact.Tran) + "\n"
+	msg += "\t[Q] =>" + string(data.Contact.Qval) + "\n"
+	msg += "\t[Expires] =>" + string(data.Contact.Expires) + "\n"
+	msg += "\t[Src] =>" + string(data.Contact.Src) + "\n"
 	// UA
 	/*
-	fmt.Println("  [Cseq]")
-	fmt.Println("    [Id] =>", string(data.Cseq.Id))
-	fmt.Println("    [Method] =>", string(data.Cseq.Method))
-	fmt.Println("    [Src] =>", string(data.Cseq.Src))
-	// UA
-	fmt.Println("  [User Agent]")
-	fmt.Println("    [Value] =>", string(data.Ua.Value))
-	fmt.Println("    [Src] =>", string(data.Ua.Src))
-	// Exp
-	fmt.Println("  [Expires]")
-	fmt.Println("    [Value] =>", string(data.Exp.Value))
-	fmt.Println("    [Src] =>", string(data.Exp.Src))
-	// MaxFwd
-	fmt.Println("  [Max Forwards]")
-	fmt.Println("    [Value] =>", string(data.MaxFwd.Value))
-	fmt.Println("    [Src] =>", string(data.MaxFwd.Src))
-	// CallId
-	fmt.Println("  [Call-ID]")
-	fmt.Println("    [Value] =>", string(data.CallId.Value))
-	fmt.Println("    [Src] =>", string(data.CallId.Src))
-	// Content-Type
-	fmt.Println("  [Content-Type]")
-	fmt.Println("    [Value] =>", string(data.ContType.Value))
-	fmt.Println("    [Src] =>", string(data.ContType.Src))
+		fmt.Println("  [Cseq]")
+		fmt.Println("    [Id] =>", string(data.Cseq.Id))
+		fmt.Println("    [Method] =>", string(data.Cseq.Method))
+		fmt.Println("    [Src] =>", string(data.Cseq.Src))
+		// UA
+		fmt.Println("  [User Agent]")
+		fmt.Println("    [Value] =>", string(data.Ua.Value))
+		fmt.Println("    [Src] =>", string(data.Ua.Src))
+		// Exp
+		fmt.Println("  [Expires]")
+		fmt.Println("    [Value] =>", string(data.Exp.Value))
+		fmt.Println("    [Src] =>", string(data.Exp.Src))
+		// MaxFwd
+		fmt.Println("  [Max Forwards]")
+		fmt.Println("    [Value] =>", string(data.MaxFwd.Value))
+		fmt.Println("    [Src] =>", string(data.MaxFwd.Src))
+		// CallId
+		fmt.Println("  [Call-ID]")
+		fmt.Println("    [Value] =>", string(data.CallId.Value))
+		fmt.Println("    [Src] =>", string(data.CallId.Src))
+		// Content-Type
+		fmt.Println("  [Content-Type]")
+		fmt.Println("    [Value] =>", string(data.ContType.Value))
+		fmt.Println("    [Src] =>", string(data.ContType.Src))
 
-	// Via - Multiple
-	fmt.Println("  [Via]")
-	for i, via := range data.Via {
-		fmt.Println("    [", i, "]")
-		fmt.Println("      [Tansport] =>", via.Trans)
-		fmt.Println("      [Host] =>", string(via.Host))
-		fmt.Println("      [Port] =>", string(via.Port))
-		fmt.Println("      [Branch] =>", string(via.Branch))
-		fmt.Println("      [Rport] =>", string(via.Rport))
-		fmt.Println("      [Maddr] =>", string(via.Maddr))
-		fmt.Println("      [ttl] =>", string(via.Ttl))
-		fmt.Println("      [Recevied] =>", string(via.Rcvd))
-		fmt.Println("      [Src] =>", string(via.Src))
-	}
+		// Via - Multiple
+		fmt.Println("  [Via]")
+		for i, via := range data.Via {
+			fmt.Println("    [", i, "]")
+			fmt.Println("      [Tansport] =>", via.Trans)
+			fmt.Println("      [Host] =>", string(via.Host))
+			fmt.Println("      [Port] =>", string(via.Port))
+			fmt.Println("      [Branch] =>", string(via.Branch))
+			fmt.Println("      [Rport] =>", string(via.Rport))
+			fmt.Println("      [Maddr] =>", string(via.Maddr))
+			fmt.Println("      [ttl] =>", string(via.Ttl))
+			fmt.Println("      [Recevied] =>", string(via.Rcvd))
+			fmt.Println("      [Src] =>", string(via.Src))
+		}
 
-	fmt.Println("-SDP --------------------------------")
-	// Media Desc
-	fmt.Println("  [MediaDesc]")
-	fmt.Println("    [MediaType] =>", string(data.Sdp.MediaDesc.MediaType))
-	fmt.Println("    [Port] =>", string(data.Sdp.MediaDesc.Port))
-	fmt.Println("    [Proto] =>", string(data.Sdp.MediaDesc.Proto))
-	fmt.Println("    [Fmt] =>", string(data.Sdp.MediaDesc.Fmt))
-	fmt.Println("    [Src] =>", string(data.Sdp.MediaDesc.Src))
-	// Connection Data
-	fmt.Println("  [ConnData]")
-	fmt.Println("    [AddrType] =>", string(data.Sdp.ConnData.AddrType))
-	fmt.Println("    [ConnAddr] =>", string(data.Sdp.ConnData.ConnAddr))
-	fmt.Println("    [Src] =>", string(data.Sdp.ConnData.Src))
+		fmt.Println("-SDP --------------------------------")
+		// Media Desc
+		fmt.Println("  [MediaDesc]")
+		fmt.Println("    [MediaType] =>", string(data.Sdp.MediaDesc.MediaType))
+		fmt.Println("    [Port] =>", string(data.Sdp.MediaDesc.Port))
+		fmt.Println("    [Proto] =>", string(data.Sdp.MediaDesc.Proto))
+		fmt.Println("    [Fmt] =>", string(data.Sdp.MediaDesc.Fmt))
+		fmt.Println("    [Src] =>", string(data.Sdp.MediaDesc.Src))
+		// Connection Data
+		fmt.Println("  [ConnData]")
+		fmt.Println("    [AddrType] =>", string(data.Sdp.ConnData.AddrType))
+		fmt.Println("    [ConnAddr] =>", string(data.Sdp.ConnData.ConnAddr))
+		fmt.Println("    [Src] =>", string(data.Sdp.ConnData.Src))
 
-	// Attribs - Multiple
-	fmt.Println("  [Attrib]")
-	for i, attr := range data.Sdp.Attrib {
-		fmt.Println("    [", i, "]")
-		fmt.Println("      [Cat] =>", string(attr.Cat))
-		fmt.Println("      [Val] =>", string(attr.Val))
-		fmt.Println("      [Src] =>", string(attr.Src))
-	}*/
+		// Attribs - Multiple
+		fmt.Println("  [Attrib]")
+		for i, attr := range data.Sdp.Attrib {
+			fmt.Println("    [", i, "]")
+			fmt.Println("      [Cat] =>", string(attr.Cat))
+			fmt.Println("      [Val] =>", string(attr.Val))
+			fmt.Println("      [Src] =>", string(attr.Src))
+		}*/
 	msg += "-------------------------------------"
-    return msg
+	return msg
 
 }
 

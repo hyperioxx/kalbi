@@ -1,15 +1,15 @@
 package message
 
 import (
-	"strings"
 	"github.com/KalbiProject/Kalbi/sip/status"
+	"strings"
 )
 
-func NewResponse(response int, to string , from string) *SipMsg {
-	 //TODO: need more elegant way to create responses
+func NewResponse(response int, to string, from string) *SipMsg {
+	//TODO: need more elegant way to create responses
 	to_ := strings.Split(to, "@")
 	from_ := strings.Split(from, "@")
-	
+
 	r := new(SipMsg)
 	r.Req = *new(SipReq)
 	r.To = *new(SipTo)

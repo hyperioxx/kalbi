@@ -19,28 +19,27 @@ type SipFrom struct {
 	Src      []byte // Full source if needed
 }
 
-
-func (sf *SipFrom) SetUriType(uriType string){
+func (sf *SipFrom) SetUriType(uriType string) {
 	sf.UriType = uriType
 }
 
-func (sf *SipFrom) SetUser(user string){
-    sf.User = []byte(user)
+func (sf *SipFrom) SetUser(user string) {
+	sf.User = []byte(user)
 }
 
-func (sf * SipFrom) SetHost(host string){
-     sf.Host = []byte(host)
+func (sf *SipFrom) SetHost(host string) {
+	sf.Host = []byte(host)
 }
 
-func (sf *SipFrom) SetPort(port string){
+func (sf *SipFrom) SetPort(port string) {
 	sf.Port = []byte(port)
 }
 
-func (sf *SipFrom) SetUserType(userType string){
-    sf.UserType = []byte(userType)
+func (sf *SipFrom) SetUserType(userType string) {
+	sf.UserType = []byte(userType)
 }
 
-func (sf *SipFrom) SetTag(tag string){
+func (sf *SipFrom) SetTag(tag string) {
 	sf.Tag = []byte(tag)
 }
 
@@ -48,13 +47,10 @@ func (sf *SipFrom) Export() string {
 	requestline := "From: "
 	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
 	if sf.Tag != nil {
-        requestline += ";tag=" + string(sf.Tag)
+		requestline += ";tag=" + string(sf.Tag)
 	}
-	return requestline 
+	return requestline
 }
-
-
-
 
 func ParseSipFrom(v []byte, out *SipFrom) {
 

@@ -1,9 +1,9 @@
 package transport
 
 import (
+	"fmt"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
-	"fmt"
 	"net"
 )
 
@@ -43,7 +43,7 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	if err != nil {
 		log.Log.Error(err)
 	}
-	log.Log.Info("Sending message to " + host+":"+port)
+	log.Log.Info("Sending message to " + host + ":" + port)
 	conn, err := net.DialUDP("udp", nil, addr)
 	if err != nil {
 		fmt.Printf("Some error %v", err)
@@ -51,5 +51,5 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	}
 	conn.Write([]byte(msg))
 	conn.Close()
-    return nil
+	return nil
 }

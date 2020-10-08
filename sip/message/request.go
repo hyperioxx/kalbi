@@ -1,12 +1,11 @@
 package message
 
-import ("strings")
+import (
+	"strings"
+)
 
-
-
-
-func NewRequest(request string, to string, from string) *SipMsg{
-    //TODO: need more elegant way to create messages 
+func NewRequest(request string, to string, from string) *SipMsg {
+	//TODO: need more elegant way to create messages
 	to_ := strings.Split(to, "@")
 	from_ := strings.Split(from, "@")
 
@@ -18,8 +17,7 @@ func NewRequest(request string, to string, from string) *SipMsg{
 	r.To = *new(SipTo)
 	r.From = *new(SipFrom)
 	r.Cseq = *new(SipCseq)
-    r.Contact = *new(SipContact)
-
+	r.Contact = *new(SipContact)
 
 	via.SetHost(from_[0])
 	via.SetPort(from_[1])
@@ -40,6 +38,6 @@ func NewRequest(request string, to string, from string) *SipMsg{
 
 	r.Cseq.SetID("1")
 	r.Cseq.SetMethod(request)
-    r.ContLen.SetValue("0")
+	r.ContLen.SetValue("0")
 	return r
 }
