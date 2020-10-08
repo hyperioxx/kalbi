@@ -1,2 +1,2 @@
 run:
-	go run examples/proxy/main.go
+	go run examples/create_message/main.go

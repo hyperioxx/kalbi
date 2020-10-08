@@ -45,11 +45,11 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg){
 	sm.CallId = msg.CallId
 	sm.Cseq = msg.Cseq
 	sm.MaxFwd = msg.MaxFwd
+	sm.ContLen = msg.ContLen
 }
 
 func (sm *SipMsg) CopySdp(msg *SipMsg){
 	sm.Sdp = msg.Sdp
-	
 }
 
 
@@ -66,7 +66,6 @@ func (sm *SipMsg) Export() string{
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n\r\n"
-
 	
 	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
 	sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"

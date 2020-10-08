@@ -1,9 +1,9 @@
 package main
 
 import "fmt"
-import "Kalbi/pkg/sip/status"
-import "Kalbi/pkg/sip/method"
-import "Kalbi/pkg/sip/message"
+import "Kalbi/sip/status"
+import "Kalbi/sip/method"
+import "Kalbi/sip/message"
 
 
 
