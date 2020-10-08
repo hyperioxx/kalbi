@@ -52,6 +52,11 @@ func (sm *SipMsg) CopySdp(msg *SipMsg){
 	sm.Sdp = msg.Sdp
 }
 
+func (sm *SipMsg) GetSdp() string{
+	sdp := strings.Split(string(sm.Src), "\r\n\r\n")
+	return sdp[1]
+}
+
 
 
 func (sm *SipMsg) Export() string{
