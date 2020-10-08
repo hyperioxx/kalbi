@@ -2,8 +2,8 @@ package transport
 
 import (
 	"os"
-	"github.com/KalbiProject/Kalbi/pkg/log"
-	"github.com/KalbiProject/Kalbi/pkg/sip/message"
+	"github.com/KalbiProject/Kalbi/log"
+	"github.com/KalbiProject/Kalbi/sip/message"
 	"net"
 )
 
