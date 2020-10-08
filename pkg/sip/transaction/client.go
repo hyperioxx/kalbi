@@ -44,12 +44,12 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg){
 	switch string(msg.Req.Method) {
 	case method.INVITE:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
-			{Name: server_input_request, Src: []string{""}, Dst: "Proceeding"},
+			{Name: server_input_request, Src: []string{""}, Dst: "Calling"},
 			{Name: server_input_user_1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
 			{Name: server_input_user_300_plus , Src: []string{"Proceeding"}, Dst: "Completed"},
 			{Name: server_input_ack, Src: []string{"Completed"}, Dst: "Confirmed"},
 			{Name: server_input_user_2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
-		}, fsm.Callbacks{})
+		}, fsm.Callbacks{server_input_user_2xx : })
 	
 	default:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
