@@ -4,6 +4,10 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/transaction"
 )
 
+
+
+
+
 func NewDialog() *Dialog {
 	diag := new(Dialog)
 	diag.DialogId = GenerateDialogId()
