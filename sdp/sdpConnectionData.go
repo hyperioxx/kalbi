@@ -11,10 +11,18 @@ RFC4566 - https://tools.ietf.org/html/rfc4566#section-5.7
 */
 
 type sdpConnData struct {
-	//NetType   []byte // Network Type
+	NetType  []byte // Network Type
 	AddrType []byte // Address Type
 	ConnAddr []byte // Connection Address
 	Src      []byte // Full source if needed
+}
+
+func (sc *sdpConnData) Export() string {
+	line := "c="
+	line += string(sc.NetType) + " "
+	line += string(sc.AddrType) + " "
+	line += string(sc.ConnAddr) 
+	return line
 }
 
 func parseSdpConnectionData(v []byte, out *sdpConnData) {
@@ -43,6 +51,8 @@ func parseSdpConnectionData(v []byte, out *sdpConnData) {
 				pos++
 				continue
 			}
+		    out.NetType = append(out.NetType, v[pos])
+		
 		case FIELD_ADDRTYPE:
 			if v[pos] == ' ' {
 				state = FIELD_CONNADDR

@@ -51,11 +51,6 @@ func (sm *SipMsg) CopySdp(msg *SipMsg) {
 	sm.Sdp = msg.Sdp
 }
 
-func (sm *SipMsg) GetSdp() string {
-	sdp := strings.Split(string(sm.Src), "\r\n\r\n")
-	return sdp[1]
-}
-
 func (sm *SipMsg) Export() string {
 	sipmsg := ""
 	sipmsg += sm.Req.Export() + "\r\n"
@@ -69,6 +64,9 @@ func (sm *SipMsg) Export() string {
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 
+	if sm.Sdp != nil {
+		sipmsg += sm.Sdp.Export()
+	}
 
 	return sipmsg
 }

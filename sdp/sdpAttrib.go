@@ -29,6 +29,13 @@ type sdpAttrib struct {
 	Src []byte // Full source if needed
 }
 
+func (sa *sdpAttrib) Export() string {
+	line := "a="
+	line += string(sa.Cat) + " "
+	line += string(sa.Val) + " "
+	return line
+}
+
 func parseSdpAttrib(v []byte, out *sdpAttrib) {
 	pos := 0
 	state := FIELD_CAT
