@@ -72,7 +72,7 @@ func (ed *SipStack) Start() {
 	for ed.Alive == true {
 		for _, listeningPoint := range ed.ListeningPoints {
 			msg := listeningPoint.Read()
-			ed.TransManager.Handle(msg)
+			go ed.TransManager.Handle(msg)
 
 		}
 
