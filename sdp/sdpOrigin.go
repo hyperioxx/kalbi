@@ -1,4 +1,5 @@
 package sdp
+
 /*
    Author - Aaron Parfitt
 
@@ -57,7 +58,7 @@ package sdp
       this version of this session description, and the subfields excepting
       the version taken together identify the session irrespective of any
       modifications.
-   
+
       For privacy reasons, it is sometimes desirable to obfuscate the
       username and IP address of the session originator.  If this is a
       concern, an arbitrary <username> and private <unicast-address> MAY be
@@ -66,28 +67,27 @@ package sdp
 */
 
 type SdpOrigin struct {
-	Username        []byte
-	SessionId       []byte
-	SessionVersion  []byte
-	NetType         []byte
-	AddrType        []byte
-	UniAddr         []byte 
-	Src             []byte 
+	Username       []byte
+	SessionId      []byte
+	SessionVersion []byte
+	NetType        []byte
+	AddrType       []byte
+	UniAddr        []byte
+	Src            []byte
 }
 
 func (so *SdpOrigin) Export() string {
 	line := "o="
-	line+= string(so.Username) + " "
-	line+= string(so.SessionId) + " "
-	line+= string(so.SessionVersion) + " "
-	line+= string(so.NetType) + " "
+	line += string(so.Username) + " "
+	line += string(so.SessionId) + " "
+	line += string(so.SessionVersion) + " "
+	line += string(so.NetType) + " "
 	line += string(so.AddrType) + " "
-	line += string(so.UniAddr) 
+	line += string(so.UniAddr)
 	return line
 }
 
-
-func ParseSdpOrigin(v []byte, out *SdpOrigin){
+func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	pos := 0
 	state := FIELD_USERNAME
 
@@ -115,7 +115,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin){
 				pos++
 				continue
 			}
-		    out.Username = append(out.Username, v[pos])
+			out.Username = append(out.Username, v[pos])
 		case FIELD_SESSIONID:
 			if v[pos] == ' ' {
 				state = FIELD_SESSIONVERSION
@@ -133,21 +133,21 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin){
 			out.SessionVersion = append(out.SessionVersion, v[pos])
 
 		case FIELD_NETTYPE:
-			if v[pos] == ' '{
+			if v[pos] == ' ' {
 				state = FIELD_ADDRTYPE
 				pos++
 				continue
 			}
 			out.NetType = append(out.NetType, v[pos])
 		case FIELD_ADDRTYPE:
-			if v[pos] == ' '{
+			if v[pos] == ' ' {
 				state = FIELD_UNIADDR
 				pos++
 				continue
 			}
 			out.AddrType = append(out.AddrType, v[pos])
 		case FIELD_UNIADDR:
-			if v[pos] == ' '{
+			if v[pos] == ' ' {
 				state = FIELD_BASE
 				pos++
 				continue

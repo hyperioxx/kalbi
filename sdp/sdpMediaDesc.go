@@ -16,7 +16,6 @@ m=audio 24414 RTP/AVP 8 18 101
 
 */
 
-
 type sdpMediaDesc struct {
 	MediaType []byte // Named portion of URI
 	Port      []byte // Port number
@@ -26,12 +25,12 @@ type sdpMediaDesc struct {
 }
 
 func (sm *sdpMediaDesc) Export() string {
-	 line := "m="
-	 line += string(sm.MediaType) + " "
-	 line += string(sm.Port) + " "
-	 line += string(sm.Proto) + " "
-	 line += string(sm.Fmt) + " "
-	 return line 
+	line := "m="
+	line += string(sm.MediaType) + " "
+	line += string(sm.Port) + " "
+	line += string(sm.Proto) + " "
+	line += string(sm.Fmt) + " "
+	return line
 
 }
 
