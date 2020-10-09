@@ -19,8 +19,8 @@ package transaction
    transactions for all requests except INVITE and ACK.  This is
    referred to as a non-INVITE client transaction.  There is no client
    transaction for ACK.  If the TU wishes to send an ACK, it passes one
-   directly to the transport layer for transmission. 
-   
+   directly to the transport layer for transmission.
+
    The INVITE transaction is different from those of other methods
    because of its extended duration.  Normally, human input is required
    in order to respond to an INVITE.  The long delays expected for
@@ -39,15 +39,15 @@ import (
 )
 
 const (
-	client_input_request       = "client_input_request"
-	client_input_1xx           = "client_input_1xx"
-	client_input_2xx           = "client_input_2xx"
-	client_input_300_plus      = "client_input_300_plus"
-	client_input_timer_a       = "client_input_timer_a"
-	client_input_timer_b       = "client_input_timer_b"
-	client_input_timer_d       = "client_input_timer_d"
-	client_input_transport_err = "client_input_transport_err"
-	client_input_delete        = "client_input_transport_err"
+	clientInputRequest      = "client_input_request"
+	clientInput1xx          = "client_input_1xx"
+	clientInput2xx          = "client_input_2xx"
+	clientInput300Plus      = "client_input_300_plus"
+	clientInputTimerA       = "client_input_timer_a"
+	clientInputTimerB       = "client_input_timer_b"
+	clientInputTimerD       = "client_input_timer_d"
+	clientInputTransportErr = "client_input_transport_err"
+	clientInputDelete       = "client_input_transport_err"
 )
 
 type ClientTransaction struct {
@@ -56,16 +56,16 @@ type ClientTransaction struct {
 	TransManager   *TransactionManager
 	Origin         *message.SipMsg
 	FSM            *fsm.FSM
-	msg_history    []*message.SipMsg
+	msgHistory     []*message.SipMsg
 	ListeningPoint transport.ListeningPoint
 	Host           string
 	Port           string
 	LastMessage    *message.SipMsg
-	timer_a_time   time.Duration
-	timer_a        *time.Timer
-	timer_b        *time.Timer
-	timer_d_time   time.Duration
-	timer_d        *time.Timer
+	timerATime     time.Duration
+	timerA         *time.Timer
+	timerB         *time.Timer
+	timerDTime     time.Duration
+	timerD         *time.Timer
 }
 
 func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
@@ -73,23 +73,23 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 	switch string(msg.Req.Method) {
 	case method.INVITE:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
-			{Name: client_input_request, Src: []string{""}, Dst: "Calling"},
-			{Name: client_input_1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
-			{Name: client_input_300_plus, Src: []string{"Proceeding"}, Dst: "Completed"},
-			{Name: client_input_2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
-			{Name: client_input_transport_err, Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
-		}, fsm.Callbacks{client_input_2xx : ct.actDelete,
-			             client_input_300_plus: ct.act300,
-			             client_input_timer_a : ct.actResend ,
-						 client_input_timer_b : ct.actTransErr,
-						 })
+			{Name: clientInputRequest, Src: []string{""}, Dst: "Calling"},
+			{Name: clientInput1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
+			{Name: clientInput300Plus, Src: []string{"Proceeding"}, Dst: "Completed"},
+			{Name: clientInput2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
+			{Name: clientInputTransportErr, Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
+		}, fsm.Callbacks{clientInput2xx: ct.actDelete,
+			clientInput300Plus: ct.act300,
+			clientInputTimerA:  ct.actResend,
+			clientInputTimerB:  ct.actTransErr,
+		})
 
 	default:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
-			{Name: client_input_request, Src: []string{""}, Dst: "Calling"},
-			{Name: client_input_1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
-			{Name: client_input_300_plus, Src: []string{"Proceeding"}, Dst: "Completed"},
-			{Name: client_input_2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
+			{Name: clientInputRequest, Src: []string{""}, Dst: "Calling"},
+			{Name: clientInput1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
+			{Name: clientInput300Plus, Src: []string{"Proceeding"}, Dst: "Completed"},
+			{Name: clientInput2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
 		}, fsm.Callbacks{})
 	}
 }
@@ -109,11 +109,11 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 
 	if msg.GetStatusCode() < 200 {
-		ct.FSM.Event(server_input_user_1xx)
+		ct.FSM.Event(serverInputUser1xx)
 	} else if msg.GetStatusCode() < 300 {
-		ct.FSM.Event(server_input_user_2xx)
+		ct.FSM.Event(serverInputUser2xx)
 	} else {
-		ct.FSM.Event(server_input_user_300_plus)
+		ct.FSM.Event(serverInputUser300Plus)
 	}
 
 }
@@ -121,38 +121,38 @@ func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 func (ct *ClientTransaction) actSend(event *fsm.Event) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(client_input_transport_err)
+		ct.FSM.Event(clientInputTransportErr)
 	}
 }
 
-func (ct *ClientTransaction) act300(event *fsm.Event){
-    log.Log.Debug("Client transaction %p, act_300", ct)
-	ct.timer_d = time.AfterFunc(ct.timer_d_time, func() {
-		ct.FSM.Event(client_input_timer_d)
+func (ct *ClientTransaction) act300(event *fsm.Event) {
+	log.Log.Debug("Client transaction %p, act_300", ct)
+	ct.timerD = time.AfterFunc(ct.timerDTime, func() {
+		ct.FSM.Event(clientInputTimerD)
 	})
-		
+
 }
 
 func (ct *ClientTransaction) actTransErr(event *fsm.Event) {
 	log.Log.Error("Transport error for transactionID : " + ct.BranchID)
-	ct.FSM.Event(client_input_delete)
+	ct.FSM.Event(clientInputDelete)
 }
 
-func (ct *ClientTransaction) actDelete(event *fsm.Event){
+func (ct *ClientTransaction) actDelete(event *fsm.Event) {
 	ct.TransManager.DeleteTransaction(string(ct.Origin.Via[0].Branch))
 }
 
-func (ct *ClientTransaction) actResend(event *fsm.Event){
+func (ct *ClientTransaction) actResend(event *fsm.Event) {
 	log.Log.Debug("Client transaction %p, act_resend", ct)
-	ct.timer_a_time *= 2
-	ct.timer_a.Reset(ct.timer_a_time)
+	ct.timerATime *= 2
+	ct.timerA.Reset(ct.timerATime)
 	ct.Resend()
 }
 
 func (ct *ClientTransaction) Resend() {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(client_input_transport_err)
+		ct.FSM.Event(clientInputTransportErr)
 	}
 }
 
@@ -166,25 +166,25 @@ func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, por
 }
 
 func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string) {
-	defer ct.FSM.Event(server_input_request)
+	defer ct.FSM.Event(serverInputRequest)
 	ct.Origin = msg
 	ct.Host = host
 	ct.Port = port
-	ct.timer_a_time = T1
+	ct.timerATime = T1
 
 	//Retransmition timer
-	ct.timer_a = time.AfterFunc(ct.timer_a_time, func() {
-		ct.FSM.Event(client_input_timer_a)
+	ct.timerA = time.AfterFunc(ct.timerATime, func() {
+		ct.FSM.Event(clientInputTimerA)
 	})
 
 	//timeout timer
-	ct.timer_b = time.AfterFunc(64*T1, func() {
-		ct.FSM.Event(client_input_timer_b)
+	ct.timerB = time.AfterFunc(64*T1, func() {
+		ct.FSM.Event(clientInputTimerB)
 	})
 
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(server_input_transport_err)
+		ct.FSM.Event(serverInputTransportErr)
 	}
 
 }
