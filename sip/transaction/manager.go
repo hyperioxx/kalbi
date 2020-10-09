@@ -26,7 +26,7 @@ type TransactionManager struct {
 	txLock          *sync.RWMutex
 }
 
-// Start runs TransManager
+// Handle runs TransManager
 func (tm *TransactionManager) Handle(message *message.SipMsg) {
 
 	if message.Req.StatusCode != nil {

@@ -84,7 +84,7 @@ func (sv *SipVal) Export() string {
 	return string(sv.Value)
 }
 
-// Main parsing routine, passes by value
+// Parse routine, passes by value
 func Parse(v []byte) (output SipMsg) {
 	output.Src = v
 	// Allow multiple vias and media Attribs
@@ -198,7 +198,7 @@ func getBytes(sl []byte, from, to int) []byte {
 	return sl[from:to]
 }
 
-// Function to print all we know about the struct in a readable format
+// MessageDetails prints all we know about the struct in a readable format
 func MessageDetails(data *SipMsg) string {
 	msg := "- SIP --------------------------------\n\n"
 	msg += "[REQ]\n"
