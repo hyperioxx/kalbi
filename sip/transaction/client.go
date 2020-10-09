@@ -83,7 +83,6 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 			clientInput300Plus: ct.act300,
 			clientInputTimerA:  ct.actResend,
 			clientInputTimerB:  ct.actTransErr,
-
 		})
 
 	default:
