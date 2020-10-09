@@ -1,4 +1,4 @@
-package message
+package sdp
 
 /*
 RFC4566 - https://tools.ietf.org/html/rfc4566#section-5.14
@@ -15,6 +15,7 @@ eg:
 m=audio 24414 RTP/AVP 8 18 101
 
 */
+
 
 type sdpMediaDesc struct {
 	MediaType []byte // Named portion of URI

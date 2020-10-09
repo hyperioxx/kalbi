@@ -2,9 +2,9 @@ package message
 
 import (
 	"bytes"
-	//"fmt"
 	"strconv"
 	"strings"
+	"github.com/KalbiProject/Kalbi/sdp"
 )
 
 var sip_type = 0
@@ -25,7 +25,7 @@ type SipMsg struct {
 	ContLen  SipVal
 	Src      []byte
 
-	Sdp SdpMsg
+	Sdp      sdp.SdpMsg
 }
 
 func (sm *SipMsg) GetStatusCode() int {
@@ -69,23 +69,11 @@ func (sm *SipMsg) Export() string {
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 
-	// TODO: fix this
-	//sipmsg += sm.GetSdp()
-
-	/*sipmsg += string(sm.Sdp.ConnData.Src) + "\r\n"
-	sipmsg += string(sm.Sdp.MediaDesc.Src) + "\r\n"
-	for _, i := range sm.Sdp.Attrib {
-		sipmsg += string(i.Src) + "\r\n"
-	}*/
 
 	return sipmsg
 }
 
-type SdpMsg struct {
-	MediaDesc sdpMediaDesc
-	Attrib    []sdpAttrib
-	ConnData  sdpConnData
-}
+
 
 type SipVal struct {
 	Value []byte // Sip Value
@@ -106,8 +94,6 @@ func Parse(v []byte) (output SipMsg) {
 	// Allow multiple vias and media Attribs
 	via_idx := 0
 	output.Via = make([]SipVia, 0, 8)
-	attr_idx := 0
-	output.Sdp.Attrib = make([]sdpAttrib, 0, 8)
 
 	lines := bytes.Split(v, []byte("\r\n"))
 
@@ -155,26 +141,7 @@ func Parse(v []byte) (output SipMsg) {
 					ParseSipCseq(lval, &output.Cseq)
 				} // End of Switch
 			}
-			if spos == 1 && stype == '=' {
-				// SDP: Break up into header and value
-				lhdr := strings.ToLower(string(line[0]))
-				lval := bytes.TrimSpace(line[2:])
-				// Switch on the line header
-				//fmt.Println(i, spos, string(lhdr), string(lval))
-				switch {
-				case lhdr == "m":
-					parseSdpMediaDesc(lval, &output.Sdp.MediaDesc)
-				case lhdr == "c":
-					parseSdpConnectionData(lval, &output.Sdp.ConnData)
-				case lhdr == "a":
-					var tmpAttrib sdpAttrib
-					output.Sdp.Attrib = append(output.Sdp.Attrib, tmpAttrib)
-					parseSdpAttrib(lval, &output.Sdp.Attrib[attr_idx])
-					attr_idx++
 
-				} // End of Switch
-
-			}
 		}
 	}
 
