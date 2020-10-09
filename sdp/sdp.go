@@ -39,7 +39,7 @@ const FIELD_CAT = 45
 const FIELD_IGNORE = 255
 
 
-
+//SdpMsg is struc
 type SdpMsg struct {
 	MediaDesc sdpMediaDesc
 	Attrib    []sdpAttrib
@@ -57,7 +57,7 @@ func indexSep(s []byte) (int, byte) {
 	return -1, ' '
 }
 
-
+//Parse Parses SDP 
 func Parse(v []byte) (output SdpMsg) {
 	attr_idx := 0
 	output.Attrib = make([]sdpAttrib, 0, 8)
