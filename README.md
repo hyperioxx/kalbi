@@ -8,7 +8,7 @@
 </h1>
 
 <h3 align="center"> 
-  <a href="https://twitter.com/directus">Twitter</a> • 
+  <a href="https://twitter.com/KalbiProject">Twitter</a> • 
   <a href="https://www.reddit.com/r/Kalbi/">Community</a> •
   <a href="https://discord.gg/6NCKgrz">Discord</a>
 </h3>
