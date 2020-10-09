@@ -3,7 +3,7 @@ package transport
 import (
 	"fmt"
 	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/Kalbi/sip/"
 	"net"
 )
 
@@ -20,7 +20,7 @@ func (ut *UDPTransport) Read() *message.SipMsg {
 	if err != nil {
 		log.Log.Error(err)
 	}
-	request := message.Parse(buffer[:n])
+	request := sip.Parse(buffer[:n])
 	return &request
 }
 
