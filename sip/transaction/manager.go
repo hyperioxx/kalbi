@@ -61,7 +61,9 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 }
 
 func (tm *TransactionManager) FindTransaction(branch string) (Transaction, bool) {
+	tm.txLock.RLock()
 	tx, exists := tm.TX[branch]
+	tm.txLock.RUnlock()
 	return tx, exists
 }
 
