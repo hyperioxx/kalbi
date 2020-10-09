@@ -7,6 +7,7 @@ import ("bytes"
 
 var keep_src = true
 
+//FMS States
 const FIELD_NULL = 0
 const FIELD_BASE = 1
 const FIELD_VALUE = 2
@@ -22,26 +23,36 @@ const FIELD_SESSIONID = 11
 const FIELD_SESSIONVERSION = 12
 const FIELD_NETTYPE = 13
 const FIELD_UNIADDR = 14
-
-
+const FIELD_TIMESTART = 15
+const FIELD_TIMESTOP = 16
 
 const FIELD_IGNORE = 255
 
 
-//SdpMsg is struc
+//SdpMsg is representation of an SDP message 
 type SdpMsg struct {
 	Origin    SdpOrigin
 	Version   sdpVersion
+	Time      sdpTime
 	MediaDesc sdpMediaDesc
 	Attrib    []sdpAttrib
 	ConnData  sdpConnData
 }
+
+
+//Size returns size in bytes 
+func (sm *SdpMsg) Size() int {
+	sdp := sm.Export()
+	return len([]byte(sdp))
+}
+
 
 func (sm *SdpMsg) Export() string {
 	sdp := ""
 	sdp += sm.Version.Export() + "\r\n"
 	sdp += sm.Origin.Export() + "\r\n"
 	sdp += sm.ConnData.Export() + "\r\n"
+	sdp += sm.Time.Export() + "\r\n"
 	sdp += sm.MediaDesc.Export() + "\r\n"
 	for _, a := range sm.Attrib{
          sdp += a.Export() + "\r\n"
@@ -84,6 +95,8 @@ func Parse(v []byte) (output SdpMsg) {
 					output.Version = sdpVersion{Val:lval, Src: line}
 				case lhdr == "o":
 					ParseSdpOrigin(lval, &output.Origin)
+				case lhdr == "t":
+					ParserSdpTime(lval, &output.Time)
 				case lhdr == "m":
 					parseSdpMediaDesc(lval, &output.MediaDesc)
 				case lhdr == "c":
