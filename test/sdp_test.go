@@ -12,6 +12,6 @@ import "github.com/KalbiProject/Kalbi/sdp"
 func TestSDPParser(t *testing.T){
 	byteMsg := []byte(msg)
 	x := sdp.Parse(byteMsg)
-	t.Log(string(x.MediaDesc.Export()))
+	t.Log(string(x.Time.Export()))
 
 }

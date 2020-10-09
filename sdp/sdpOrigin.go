@@ -1,6 +1,9 @@
 package sdp
 /*
+   Author - Aaron Parfitt
+
    RFC 4566 - https://tools.ietf.org/html/rfc4566#section-5.2
+
    Origin ("o=")
 
    o=<username> <sess-id> <sess-version> <nettype> <addrtype>
