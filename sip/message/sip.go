@@ -64,7 +64,7 @@ func (sm *SipMsg) Export() string {
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 
-	if sm.Sdp != nil {
+	if sm.Sdp.Origin.SessionId != nil  {
 		sipmsg += sm.Sdp.Export()
 	}
 
