@@ -59,15 +59,14 @@ type sdpTime struct {
 }
 
 //Export returns object as string
-func (st *sdpTime) Export() string{
+func (st *sdpTime) Export() string {
 	line := "t="
 	line += string(st.TimeStart) + " "
 	line += string(st.TimeStop)
 	return line
 }
 
-
-func ParserSdpTime(v []byte, out *sdpTime){
+func ParserSdpTime(v []byte, out *sdpTime) {
 	pos := 0
 	state := FIELD_TIMESTART
 

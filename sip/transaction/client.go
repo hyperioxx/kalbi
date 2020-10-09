@@ -73,6 +73,7 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 	switch string(msg.Req.Method) {
 	case method.INVITE:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
+
 			{Name: clientInputRequest, Src: []string{""}, Dst: "Calling"},
 			{Name: clientInput1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
 			{Name: clientInput300Plus, Src: []string{"Proceeding"}, Dst: "Completed"},
@@ -82,6 +83,7 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 			clientInput300Plus: ct.act300,
 			clientInputTimerA:  ct.actResend,
 			clientInputTimerB:  ct.actTransErr,
+
 		})
 
 	default:
@@ -129,6 +131,7 @@ func (ct *ClientTransaction) act300(event *fsm.Event) {
 	log.Log.Debug("Client transaction %p, act_300", ct)
 	ct.timerD = time.AfterFunc(ct.timerDTime, func() {
 		ct.FSM.Event(clientInputTimerD)
+
 	})
 
 }

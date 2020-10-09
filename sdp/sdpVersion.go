@@ -1,4 +1,5 @@
 package sdp
+
 /*Author Aaron Parfitt
 RFC 4566 - https://tools.ietf.org/html/rfc4566#section-5.1
 
@@ -11,9 +12,7 @@ Protocol Version ("v=")
 
 */
 
-
 type sdpVersion struct {
-
 	Val []byte // Version number
 	Src []byte // Full source if needed
 }
@@ -21,5 +20,5 @@ type sdpVersion struct {
 func (sv *sdpVersion) Export() string {
 	line := "v="
 	line += string(sv.Val)
-    return line
+	return line
 }

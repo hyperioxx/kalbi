@@ -21,7 +21,7 @@ func (sc *sdpConnData) Export() string {
 	line := "c="
 	line += string(sc.NetType) + " "
 	line += string(sc.AddrType) + " "
-	line += string(sc.ConnAddr) 
+	line += string(sc.ConnAddr)
 	return line
 }
 
@@ -51,8 +51,8 @@ func parseSdpConnectionData(v []byte, out *sdpConnData) {
 				pos++
 				continue
 			}
-		    out.NetType = append(out.NetType, v[pos])
-		
+			out.NetType = append(out.NetType, v[pos])
+
 		case FIELD_ADDRTYPE:
 			if v[pos] == ' ' {
 				state = FIELD_CONNADDR

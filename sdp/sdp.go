@@ -1,9 +1,10 @@
 package sdp
 
-import ("bytes"
-       
-		"strings")
+import (
+	"bytes"
 
+	"strings"
+)
 
 var keep_src = true
 
@@ -28,8 +29,7 @@ const FIELD_TIMESTOP = 16
 
 const FIELD_IGNORE = 255
 
-
-//SdpMsg is representation of an SDP message 
+//SdpMsg is representation of an SDP message
 type SdpMsg struct {
 	Origin    SdpOrigin
 	Version   sdpVersion
@@ -39,13 +39,11 @@ type SdpMsg struct {
 	ConnData  sdpConnData
 }
 
-
-//Size returns size in bytes 
+//Size returns size in bytes
 func (sm *SdpMsg) Size() int {
 	sdp := sm.Export()
 	return len([]byte(sdp))
 }
-
 
 func (sm *SdpMsg) Export() string {
 	sdp := ""
@@ -54,14 +52,12 @@ func (sm *SdpMsg) Export() string {
 	sdp += sm.ConnData.Export() + "\r\n"
 	sdp += sm.Time.Export() + "\r\n"
 	sdp += sm.MediaDesc.Export() + "\r\n"
-	for _, a := range sm.Attrib{
-         sdp += a.Export() + "\r\n"
+	for _, a := range sm.Attrib {
+		sdp += a.Export() + "\r\n"
 	}
-    return sdp
+	return sdp
 
 }
-		
-		
 
 func indexSep(s []byte) (int, byte) {
 	for i := 0; i < len(s); i++ {
@@ -72,7 +68,7 @@ func indexSep(s []byte) (int, byte) {
 	return -1, ' '
 }
 
-//Parse Parses SDP 
+//Parse Parses SDP
 func Parse(v []byte) (output SdpMsg) {
 	attr_idx := 0
 	output.Attrib = make([]sdpAttrib, 0, 8)
@@ -84,34 +80,32 @@ func Parse(v []byte) (output SdpMsg) {
 		//fmt.Println(i, string(line))
 		line = bytes.TrimSpace(line)
 
-			if spos == 1 && stype == '=' {
-				// SDP: Break up into header and value
-				lhdr := strings.ToLower(string(line[0]))
-				lval := bytes.TrimSpace(line[2:])
-				// Switch on the line header
-				//fmt.Println(i, spos, string(lhdr), string(lval))
-				switch {
-				case lhdr == "v":
-					output.Version = sdpVersion{Val:lval, Src: line}
-				case lhdr == "o":
-					ParseSdpOrigin(lval, &output.Origin)
-				case lhdr == "t":
-					ParserSdpTime(lval, &output.Time)
-				case lhdr == "m":
-					parseSdpMediaDesc(lval, &output.MediaDesc)
-				case lhdr == "c":
-					parseSdpConnectionData(lval, &output.ConnData)
-				case lhdr == "a":
-					var tmpAttrib sdpAttrib
-					output.Attrib = append(output.Attrib, tmpAttrib)
-					parseSdpAttrib(lval, &output.Attrib[attr_idx])
-					attr_idx++
+		if spos == 1 && stype == '=' {
+			// SDP: Break up into header and value
+			lhdr := strings.ToLower(string(line[0]))
+			lval := bytes.TrimSpace(line[2:])
+			// Switch on the line header
+			//fmt.Println(i, spos, string(lhdr), string(lval))
+			switch {
+			case lhdr == "v":
+				output.Version = sdpVersion{Val: lval, Src: line}
+			case lhdr == "o":
+				ParseSdpOrigin(lval, &output.Origin)
+			case lhdr == "t":
+				ParserSdpTime(lval, &output.Time)
+			case lhdr == "m":
+				parseSdpMediaDesc(lval, &output.MediaDesc)
+			case lhdr == "c":
+				parseSdpConnectionData(lval, &output.ConnData)
+			case lhdr == "a":
+				var tmpAttrib sdpAttrib
+				output.Attrib = append(output.Attrib, tmpAttrib)
+				parseSdpAttrib(lval, &output.Attrib[attr_idx])
+				attr_idx++
 
-				} // End of Switch
+			} // End of Switch
 
-			}
 		}
-		return
 	}
-
-	
+	return
+}

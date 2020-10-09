@@ -2,9 +2,9 @@ package message
 
 import (
 	"bytes"
+	"github.com/KalbiProject/Kalbi/sdp"
 	"strconv"
 	"strings"
-	"github.com/KalbiProject/Kalbi/sdp"
 )
 
 var sip_type = 0
@@ -25,7 +25,7 @@ type SipMsg struct {
 	ContLen  SipVal
 	Src      []byte
 
-	Sdp      sdp.SdpMsg
+	Sdp sdp.SdpMsg
 }
 
 func (sm *SipMsg) GetStatusCode() int {
@@ -64,14 +64,12 @@ func (sm *SipMsg) Export() string {
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
 	sipmsg += "\r\n"
 
-	if sm.Sdp.Origin.SessionId != nil  {
+	if sm.Sdp.Origin.SessionId != nil {
 		sipmsg += sm.Sdp.Export()
 	}
 
 	return sipmsg
 }
-
-
 
 type SipVal struct {
 	Value []byte // Sip Value
@@ -86,7 +84,7 @@ func (sv *SipVal) Export() string {
 	return string(sv.Value)
 }
 
-// Main parsing routine, passes by value
+// Parse routine, passes by value
 func Parse(v []byte) (output SipMsg) {
 	output.Src = v
 	// Allow multiple vias and media Attribs
@@ -146,7 +144,7 @@ func Parse(v []byte) (output SipMsg) {
 	return
 }
 
-// Finds the first valid Seperate or notes its type
+// Finds the first valid Separate or notes its type
 func indexSep(s []byte) (int, byte) {
 
 	for i := 0; i < len(s); i++ {
@@ -200,7 +198,7 @@ func getBytes(sl []byte, from, to int) []byte {
 	return sl[from:to]
 }
 
-// Function to print all we know about the struct in a readable format
+// MessageDetails prints all we know about the struct in a readable format
 func MessageDetails(data *SipMsg) string {
 	msg := "- SIP --------------------------------\n\n"
 	msg += "[REQ]\n"
