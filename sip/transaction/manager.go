@@ -71,6 +71,14 @@ func (tm *TransactionManager) FindTransaction(msg *message.SipMsg) (Transaction,
 	return tx, exists
 }
 
+func (tm *TransactionManager) FindTransactionByID(value string) (Transaction, bool) {
+	//key := tm.MakeKey(*msg)
+	tm.txLock.RLock()
+	tx, exists := tm.TX[value]
+	tm.txLock.RUnlock()
+	return tx, exists
+}
+
 func (tm *TransactionManager) PutTransaction(tx Transaction) {
 	tm.txLock.Lock()
 	tm.TX[tx.GetBranchId()] = tx
