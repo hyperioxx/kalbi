@@ -35,6 +35,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 
 		tx, exists := tm.FindTransaction(message)
 		if exists {
+			tx.SetLastMessage(message)
 			log.Log.Info("Client Transaction already exists")
 		} else {
 			tx = tm.NewClientTransaction(message)
@@ -48,6 +49,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 		tx, exists := tm.FindTransaction(message)
 
 		if exists {
+			tx.SetLastMessage(message)
 			log.Log.Info("Server Transaction already exists")
 
 		} else {

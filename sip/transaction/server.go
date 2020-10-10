@@ -63,22 +63,32 @@ func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 	}
 }
 
+//SetListeningPoint sets a listening point to the client transaction
 func (st *ServerTransaction) SetListeningPoint(lp transport.ListeningPoint) {
 	st.ListeningPoint = lp
 }
 
+//GetBranchId returns branchId which is the identifier of a transaction
 func (st *ServerTransaction) GetBranchId() string {
 	return st.BranchID
 }
 
+//GetOrigin returns the SIP message that initiated this transaction
 func (st *ServerTransaction) GetOrigin() *message.SipMsg {
 	return st.Origin
 }
 
+//GetLastMessage returns the last received SIP message to this transaction
 func (st *ServerTransaction) GetLastMessage() *message.SipMsg {
 	return st.LastMessage
 }
 
+//SetLastMessage sets the last message received
+func (st *ServerTransaction) SetLastMessage(msg *message.SipMsg) {
+	st.LastMessage = msg
+}
+
+//Receive takes in the SIP message from the transport layer
 func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	st.LastMessage = msg
 	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))

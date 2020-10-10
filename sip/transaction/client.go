@@ -70,7 +70,7 @@ type ClientTransaction struct {
 	timerD         *time.Timer
 }
 
-//InitFSM initializes the finite state machine within the client transaction 
+//InitFSM initializes the finite state machine within the client transaction
 func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 
 	switch string(msg.Req.Method) {
@@ -115,7 +115,7 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 
 //Receive takes in the SIP message from the transport layer
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
-    ct.LastMessage = msg
+	ct.LastMessage = msg
 	if msg.GetStatusCode() < 200 {
 		ct.FSM.Event(serverInputUser1xx)
 	} else if msg.GetStatusCode() < 300 {
@@ -126,7 +126,7 @@ func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 
 }
 
-//SetServerTransaction is used to set a Server Transaction 
+//SetServerTransaction is used to set a Server Transaction
 func (ct *ClientTransaction) SetServerTransaction(txID string) {
 	ct.ServerTxID = txID
 }
@@ -134,15 +134,20 @@ func (ct *ClientTransaction) SetServerTransaction(txID string) {
 //GetServerTransaction returns a ServerTransaction that has been set with SetServerTransaction()
 func (ct *ClientTransaction) GetServerTransaction() Transaction {
 	tx, exist := ct.TransManager.FindTransactionByID(ct.ServerTxID)
-	if (exist){
+	if exist {
 		return nil
 	}
 	return tx
 }
 
-//GetLastMessage returns the last received SIP message to this transaction 
+//GetLastMessage returns the last received SIP message to this transaction
 func (ct *ClientTransaction) GetLastMessage() *message.SipMsg {
 	return ct.LastMessage
+}
+
+//SetLastMessage sets the last message received
+func (ct *ClientTransaction) SetLastMessage(msg *message.SipMsg) {
+	ct.LastMessage = msg
 }
 
 func (ct *ClientTransaction) actSend(event *fsm.Event) {
@@ -177,13 +182,14 @@ func (ct *ClientTransaction) actResend(event *fsm.Event) {
 	ct.Resend()
 }
 
-//Resend is used for retransmissions 
+//Resend is used for retransmissions
 func (ct *ClientTransaction) Resend() {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
 		ct.FSM.Event(clientInputTransportErr)
 	}
 }
+
 //StatelessSend send a sip message without acting on the FSM
 func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, port string) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
