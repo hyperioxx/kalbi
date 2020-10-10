@@ -12,4 +12,5 @@ type Transaction interface {
 	Send(*message.SipMsg, string, string)
 	Receive(*message.SipMsg)
 	GetLastMessage() *message.SipMsg
+	GetServerTransaction() Transaction
 }
