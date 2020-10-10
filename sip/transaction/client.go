@@ -101,7 +101,6 @@ func (ct *ClientTransaction) SetListeningPoint(lp transport.ListeningPoint) {
 	ct.ListeningPoint = lp
 }
 
-func (ct *ClientTransaction) 
 
 func (ct *ClientTransaction) GetBranchId() string {
 	return ct.BranchID
