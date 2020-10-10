@@ -80,7 +80,7 @@ const (
 	// MethodNotAllowed The method specified in the Request-Line is understood, but not allowed for the address identified by the Request-URI.
 	// RFC_3261
 	MethodNotAllowed = 405 // : "MethodNotAllowed",
-	// The resource identified by the request is only capable of generating response entities that have content characteristics but
+	// NotAcceptable406 The resource identified by the request is only capable of generating response entities that have content characteristics but
 	// not acceptable according to the Accept header field sent in the request.
 	// RFC_3261
 	NotAcceptable406 = 406 // : "NotAcceptable406",
@@ -124,7 +124,7 @@ const (
 	// BadExtension Bad SIP Protocol Extension used, not understood by the server.
 	// RFC_3261
 	BadExtension = 420 // : "BadExtension",
-	//The server needs a specific extension not listed in the Supported header.
+	// ExtensionRequired The server needs a specific extension not listed in the Supported header.
 	// RFC_3261
 	ExtensionRequired = 421 // : "ExtensionRequired",
 	// SessionIntervalTooSmall The received request contains a Session-Expires header field with a duration below the minimum timer.
@@ -234,7 +234,7 @@ const (
 	Decline = 603 // : "Decline",
 	// DoesNotExistAnywhere The server has authoritative information that the requested user does not exist anywhere.<ref name="RFC_3261"/>{{rp|§21.6.3}}
 	DoesNotExistAnywhere = 604 // : "DoesNotExistAnywhere",
-	// The user's agent was contacted successfully but some aspects of the session description such as the requested media, bandwidth, or addressing style were not acceptable.<ref name="RFC_3261"/>{{rp|§21.6.4}}
+	// NotAcceptable606 The user's agent was contacted successfully but some aspects of the session description such as the requested media, bandwidth, or addressing style were not acceptable.<ref name="RFC_3261"/>{{rp|§21.6.4}}
 	NotAcceptable606 = 606 // : "NotAcceptable606",
 	// Unwanted The called party did not want this call from the calling party. Future attempts from the calling party are likely to be similarly rejected.<ref name="RFC_8197">{{cite IETF
 	Unwanted = 607 // : "Unwanted",
