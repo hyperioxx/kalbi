@@ -53,7 +53,7 @@ const (
 type ClientTransaction struct {
 	ID             string
 	BranchID       string
-	ServerTx       *ServerTransaction
+	ServerTx       Transaction
 	TransManager   *TransactionManager
 	Origin         *message.SipMsg
 	FSM            *fsm.FSM
@@ -121,7 +121,7 @@ func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 
 }
 
-func (ct *ClientTransaction) SetServerTransaction(tx *ServerTransaction) {
+func (ct *ClientTransaction) SetServerTransaction(tx Transaction) {
 	ct.ServerTx = tx
 }
 
