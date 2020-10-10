@@ -46,11 +46,11 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	}
 	log.Log.Info("Sending message to " + host + ":" + port)
 	conn, err := net.DialUDP("udp", nil, addr)
+	defer conn.Close()
 	if err != nil {
 		fmt.Printf("Some error %v", err)
 		return err
 	}
 	conn.Write([]byte(msg))
-	conn.Close()
 	return nil
 }
