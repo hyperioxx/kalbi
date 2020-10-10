@@ -75,6 +75,10 @@ func (st *ServerTransaction) GetOrigin() *message.SipMsg {
 	return st.Origin
 }
 
+func (st *ServerTransaction) GetLastMessage() *message.SipMsg {
+	return st.LastMessage
+}
+
 func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	st.LastMessage = msg
 	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))

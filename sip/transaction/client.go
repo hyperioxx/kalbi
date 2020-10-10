@@ -128,6 +128,10 @@ func (ct *ClientTransaction) GetServerTransaction(tx *ServerTransaction) *Server
 	return ct.ServerTx 
 }
 
+func (ct *ClientTransaction) GetLastMessage() *message.SipMsg {
+	return ct.LastMessage
+}
+
 func (ct *ClientTransaction) actSend(event *fsm.Event) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {

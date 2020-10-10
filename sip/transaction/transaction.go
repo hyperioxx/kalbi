@@ -11,4 +11,5 @@ type Transaction interface {
 	SetListeningPoint(transport.ListeningPoint)
 	Send(*message.SipMsg, string, string)
 	Receive(*message.SipMsg)
+	GetLastMessage() *message.SipMsg
 }
