@@ -110,7 +110,7 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 }
 
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
-
+    ct.LastMessage = msg
 	if msg.GetStatusCode() < 200 {
 		ct.FSM.Event(serverInputUser1xx)
 	} else if msg.GetStatusCode() < 300 {
