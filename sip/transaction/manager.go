@@ -64,16 +64,16 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 
 
 func (tm *TransactionManager) FindTransaction(msg *message.SipMsg) (Transaction, bool) {
-	key := tm.MakeKey(*msg)
+	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
-	tx, exists := tm.TX[key]
+	tx, exists := tm.TX[string(msg.Via[0].Branch)]
 	tm.txLock.RUnlock()
 	return tx, exists
 }
 
 func (tm *TransactionManager) PutTransaction(tx Transaction) {
 	tm.txLock.Lock()
-	tm.TX[tm.MakeKey(*tx.GetOrigin())] = tx
+	tm.TX[tx.GetBranchId()] = tx
 	tm.txLock.Unlock()
 }
 
