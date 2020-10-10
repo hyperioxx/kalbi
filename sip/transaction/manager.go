@@ -61,8 +61,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 
 }
 
-
-
+//FindTransaction finds transaction by SipMsgg struct
 func (tm *TransactionManager) FindTransaction(msg *message.SipMsg) (Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -71,6 +70,7 @@ func (tm *TransactionManager) FindTransaction(msg *message.SipMsg) (Transaction,
 	return tx, exists
 }
 
+//FindTransactionByID finds transaction by id
 func (tm *TransactionManager) FindTransactionByID(value string) (Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -79,12 +79,14 @@ func (tm *TransactionManager) FindTransactionByID(value string) (Transaction, bo
 	return tx, exists
 }
 
+//PutTransaction stores a transaction
 func (tm *TransactionManager) PutTransaction(tx Transaction) {
 	tm.txLock.Lock()
 	tm.TX[tx.GetBranchId()] = tx
 	tm.txLock.Unlock()
 }
 
+//DeleteTransaction removes a stored transaction
 func (tm *TransactionManager) DeleteTransaction(branch string) {
 	log.Log.Info("Deleting transaction with ID: " + branch)
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count before DeleteTransaction() is called")
@@ -94,25 +96,26 @@ func (tm *TransactionManager) DeleteTransaction(branch string) {
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.TX)}).Debug("Current transaction count after DeleteTransaction() is called")
 }
 
-
+//MakeKey creates new transaction identifier
 func (tm *TransactionManager) MakeKey(msg message.SipMsg) string {
 
 	key := string(msg.Via[0].Branch)
 	var _method string
 	if msg.Req.Method != nil {
-         if string(msg.Req.Method) == method.ACK {
-               _method = method.INVITE
-		 } else {
-			 _method = string(msg.Req.Method)
-		 }
+		if string(msg.Req.Method) == method.ACK {
+			_method = method.INVITE
+		} else {
+			_method = string(msg.Req.Method)
+		}
 	} else {
 		_method = string(msg.Cseq.Method)
 	}
 
 	key += _method
-    return key 
+	return key
 }
 
+//NewClientTransaction builds new CLientTransaction
 func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
 	tx := new(ClientTransaction)
@@ -121,8 +124,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 
 	tx.InitFSM(msg)
 
-	tx.BranchID = GenerateBranchId()
-
+	tx.BranchID = string(msg.Via[0].Branch)
 	tx.Origin = msg
 
 	tm.PutTransaction(tx)
@@ -130,6 +132,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 
 }
 
+//NewServerTransaction builds new ServerTransaction
 func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerTransaction {
 
 	tx := new(ServerTransaction)
