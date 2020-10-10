@@ -102,6 +102,10 @@ func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 
 }
 
+func (st *ServerTransaction) GetServerTransaction() Transaction {
+	return nil
+}
+
 func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string) {
 	st.LastMessage = msg
 	st.Host = host

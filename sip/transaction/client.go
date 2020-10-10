@@ -124,7 +124,7 @@ func (ct *ClientTransaction) SetServerTransaction(tx *ServerTransaction) {
 	ct.ServerTx = tx
 }
 
-func (ct *ClientTransaction) GetServerTransaction() *ServerTransaction {
+func (ct *ClientTransaction) GetServerTransaction() Transaction {
 	return ct.ServerTx 
 }
 
