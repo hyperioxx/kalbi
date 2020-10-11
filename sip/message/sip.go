@@ -66,7 +66,7 @@ func (sm *SipMsg) Export() string {
 	sipmsg += sm.Contact.Export() + "\r\n"
 	sipmsg += sm.Cseq.Export() + "\r\n"
 	if sm.ContType.Value != nil {
-		sipmsg += "Content-Type: " +sm.ContType.Export() + "\r\n"
+		sipmsg += "Content-Type: " + sm.ContType.Export() + "\r\n"
 	}
 	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"

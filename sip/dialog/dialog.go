@@ -113,8 +113,8 @@ func (dm *DialogManager) NewDialog() *Dialog {
 type Dialog struct {
 	DialogId int32
 	CallId   string
-	To_tag   string
-	From_tag string
+	ToTag    string
+	FromTag  string
 	ServerTx transaction.Transaction
 	ClientTx transaction.Transaction
 	Cseq     uint32
