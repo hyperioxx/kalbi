@@ -106,8 +106,8 @@ func (dm *DialogManager) DeleteDialog(value string) {
 
 func (dm *DialogManager) NewDialog() *Dialog {
 	diag := new(Dialog)
-   diag.DialogId = GenerateDialogId()
-   
+	diag.DialogId = GenerateDialogId()
+
 	return diag
 }
 

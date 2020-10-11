@@ -8,8 +8,10 @@ import (
 //NewResponse creates new SIP response
 func NewResponse(response int, to string, from string) *SipMsg {
 	//TODO: need more elegant way to create responses
-	to_ := strings.Split(to, "@")
-	from_ := strings.Split(from, "@")
+	toArr := strings.Split(to, "@")
+	fromArr := strings.Split(from, "@")
+	toUser, toDomain := toArr[0], toArr[1]
+	fromUser, fromDomain := fromArr[0], fromArr[1]
 
 	r := new(SipMsg)
 	r.Req = *new(SipReq)
@@ -19,16 +21,16 @@ func NewResponse(response int, to string, from string) *SipMsg {
 	r.Req.SetStatusCode(response)
 	r.Req.SetStatusDesc(status.StatusText(response))
 	r.Req.SetUriType("sip")
-	r.Req.SetUser(to_[0])
-	r.Req.SetHost(to_[1])
+	r.Req.SetUser(toUser)
+	r.Req.SetHost(toDomain)
 
 	r.To.SetUriType("sip")
-	r.To.SetUser(to_[0])
-	r.To.SetHost(to_[1])
+	r.To.SetUser(toUser)
+	r.To.SetHost(toDomain)
 
 	r.From.SetUriType("sip")
-	r.From.SetUser(from_[0])
-	r.From.SetHost(from_[1])
+	r.From.SetUser(fromUser)
+	r.From.SetHost(fromDomain)
 
 	r.ContLen = *new(SipVal)
 	return r

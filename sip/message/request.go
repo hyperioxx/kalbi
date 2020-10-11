@@ -4,11 +4,13 @@ import (
 	"strings"
 )
 
-//NewRequest creates new SIP request 
+//NewRequest creates new SIP request
 func NewRequest(request string, to string, from string) *SipMsg {
 	//TODO: need more elegant way to create messages
-	to_ := strings.Split(to, "@")
-	from_ := strings.Split(from, "@")
+	toArr := strings.Split(to, "@")
+	fromArr := strings.Split(from, "@")
+	toUser, toDomain := toArr[0], toArr[1]
+	fromUser, fromDomain := fromArr[0], fromArr[1]
 
 	r := new(SipMsg)
 	via := new(SipVia)
@@ -20,22 +22,22 @@ func NewRequest(request string, to string, from string) *SipMsg {
 	r.Cseq = *new(SipCseq)
 	r.Contact = *new(SipContact)
 
-	via.SetHost(from_[0])
-	via.SetPort(from_[1])
+	via.SetHost(fromUser)
+	via.SetPort(fromDomain)
 	via.SetBranch(GenerateBranchId())
 
 	r.Req.SetMethod(request)
 	r.Req.SetUriType("sip")
-	r.Req.SetUser(to_[0])
-	r.Req.SetHost(to_[1])
+	r.Req.SetUser(toUser)
+	r.Req.SetHost(toDomain)
 
 	r.To.SetUriType("sip")
-	r.To.SetUser(to_[0])
-	r.To.SetHost(to_[1])
+	r.To.SetUser(toUser)
+	r.To.SetHost(toDomain)
 
 	r.From.SetUriType("sip")
-	r.From.SetUser(from_[0])
-	r.From.SetHost(from_[1])
+	r.From.SetUser(fromUser)
+	r.From.SetHost(fromDomain)
 
 	r.Cseq.SetID("1")
 	r.Cseq.SetMethod(request)

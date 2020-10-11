@@ -101,7 +101,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	out.Src = nil
 
 	// Keep the source line if needed
-	if keep_src {
+	if keepSrc {
 		out.Src = v
 	}
 
