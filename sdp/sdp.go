@@ -2,7 +2,6 @@ package sdp
 
 import (
 	"bytes"
-
 	"strings"
 )
 
@@ -47,14 +46,14 @@ func (sm *SdpMsg) Size() int {
 
 func (sm *SdpMsg) Export() string {
 	sdp := ""
-	sdp += sm.Version.Export() + "\r\n"
-	sdp += sm.Origin.Export() + "\r\n"
-	sdp += "s=" + string(sm.Origin.Username) + "\r\n"
-	sdp += sm.ConnData.Export() + "\r\n"
-	sdp += sm.Time.Export() + "\r\n"
-	sdp += sm.MediaDesc.Export() + "\r\n"
+	sdp += strings.TrimSpace(sm.Version.Export()) + "\r\n"
+	sdp += strings.TrimSpace(sm.Origin.Export()) + "\r\n"
+	sdp += "s=" + strings.TrimSpace(string(sm.Origin.Username)) + "\r\n"
+	sdp += strings.TrimSpace(sm.ConnData.Export()) + "\r\n"
+	sdp += strings.TrimSpace(sm.Time.Export()) + "\r\n"
+	sdp += strings.TrimSpace(sm.MediaDesc.Export()) + "\r\n"
 	for _, a := range sm.Attrib {
-		sdp += a.Export() + "\r\n"
+		sdp += strings.TrimSpace(a.Export()) + "\r\n"
 	}
 	return sdp
 
