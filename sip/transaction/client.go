@@ -140,7 +140,7 @@ func (ct *ClientTransaction) SetServerTransaction(txID string) {
 
 //GetServerTransaction returns a ServerTransaction that has been set with SetServerTransaction()
 func (ct *ClientTransaction) GetServerTransactionID() string {
-    return ct.ServerTxID
+	return ct.ServerTxID
 }
 
 //GetLastMessage returns the last received SIP message to this transaction
@@ -175,7 +175,7 @@ func (ct *ClientTransaction) actTransErr(event *fsm.Event) {
 }
 
 func (ct *ClientTransaction) actDelete(event *fsm.Event) {
-	ct.TransManager.DeleteTransaction(string(ct.Origin.Via[0].Branch))
+	ct.TransManager.DeleteClientTransaction(string(ct.Origin.Via[0].Branch))
 }
 
 func (ct *ClientTransaction) actResend(event *fsm.Event) {
