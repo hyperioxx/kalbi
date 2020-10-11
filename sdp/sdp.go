@@ -54,9 +54,8 @@ func (sm *SdpMsg) Export() string {
 	for _, a := range sm.Attrib {
 		sdp += a.Export() + "\r\n"
 	}
-	return sdp
 	sdp += sm.MediaDesc.Export() + "\r\n"
-	
+	return sdp
 
 }
 
