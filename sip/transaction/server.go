@@ -160,7 +160,7 @@ func (st *ServerTransaction) actRespondDelete(event *fsm.Event) {
 	if err != nil {
 		st.FSM.Event(serverInputTransportErr)
 	}
-	st.TransManager.DeleteTransaction(st.BranchID)
+	st.TransManager.DeleteServerTransaction(st.BranchID)
 }
 
 func (st *ServerTransaction) actTransErr(event *fsm.Event) {
@@ -169,5 +169,5 @@ func (st *ServerTransaction) actTransErr(event *fsm.Event) {
 }
 
 func (st *ServerTransaction) actDelete(event *fsm.Event) {
-	st.TransManager.DeleteTransaction(st.BranchID)
+	st.TransManager.DeleteServerTransaction(st.BranchID)
 }
