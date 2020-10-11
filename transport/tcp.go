@@ -20,6 +20,9 @@ func (tt *TCPTransport) Read() *message.SipMsg {
 		log.Log.Error(err)
 	}
 	n, err := conn.Read(buffer)
+	if err != nil {
+		log.Log.Error(err)
+	}
 
 	request := message.Parse(buffer[:n])
 	return &request
