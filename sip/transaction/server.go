@@ -41,7 +41,7 @@ const (
 	serverInputDelete       = "server_input_delete"
 )
 
-//ServerTransaction is a representation of a Server Transaction refrences in RFC3261
+//ServerTransaction is a representation of a Server Transaction references in RFC3261
 type ServerTransaction struct {
 	ID             string
 	BranchID       string
