@@ -1,6 +1,13 @@
 package transaction
 
-/* 17.1 Client Transaction
+/*
+   Author - Aaron Parfitt
+   Date - 11th October 2020
+
+   RFC3261 - SIP: Session Initiation Protocol
+   https://tools.ietf.org/html/rfc3261#section-17.1
+
+   Client Transaction
 
    The client transaction provides its functionality through the
    maintenance of a state machine.
@@ -50,7 +57,7 @@ const (
 	clientInputDelete       = "client_input_transport_err"
 )
 
-// ClientTransaction represents a client transaction
+// ClientTransaction represents a client transaction refrences in RFC3261
 type ClientTransaction struct {
 	ID             string
 	BranchID       string
@@ -103,8 +110,8 @@ func (ct *ClientTransaction) SetListeningPoint(lp transport.ListeningPoint) {
 	ct.ListeningPoint = lp
 }
 
-//GetBranchId returns branchId which is the identifier of a transaction
-func (ct *ClientTransaction) GetBranchId() string {
+//GetBranchID returns branchId which is the identifier of a transaction
+func (ct *ClientTransaction) GetBranchID() string {
 	return ct.BranchID
 }
 
@@ -132,12 +139,8 @@ func (ct *ClientTransaction) SetServerTransaction(txID string) {
 }
 
 //GetServerTransaction returns a ServerTransaction that has been set with SetServerTransaction()
-func (ct *ClientTransaction) GetServerTransaction() Transaction {
-	tx, exist := ct.TransManager.FindTransactionByID(ct.ServerTxID)
-	if exist {
-		return nil
-	}
-	return tx
+func (ct *ClientTransaction) GetServerTransactionID() string {
+    return ct.ServerTxID
 }
 
 //GetLastMessage returns the last received SIP message to this transaction
