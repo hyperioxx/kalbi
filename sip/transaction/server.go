@@ -1,5 +1,24 @@
 package transaction
 
+/*
+Author - Aaron Parfitt
+Date - 11th October 2020
+
+RFC3261 - SIP: Session Initiation Protocol
+https://tools.ietf.org/html/rfc3261#section-17.2
+
+Server Transaction
+
+   The server transaction is responsible for the delivery of requests to
+   the TU and the reliable transmission of responses.  It accomplishes
+   this through a state machine.  Server transactions are created by the
+   core when a request is received, and transaction handling is desired
+   for that request (this is not always the case).
+
+   As with the client transactions, the state machine depends on whether
+   the received request is an INVITE request.
+*/
+
 import (
 	//"fmt"
 	"github.com/KalbiProject/Kalbi/log"
@@ -22,6 +41,7 @@ const (
 	serverInputDelete       = "server_input_delete"
 )
 
+//ServerTransaction is a representation of a Server Transaction refrences in RFC3261
 type ServerTransaction struct {
 	ID             string
 	BranchID       string
@@ -35,6 +55,7 @@ type ServerTransaction struct {
 	LastMessage    *message.SipMsg
 }
 
+//InitFSM initializes the finite state machine within the client transaction
 func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 
 	switch string(msg.Req.Method) {
@@ -68,8 +89,8 @@ func (st *ServerTransaction) SetListeningPoint(lp transport.ListeningPoint) {
 	st.ListeningPoint = lp
 }
 
-//GetBranchId returns branchId which is the identifier of a transaction
-func (st *ServerTransaction) GetBranchId() string {
+//GetBranchID returns branchId which is the identifier of a transaction
+func (st *ServerTransaction) GetBranchID() string {
 	return st.BranchID
 }
 
@@ -99,6 +120,7 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 
 }
 
+//Respond is used to process response from transport layer
 func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 	//TODO: this will change due to issue https://github.com/KalbiProject/Kalbi/issues/20
 	log.Log.Info("Message Sent for transactionId " + st.BranchID + ": \n" + message.MessageDetails(msg))
@@ -112,10 +134,12 @@ func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 
 }
 
-func (st *ServerTransaction) GetServerTransaction() Transaction {
-	return nil
+//GetServerTransactionID  returns Server transaction ID
+func (st *ServerTransaction) GetServerTransactionID() string {
+	return st.GetBranchID()
 }
 
+//Send used to send SIP message to specified host
 func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string) {
 	st.LastMessage = msg
 	st.Host = host

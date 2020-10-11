@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+//NewResponse creates new SIP response
 func NewResponse(response int, to string, from string) *SipMsg {
 	//TODO: need more elegant way to create responses
 	to_ := strings.Split(to, "@")

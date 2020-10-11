@@ -84,7 +84,7 @@ func (tm *TransactionManager) FindTransactionByID(value string) (Transaction, bo
 //PutTransaction stores a transaction
 func (tm *TransactionManager) PutTransaction(tx Transaction) {
 	tm.txLock.Lock()
-	tm.TX[tx.GetBranchId()] = tx
+	tm.TX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
 }
 

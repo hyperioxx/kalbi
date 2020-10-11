@@ -4,6 +4,7 @@ import (
 	"strings"
 )
 
+//NewRequest creates new SIP request 
 func NewRequest(request string, to string, from string) *SipMsg {
 	//TODO: need more elegant way to create messages
 	to_ := strings.Split(to, "@")

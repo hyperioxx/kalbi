@@ -10,6 +10,7 @@ import (
 var sip_type = 0
 var keep_src = true
 
+//SipMsg is a representation of a SIP message
 type SipMsg struct {
 	Req      SipReq
 	From     SipFrom
@@ -28,6 +29,7 @@ type SipMsg struct {
 	Sdp sdp.SdpMsg
 }
 
+//GetStatusCode returns responses status code 
 func (sm *SipMsg) GetStatusCode() int {
 	code, err := strconv.Atoi(string(sm.Req.StatusCode))
 	if err != nil {
@@ -36,6 +38,7 @@ func (sm *SipMsg) GetStatusCode() int {
 	return code
 }
 
+//CopyHeaders copys headers from one SIP message to another 
 func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.Via = msg.Via
 	sm.From = msg.From
@@ -47,10 +50,12 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.ContLen = msg.ContLen
 }
 
+//CopySdp copys SDP from one SIP message to another 
 func (sm *SipMsg) CopySdp(msg *SipMsg) {
 	sm.Sdp = msg.Sdp
 }
 
+//Export returns SIP message as string 
 func (sm *SipMsg) Export() string {
 	sipmsg := ""
 	sipmsg += sm.Req.Export() + "\r\n"
@@ -80,6 +85,7 @@ func (sv *SipVal) SetValue(value string) {
 	sv.Value = []byte(value)
 }
 
+//Export returns SIP value as string 
 func (sv *SipVal) Export() string {
 	return string(sv.Value)
 }
