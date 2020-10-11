@@ -31,7 +31,7 @@ type sdpAttrib struct {
 
 func (sa *sdpAttrib) Export() string {
 	line := "a="
-	line += string(sa.Cat) + " "
+	line += string(sa.Cat) + ": "
 	line += string(sa.Val) + " "
 	return line
 }
