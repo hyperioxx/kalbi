@@ -46,16 +46,17 @@ func (sm *SdpMsg) Size() int {
 }
 
 func (sm *SdpMsg) Export() string {
-	sdp := ""
+	sdp := "\r\n"
 	sdp += sm.Version.Export() + "\r\n"
 	sdp += sm.Origin.Export() + "\r\n"
 	sdp += sm.ConnData.Export() + "\r\n"
 	sdp += sm.Time.Export() + "\r\n"
-	sdp += sm.MediaDesc.Export() + "\r\n"
 	for _, a := range sm.Attrib {
 		sdp += a.Export() + "\r\n"
 	}
 	return sdp
+	sdp += sm.MediaDesc.Export() + "\r\n"
+	
 
 }
 
