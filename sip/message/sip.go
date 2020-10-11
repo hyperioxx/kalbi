@@ -45,6 +45,7 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.To = msg.To
 	sm.Contact = msg.Contact
 	sm.CallId = msg.CallId
+	sm.ContType = msg.ContType
 	sm.Cseq = msg.Cseq
 	sm.MaxFwd = msg.MaxFwd
 	sm.ContLen = msg.ContLen
@@ -64,6 +65,9 @@ func (sm *SipMsg) Export() string {
 	sipmsg += sm.To.Export() + "\r\n"
 	sipmsg += sm.Contact.Export() + "\r\n"
 	sipmsg += sm.Cseq.Export() + "\r\n"
+	if sm.ContType.Value != nil {
+		sipmsg += "Content-Type: " +sm.ContType.Export() + "\r\n"
+	}
 	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
