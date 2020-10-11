@@ -57,7 +57,7 @@ const (
 	clientInputDelete       = "client_input_transport_err"
 )
 
-// ClientTransaction represents a client transaction refrences in RFC3261
+// ClientTransaction represents a client transaction references in RFC3261
 type ClientTransaction struct {
 	ID             string
 	BranchID       string
