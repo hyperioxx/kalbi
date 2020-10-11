@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var keep_src = true
+var keepSrc = true
 
 //FMS States
 const FIELD_NULL = 0

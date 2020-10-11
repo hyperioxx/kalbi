@@ -64,7 +64,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 	out.Src = nil
 
 	// Keep the source line if needed
-	if keep_src {
+	if keepSrc {
 		out.Src = v
 	}
 

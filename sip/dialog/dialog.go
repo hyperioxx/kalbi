@@ -1,11 +1,10 @@
 package dialog
 
 import (
-   "sync"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/transaction"
+	"sync"
 )
-
 
 /*
 
@@ -75,22 +74,22 @@ RFC3261 - https://tools.ietf.org/html/rfc3261#section-12
 */
 
 func NewDialogManager() *DialogManager {
-   diagMng := new(DialogManager)
-   
-   diagMng.dialogs = make(map[string]Dialog)
-   diagMng.Lock = &sync.RWMutex{}
+	diagMng := new(DialogManager)
+
+	diagMng.dialogs = make(map[string]Dialog)
+	diagMng.Lock = &sync.RWMutex{}
 	return new(DialogManager)
 }
 
 type DialogManager struct {
-   dialogs map[string]Dialog
-   Lock    *sync.RWMutex
+	dialogs map[string]Dialog
+	Lock    *sync.RWMutex
 }
 
 func (dm *DialogManager) GetDialog(value string) *Dialog {
-   dm.Lock.RLock()
-   diag, exists := dm.dialogs[value]
-   dm.Lock.RUnlock()
+	dm.Lock.RLock()
+	diag, exists := dm.dialogs[value]
+	dm.Lock.RUnlock()
 	if exists {
 		return &diag
 	}
@@ -106,8 +105,8 @@ func (dm *DialogManager) DeleteDialog(value string) {
 
 func (dm *DialogManager) NewDialog() *Dialog {
 	diag := new(Dialog)
-   diag.DialogId = GenerateDialogId()
-   
+	diag.DialogId = GenerateDialogId()
+
 	return diag
 }
 

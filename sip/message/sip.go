@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-var sip_type = 0
-var keep_src = true
+var sipType = 0
+var keepSrc = true
 
 //SipMsg is a representation of a SIP message
 type SipMsg struct {
@@ -29,7 +29,7 @@ type SipMsg struct {
 	Sdp sdp.SdpMsg
 }
 
-//GetStatusCode returns responses status code 
+//GetStatusCode returns responses status code
 func (sm *SipMsg) GetStatusCode() int {
 	code, err := strconv.Atoi(string(sm.Req.StatusCode))
 	if err != nil {
@@ -38,7 +38,7 @@ func (sm *SipMsg) GetStatusCode() int {
 	return code
 }
 
-//CopyHeaders copys headers from one SIP message to another 
+//CopyHeaders copys headers from one SIP message to another
 func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.Via = msg.Via
 	sm.From = msg.From
@@ -51,12 +51,12 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.ContLen = msg.ContLen
 }
 
-//CopySdp copys SDP from one SIP message to another 
+//CopySdp copys SDP from one SIP message to another
 func (sm *SipMsg) CopySdp(msg *SipMsg) {
 	sm.Sdp = msg.Sdp
 }
 
-//Export returns SIP message as string 
+//Export returns SIP message as string
 func (sm *SipMsg) Export() string {
 	sipmsg := ""
 	sipmsg += sm.Req.Export() + "\r\n"
@@ -89,7 +89,7 @@ func (sv *SipVal) SetValue(value string) {
 	sv.Value = []byte(value)
 }
 
-//Export returns SIP value as string 
+//Export returns SIP value as string
 func (sv *SipVal) Export() string {
 	return string(sv.Value)
 }
@@ -98,7 +98,7 @@ func (sv *SipVal) Export() string {
 func Parse(v []byte) (output SipMsg) {
 	output.Src = v
 	// Allow multiple vias and media Attribs
-	via_idx := 0
+	viaIdx := 0
 	output.Via = make([]SipVia, 0, 8)
 
 	lines := bytes.Split(v, []byte("\r\n"))
@@ -129,8 +129,8 @@ func Parse(v []byte) (output SipMsg) {
 				case lhdr == "v" || lhdr == "via":
 					var tmpVia SipVia
 					output.Via = append(output.Via, tmpVia)
-					ParseSipVia(lval, &output.Via[via_idx])
-					via_idx++
+					ParseSipVia(lval, &output.Via[viaIdx])
+					viaIdx++
 				case lhdr == "i" || lhdr == "call-id":
 					output.CallId.Value = lval
 				case lhdr == "c" || lhdr == "content-type":
