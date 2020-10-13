@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/sip/stack"
 	"github.com/KalbiProject/Kalbi/sip/status"
 	"github.com/KalbiProject/Kalbi/sip/transaction"
 )
 
 type Proxy struct {
-	stack            *stack.SipStack
+	stack            *kalbi.SipStack
 	requestschannel  chan transaction.Transaction
 	responseschannel chan transaction.Transaction
 	RegisteredUsers  map[string]string
@@ -76,7 +76,7 @@ func (p *Proxy) ServeResponses() {
 
 func (p *Proxy) Start() {
 	p.RegisteredUsers = make(map[string]string)
-	p.stack = stack.NewSipStack("Basic")
+	p.stack = kalbi.NewSipStack("Basic")
 	p.stack.CreateListenPoint("udp", "0.0.0.0", 5060)
 	p.requestschannel = p.stack.CreateRequestsChannel()
 	p.responseschannel = p.stack.CreateResponseChannel()
