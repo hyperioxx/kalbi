@@ -5,7 +5,6 @@ import (
 	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/sip/status"
 	"github.com/KalbiProject/Kalbi/sip/transaction"
 )
 
