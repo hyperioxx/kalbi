@@ -114,5 +114,6 @@ type Transaction interface {
 	Receive(*message.SipMsg)
 	GetLastMessage() *message.SipMsg
 	GetServerTransactionID() string
-	SetLastMessage(*message.SipMsg)
+   SetLastMessage(*message.SipMsg)
+   GetListeningPoint() transport.ListeningPoint
 }
