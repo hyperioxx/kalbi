@@ -1,16 +1,15 @@
 package main
 
 import (
-	"Kalbi/pkg/sip/stack"
 	"fmt"
-	//"Kalbi/pkg/sip/status"
-	"Kalbi/pkg/sip/message"
-	"Kalbi/pkg/sip/method"
-	"Kalbi/pkg/sip/transaction"
+	"github.com/KalbiProject/Kalbi"
+	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/Kalbi/sip/method"
+	"github.com/KalbiProject/Kalbi/sip/status"
 )
 
 type SipClient struct {
-	stack            *stack.SipStack
+	stack            *kalbi.SipStack
 	requestschannel  chan transaction.Transaction
 	responseschannel chan transaction.Transaction
 }
@@ -57,7 +56,7 @@ func (p *SipClient) SendInvite() {
 }
 
 func (p *SipClient) Start() {
-	p.stack = stack.NewSipStack("Basic")
+	p.stack = kalbi.NewSipStack("Basic")
 	p.stack.CreateListenPoint("udp", "0.0.0.0", 5060)
 	p.requestschannel = p.stack.CreateRequestsChannel()
 	p.responseschannel = p.stack.CreateResponseChannel()
