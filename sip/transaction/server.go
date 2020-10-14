@@ -115,7 +115,10 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))
 	log.Log.Info(message.MessageDetails(msg))
 	if msg.Req.Method != nil || string(msg.Req.Method) != method.ACK {
-		st.FSM.Event(serverInputRequest)
+		err := st.FSM.Event(serverInputRequest)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	}
 
 }
