@@ -121,11 +121,20 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 	ct.LastMessage = msg
 	if msg.GetStatusCode() < 200 {
-		ct.FSM.Event(serverInputUser1xx)
+		err := ct.FSM.Event(serverInputUser1xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else if msg.GetStatusCode() < 300 {
-		ct.FSM.Event(serverInputUser2xx)
+		err := ct.FSM.Event(serverInputUser2xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else {
-		ct.FSM.Event(serverInputUser300Plus)
+		err := ct.FSM.Event(serverInputUser300Plus)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	}
 }
 
@@ -217,17 +226,26 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 
 	//Retransmition timer
 	ct.timerA = time.AfterFunc(ct.timerATime, func() {
-		ct.FSM.Event(clientInputTimerA)
+		err := ct.FSM.Event(clientInputTimerA)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	})
 
 	//timeout timer
 	ct.timerB = time.AfterFunc(64*T1, func() {
-		ct.FSM.Event(clientInputTimerB)
+		err := ct.FSM.Event(clientInputTimerB)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	})
 
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(serverInputTransportErr)
+		err2 := ct.FSM.Event(serverInputTransportErr)
+		if err2 != nil {
+			log.Log.Error(err)
+		}
 	}
 }
 
