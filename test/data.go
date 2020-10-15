@@ -10,6 +10,8 @@ const msg = "INVITE sip:1234@127.0.0.1;transport=UDP SIP/2.0\r\n" +
 	"CSeq: 1 INVITE\r\n" +
 	"Allow: INVITE, ACK, CANCEL, BYE, NOTIFY, REFER, MESSAGE, OPTIONS, INFO, SUBSCRIBE\r\n" +
 	"Content-Type: application/sdp\r\n" +
+	"Authorization: DIGEST username=\"BrentTC20301Ext\", realm=\"wjking.co.uk\", nonce=\"BroadWorksXkgau305aTjibt11BW\", qop=auth, cnonce=\"KgKrItTGZ9xXJyC\", nc=00000001, uri=\"sip:wjking.co.uk\", response=\"5b6330fe13556fff0b0f91fbfabe5076\", algorithm=MD5\r\n" +
+	//"WWW-Authenticate: DIGEST qop=\"auth\",nonce=\"BroadWorksXkgau305aTjibt11BW\",realm=\"wjking.co.uk\",algorithm=MD5\r\n"+
 	"User-Agent: Z 5.4.8 rv2.10.11.4\r\n" +
 	"Allow-Events: presence, kpml, talk\r\n" +
 	"Content-Length: 574\r\n" +

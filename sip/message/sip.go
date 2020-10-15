@@ -18,6 +18,7 @@ type SipMsg struct {
 	Contact  SipContact
 	Via      []SipVia
 	Cseq     SipCseq
+	Auth     SipAuth
 	Ua       SipVal
 	Exp      SipVal
 	MaxFwd   SipVal
@@ -145,6 +146,8 @@ func Parse(v []byte) (output SipMsg) {
 					output.MaxFwd.Value = lval
 				case lhdr == "cseq":
 					ParseSipCseq(lval, &output.Cseq)
+				case lhdr == "authorization" || lhdr == "www-authenticate":
+					ParseSipAuth(lval, &output.Auth)
 				} // End of Switch
 			}
 
@@ -342,6 +345,17 @@ const FIELD_Q = 18
 const FIELD_USERTYPE = 19
 const FIELD_STATUS = 20
 const FIELD_STATUSDESC = 21
+
+// States for Auth Header
+const FIELD_QOP = 22
+const FIELD_NONCE = 23
+const FIELD_REALM = 24
+const FIELD_ALGORITHM = 25
+const FIELD_CNONCE = 26 
+const FIELD_NC = 27
+const FIELD_RESPONSE = 28
+const FIELD_URI = 29
+//
 
 const FIELD_ADDRTYPE = 40
 const FIELD_CONNADDR = 41
