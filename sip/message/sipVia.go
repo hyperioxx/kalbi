@@ -1,5 +1,7 @@
 package message
 
+import ("strings")
+
 /*
  RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.7 Via
 
@@ -24,8 +26,14 @@ type SipVia struct {
 }
 
 func (sv *SipVia) Export() string {
-	return "Via: SIP/2.0/UDP " + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
+	return "Via: SIP/2.0/" + sv.Trans  + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
 }
+
+//SetTransport sets transport in via header
+func (sv *SipVia) SetTransport(trans string) {
+	sv.Trans = strings.ToUpper(trans)
+}
+
 
 func (sv *SipVia) SetHost(value string) {
 	sv.Host = []byte(value)
