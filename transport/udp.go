@@ -47,7 +47,6 @@ func (ut *UDPTransport) Start() {
 	log.Log.Info("Starting UDP Listening Point ")
 	for {
 		msg := ut.Read()
-		fmt.Println(msg)
 		ut.TransportChannel <-msg
 	}
 }

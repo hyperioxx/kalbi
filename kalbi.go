@@ -86,7 +86,6 @@ func (ed *SipStack) Start() {
 
 	for ed.Alive == true {
 			msg := <-ed.TransportChannel
-			fmt.Println("I GET HERE")
 			event := ed.TransManager.Handle(msg)
 			message := event.GetSipMessage()
 			if message.Req.StatusCode != nil {
