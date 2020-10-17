@@ -9,13 +9,16 @@ import (
 
 //TCPTransport is a network protocol listening point for the EventDispatcher
 type TCPTransport struct {
-	listener *net.TCPListener
+	listener         *net.TCPListener
+	TransportChannel chan *message.SipMsg
+	connTable        map[string] net.Conn
 }
 
 func (tt *TCPTransport) Read() *message.SipMsg {
 
 	buffer := make([]byte, 2048)
 	conn, err := tt.listener.Accept()
+	tt.connTable[conn.RemoteAddr().String()] = conn
 	if err != nil {
 		log.Log.Error(err)
 	}
@@ -29,6 +32,19 @@ func (tt *TCPTransport) Read() *message.SipMsg {
 
 }
 
+func (tt *TCPTransport) Start() {
+	log.Log.Info("Starting TCP Listening Point ")
+	for {
+		msg := tt.Read()
+		tt.TransportChannel <-msg
+	}
+}
+
+func (tt *TCPTransport) SetTransportChannel(channel chan *message.SipMsg) {
+	tt.TransportChannel = channel
+}
+
+
 func (tt *TCPTransport) Build(host string, port int) {
 	var err error
 	tcpAddr := net.TCPAddr{
@@ -36,6 +52,7 @@ func (tt *TCPTransport) Build(host string, port int) {
 		Port: port,
 	}
 
+	tt.connTable = make(map[string] net.Conn)
 	tt.listener, err = net.ListenTCP("tcp", &tcpAddr)
 	if err != nil {
 		log.Log.Error(err)
