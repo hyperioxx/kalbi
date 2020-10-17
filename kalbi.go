@@ -23,15 +23,15 @@ func NewSipStack(Name string) *SipStack {
 //SipStack has multiple protocol listning points
 type SipStack struct {
 	Name             string
-	ListeningPoints  []transport.ListeningPoint
+	ListeningPoints  []interfaces.ListeningPoint
 	OutputPoint      chan message.SipMsg
 	InputPoint       chan message.SipMsg
 	Alive            bool
 	TransManager     *transaction.TransactionManager
 	Dialogs          []dialog.Dialog
-	RequestChannel   chan transaction.Transaction
-	ResponseChannel  chan transaction.Transaction
-	TransportChannel chan *message.SipMsg
+	RequestChannel   chan interfaces.Transaction
+	ResponseChannel  chan interfaces.Transaction
+	TransportChannel chan interfaces.SipEventObject
 	sipListener      interfaces.SipListener
 }
 
@@ -47,15 +47,15 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) tr
 	return listenpoint
 }
 
-func (ed *SipStack) CreateRequestsChannel() chan transaction.Transaction {
-	Channel := make(chan transaction.Transaction)
+func (ed *SipStack) CreateRequestsChannel() chan interfaces.Transaction {
+	Channel := make(chan interfaces.Transaction)
 	ed.RequestChannel = Channel
 	ed.TransManager.RequestChannel = Channel
 	return Channel
 }
 
-func (ed *SipStack) CreateResponseChannel() chan transaction.Transaction {
-	Channel := make(chan transaction.Transaction)
+func (ed *SipStack) CreateResponseChannel() chan interfaces.Transaction {
+	Channel := make(chan interfaces.Transaction)
 	ed.ResponseChannel = Channel
 	ed.TransManager.ResponseChannel = Channel
 	return Channel

@@ -2,11 +2,12 @@ package transport
 
 import (
 	"github.com/KalbiProject/Kalbi/log"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"strconv"
 )
 
 // NewTransportListenPoint creates listen
-func NewTransportListenPoint(protocol string, host string, port int) ListeningPoint {
+func NewTransportListenPoint(protocol string, host string, port int) interfaces.ListeningPoint {
 	switch protocol {
 	case "udp":
 		log.Log.Info("Creating UDP listening point")

@@ -17,7 +17,7 @@ type UDPTransport struct {
 }
 
 //Read from UDP Socket
-func (ut *UDPTransport) Read() SipEventObject{
+func (ut *UDPTransport) Read() SipEventObject {
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFromUDP(buffer)
 	if err != nil {

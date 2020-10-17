@@ -30,9 +30,9 @@ type SipEventObject interface{
 
 
 type ListeningPoint interface {
-	Read() *message.SipMsg
+	Read() SipEventObject
 	Build(string, int)
 	Start()
-	SetTransportChannel(chan *message.SipMsg)
+	SetTransportChannel(chan SipEventObject)
 	Send(string, string, string) error
 }
