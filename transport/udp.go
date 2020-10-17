@@ -66,7 +66,11 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 		fmt.Printf("Some error %v", err)
 		return err
 	}
-	conn.Write([]byte(msg))
+	_, err = conn.Write([]byte(msg))
+	if err != nil {
+		log.Log.Error(err)
+	}
 	conn.Close()
 	return nil
 }
+

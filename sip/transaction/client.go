@@ -79,11 +79,9 @@ type ClientTransaction struct {
 
 //InitFSM initializes the finite state machine within the client transaction
 func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
-
 	switch string(msg.Req.Method) {
 	case method.INVITE:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
-
 			{Name: clientInputRequest, Src: []string{""}, Dst: "Calling"},
 			{Name: clientInput1xx, Src: []string{"Calling"}, Dst: "Proceeding"},
 			{Name: clientInput300Plus, Src: []string{"Proceeding"}, Dst: "Completed"},
@@ -94,7 +92,6 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 			clientInputTimerA:  ct.actResend,
 			clientInputTimerB:  ct.actTransErr,
 		})
-
 	default:
 		ct.FSM = fsm.NewFSM("", fsm.Events{
 			{Name: clientInputRequest, Src: []string{""}, Dst: "Calling"},
@@ -129,13 +126,21 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 	ct.LastMessage = msg
 	if msg.GetStatusCode() < 200 {
-		ct.FSM.Event(serverInputUser1xx)
+		err := ct.FSM.Event(serverInputUser1xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else if msg.GetStatusCode() < 300 {
-		ct.FSM.Event(serverInputUser2xx)
+		err := ct.FSM.Event(serverInputUser2xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else {
-		ct.FSM.Event(serverInputUser300Plus)
+		err := ct.FSM.Event(serverInputUser300Plus)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	}
-
 }
 
 //SetServerTransaction is used to set a Server Transaction
@@ -161,22 +166,29 @@ func (ct *ClientTransaction) SetLastMessage(msg *message.SipMsg) {
 func (ct *ClientTransaction) actSend(event *fsm.Event) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(clientInputTransportErr)
+		err2 := ct.FSM.Event(clientInputTransportErr)
+		if err2 != nil {
+			log.Log.Error("Event error in error handling for transactionID: " + ct.BranchID)
+		}
 	}
 }
 
 func (ct *ClientTransaction) act300(event *fsm.Event) {
 	log.Log.Debug("Client transaction %p, act_300", ct)
 	ct.timerD = time.AfterFunc(ct.timerDTime, func() {
-		ct.FSM.Event(clientInputTimerD)
-
+		err := ct.FSM.Event(clientInputTimerD)
+		if err != nil {
+			log.Log.Error("Event error for transactionID: " + ct.BranchID)
+		}
 	})
-
 }
 
 func (ct *ClientTransaction) actTransErr(event *fsm.Event) {
-	log.Log.Error("Transport error for transactionID : " + ct.BranchID)
-	ct.FSM.Event(clientInputDelete)
+	log.Log.Error("Transport error for transactionID: " + ct.BranchID)
+	err := ct.FSM.Event(clientInputDelete)
+	if err != nil {
+		log.Log.Error("Event error for transactionID: " + ct.BranchID)
+	}
 }
 
 func (ct *ClientTransaction) actDelete(event *fsm.Event) {
@@ -194,18 +206,19 @@ func (ct *ClientTransaction) actResend(event *fsm.Event) {
 func (ct *ClientTransaction) Resend() {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(clientInputTransportErr)
+		err2 := ct.FSM.Event(clientInputTransportErr)
+		if err2 != nil {
+			log.Log.Error("Event error in error handling for transactionID: " + ct.BranchID)
+		}
 	}
 }
 
 //StatelessSend send a sip message without acting on the FSM
 func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, port string) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
-
 	if err != nil {
 		log.Log.Error("Transport error for transactionID : " + ct.BranchID)
 	}
-
 }
 
 //Send is used to send a SIP message
@@ -218,17 +231,26 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 
 	//Retransmition timer
 	ct.timerA = time.AfterFunc(ct.timerATime, func() {
-		ct.FSM.Event(clientInputTimerA)
+		err := ct.FSM.Event(clientInputTimerA)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	})
 
 	//timeout timer
 	ct.timerB = time.AfterFunc(64*T1, func() {
-		ct.FSM.Event(clientInputTimerB)
+		err := ct.FSM.Event(clientInputTimerB)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	})
 
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
 	if err != nil {
-		ct.FSM.Event(serverInputTransportErr)
+		err2 := ct.FSM.Event(serverInputTransportErr)
+		if err2 != nil {
+			log.Log.Error(err)
+		}
 	}
-
 }
+

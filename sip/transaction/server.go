@@ -120,7 +120,10 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))
 	log.Log.Info(message.MessageDetails(msg))
 	if msg.Req.Method != nil || string(msg.Req.Method) != method.ACK {
-		st.FSM.Event(serverInputRequest)
+		err := st.FSM.Event(serverInputRequest)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	}
 
 }
@@ -130,11 +133,20 @@ func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 	//TODO: this will change due to issue https://github.com/KalbiProject/Kalbi/issues/20
 	log.Log.Info("Message Sent for transactionId " + st.BranchID + ": \n" + message.MessageDetails(msg))
 	if msg.GetStatusCode() < 200 {
-		st.FSM.Event(serverInputUser1xx)
+		err := st.FSM.Event(serverInputUser1xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else if msg.GetStatusCode() < 300 {
-		st.FSM.Event(serverInputUser2xx)
+		err := st.FSM.Event(serverInputUser2xx)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	} else {
-		st.FSM.Event(serverInputUser300Plus)
+		err := st.FSM.Event(serverInputUser300Plus)
+		if err != nil {
+			log.Log.Error(err)
+		}
 	}
 
 }
@@ -155,7 +167,10 @@ func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string)
 func (st *ServerTransaction) actRespond(event *fsm.Event) {
 	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.Export())
 	if err != nil {
-		st.FSM.Event(serverInputTransportErr)
+		err2 := st.FSM.Event(serverInputTransportErr)
+		if err2 != nil {
+			log.Log.Error(err)
+		}
 	}
 
 }
@@ -163,14 +178,20 @@ func (st *ServerTransaction) actRespond(event *fsm.Event) {
 func (st *ServerTransaction) actRespondDelete(event *fsm.Event) {
 	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.Export())
 	if err != nil {
-		st.FSM.Event(serverInputTransportErr)
+		err2 := st.FSM.Event(serverInputTransportErr)
+		if err2 != nil {
+			log.Log.Error(err)
+		}
 	}
 	st.TransManager.DeleteServerTransaction(st.BranchID)
 }
 
 func (st *ServerTransaction) actTransErr(event *fsm.Event) {
 	log.Log.Error("Transport error for transactionID : " + st.BranchID)
-	st.FSM.Event(serverInputDelete)
+	err := st.FSM.Event(serverInputDelete)
+	if err != nil {
+		log.Log.Error(err)
+	}
 }
 
 func (st *ServerTransaction) actDelete(event *fsm.Event) {
