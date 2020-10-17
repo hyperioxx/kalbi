@@ -1,6 +1,5 @@
 package message
 
-
 /*
 
 20.7 Authorization
@@ -56,7 +55,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM
-		
+
 		switch state {
 		case FIELD_BASE:
 			if v[pos] != ',' || v[pos] != ' ' {
