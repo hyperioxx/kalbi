@@ -39,6 +39,7 @@ func (ed *SipStack) GetTransactionManager() *transaction.TransactionManager {
 //CreateListenPoint creates listening point to the event dispatcher
 func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) transport.ListeningPoint {
 	listenpoint := transport.NewTransportListenPoint(protocol, host, port)
+	listenpoint.SetTransportChannel(ed.TransportChannel)
 	ed.ListeningPoints = append(ed.ListeningPoints, listenpoint)
 	return listenpoint
 }
