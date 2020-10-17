@@ -13,21 +13,23 @@ func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
 	stack.TransManager = transaction.NewTransactionManager()
+	stack.TransportChannel = make(chan *message.SipMsg)
 
 	return stack
 }
 
 //SipStack has multiple protocol listning points
 type SipStack struct {
-	Name            string
-	ListeningPoints []transport.ListeningPoint
-	OutputPoint     chan message.SipMsg
-	InputPoint      chan message.SipMsg
-	Alive           bool
-	TransManager    *transaction.TransactionManager
-	Dialogs         []dialog.Dialog
-	RequestChannel  chan transaction.Transaction
-	ResponseChannel chan transaction.Transaction
+	Name             string
+	ListeningPoints  []transport.ListeningPoint
+	OutputPoint      chan message.SipMsg
+	InputPoint       chan message.SipMsg
+	Alive            bool
+	TransManager     *transaction.TransactionManager
+	Dialogs          []dialog.Dialog
+	RequestChannel   chan transaction.Transaction
+	ResponseChannel  chan transaction.Transaction
+	TransportChannel chan *message.SipMsg
 }
 
 func (ed *SipStack) GetTransactionManager() *transaction.TransactionManager {
@@ -74,12 +76,12 @@ func (ed *SipStack) Start() {
 	log.Log.Info("Starting SIPStack...")
 	ed.TransManager.ListeningPoint = ed.ListeningPoints[0]
 	ed.Alive = true
+	for _, listeningPoint := range ed.ListeningPoints {
+         go listeningPoint.Start()
+	}
+
 	for ed.Alive == true {
-		for _, listeningPoint := range ed.ListeningPoints {
-			msg := listeningPoint.Read()
+			msg := <-ed.TransportChannel
 			ed.TransManager.Handle(msg)
-
-		}
-
 	}
 }
