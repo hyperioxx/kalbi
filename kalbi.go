@@ -28,8 +28,6 @@ type SipStack struct {
 	Alive            bool
 	TransManager     *transaction.TransactionManager
 	Dialogs          []dialog.Dialog
-	RequestChannel   chan interfaces.Transaction
-	ResponseChannel  chan interfaces.Transaction
 	TransportChannel chan interfaces.SipEventObject
 	sipListener      interfaces.SipListener
 }
@@ -44,20 +42,6 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) tr
 	listenpoint.SetTransportChannel(ed.TransportChannel)
 	ed.ListeningPoints = append(ed.ListeningPoints, listenpoint)
 	return listenpoint
-}
-
-func (ed *SipStack) CreateRequestsChannel() chan interfaces.Transaction {
-	Channel := make(chan interfaces.Transaction)
-	ed.RequestChannel = Channel
-	ed.TransManager.RequestChannel = Channel
-	return Channel
-}
-
-func (ed *SipStack) CreateResponseChannel() chan interfaces.Transaction {
-	Channel := make(chan interfaces.Transaction)
-	ed.ResponseChannel = Channel
-	ed.TransManager.ResponseChannel = Channel
-	return Channel
 }
 
 func (ed *SipStack) SetSipListener(listener interfaces.SipListener) {
