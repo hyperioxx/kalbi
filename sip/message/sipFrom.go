@@ -47,7 +47,7 @@ func (sf *SipFrom) SetTag(tag string) {
 	sf.Tag = []byte(tag)
 }
 
-func (sf *SipFrom) Export() string {
+func (sf *SipFrom) String() string {
 	requestline := "From: "
 	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
 

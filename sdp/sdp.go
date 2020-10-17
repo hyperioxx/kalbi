@@ -40,20 +40,20 @@ type SdpMsg struct {
 
 //Size returns size in bytes
 func (sm *SdpMsg) Size() int {
-	sdp := sm.Export()
+	sdp := sm.String()
 	return len([]byte(sdp))
 }
 
-func (sm *SdpMsg) Export() string {
+func (sm *SdpMsg) String() string {
 	sdp := ""
-	sdp += strings.TrimSpace(sm.Version.Export()) + "\r\n"
-	sdp += strings.TrimSpace(sm.Origin.Export()) + "\r\n"
+	sdp += strings.TrimSpace(sm.Version.String()) + "\r\n"
+	sdp += strings.TrimSpace(sm.Origin.String()) + "\r\n"
 	sdp += "s=" + strings.TrimSpace(string(sm.Origin.Username)) + "\r\n"
-	sdp += strings.TrimSpace(sm.ConnData.Export()) + "\r\n"
-	sdp += strings.TrimSpace(sm.Time.Export()) + "\r\n"
-	sdp += strings.TrimSpace(sm.MediaDesc.Export()) + "\r\n"
+	sdp += strings.TrimSpace(sm.ConnData.String()) + "\r\n"
+	sdp += strings.TrimSpace(sm.Time.String()) + "\r\n"
+	sdp += strings.TrimSpace(sm.MediaDesc.String()) + "\r\n"
 	for _, a := range sm.Attrib {
-		sdp += strings.TrimSpace(a.Export()) + "\r\n"
+		sdp += strings.TrimSpace(a.String()) + "\r\n"
 	}
 	return sdp
 

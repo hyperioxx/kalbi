@@ -27,7 +27,7 @@ func (sc *SipCseq) SetMethod(method string) {
 	sc.Method = []byte(method)
 }
 
-func (sc *SipCseq) Export() string {
+func (sc *SipCseq) String() string {
 	line := "Cseq: "
 	line += string(sc.Id) + " " + string(sc.Method)
 	return line

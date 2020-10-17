@@ -164,7 +164,7 @@ func (ct *ClientTransaction) SetLastMessage(msg *message.SipMsg) {
 }
 
 func (ct *ClientTransaction) actSend(event *fsm.Event) {
-	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
+	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
 		err2 := ct.FSM.Event(clientInputTransportErr)
 		if err2 != nil {
@@ -204,7 +204,7 @@ func (ct *ClientTransaction) actResend(event *fsm.Event) {
 
 //Resend is used for retransmissions
 func (ct *ClientTransaction) Resend() {
-	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
+	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
 		err2 := ct.FSM.Event(clientInputTransportErr)
 		if err2 != nil {
@@ -215,7 +215,7 @@ func (ct *ClientTransaction) Resend() {
 
 //StatelessSend send a sip message without acting on the FSM
 func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, port string) {
-	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
+	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
 		log.Log.Error("Transport error for transactionID : " + ct.BranchID)
 	}
@@ -245,7 +245,7 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 		}
 	})
 
-	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.Export())
+	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
 		err2 := ct.FSM.Event(serverInputTransportErr)
 		if err2 != nil {

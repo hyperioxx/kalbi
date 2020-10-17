@@ -36,7 +36,7 @@ func (sc *SipContact) SetName(name string) {
 
 }
 
-func (sc *SipContact) Export() string {
+func (sc *SipContact) String() string {
 	line := "Contact: "
 	if sc.Name != nil {
 		line += string(sc.Name) + " "

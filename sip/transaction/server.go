@@ -165,7 +165,7 @@ func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string)
 }
 
 func (st *ServerTransaction) actRespond(event *fsm.Event) {
-	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.Export())
+	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.String())
 	if err != nil {
 		err2 := st.FSM.Event(serverInputTransportErr)
 		if err2 != nil {
@@ -176,7 +176,7 @@ func (st *ServerTransaction) actRespond(event *fsm.Event) {
 }
 
 func (st *ServerTransaction) actRespondDelete(event *fsm.Event) {
-	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.Export())
+	err := st.ListeningPoint.Send(st.Host, st.Port, st.LastMessage.String())
 	if err != nil {
 		err2 := st.FSM.Event(serverInputTransportErr)
 		if err2 != nil {

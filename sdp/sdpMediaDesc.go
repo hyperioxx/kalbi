@@ -24,7 +24,7 @@ type sdpMediaDesc struct {
 	Src       []byte // Full source if needed
 }
 
-func (sm *sdpMediaDesc) Export() string {
+func (sm *sdpMediaDesc) String() string {
 	line := "m="
 	line += string(sm.MediaType) + " "
 	line += string(sm.Port) + " "

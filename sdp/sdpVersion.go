@@ -17,7 +17,7 @@ type sdpVersion struct {
 	Src []byte // Full source if needed
 }
 
-func (sv *sdpVersion) Export() string {
+func (sv *sdpVersion) String() string {
 	line := "v="
 	line += string(sv.Val)
 	return line

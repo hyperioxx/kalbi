@@ -59,7 +59,7 @@ type sdpTime struct {
 }
 
 //Export returns object as string
-func (st *sdpTime) Export() string {
+func (st *sdpTime) String() string {
 	line := "t="
 	line += string(st.TimeStart) + " "
 	line += string(st.TimeStop)

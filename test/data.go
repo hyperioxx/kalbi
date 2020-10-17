@@ -1,6 +1,6 @@
 package test
 
-const msg = "INVITE sip:1234@127.0.0.1;transport=UDP SIP/2.0\r\n" +
+const MSG = "INVITE sip:1234@127.0.0.1;transport=UDP SIP/2.0\r\n" +
 	"Via: SIP/2.0/UDP 127.0.0.1:43842;branch=z9hG4bK-524287-1---c71235afbdc0efe8;rport\r\n" +
 	"Max-Forwards: 70\r\n" +
 	"Contact: <sip:22@127.0.0.1:43842;transport=UDP>\r\n" +

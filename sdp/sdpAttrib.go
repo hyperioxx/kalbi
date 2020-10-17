@@ -29,7 +29,7 @@ type sdpAttrib struct {
 	Src []byte // Full source if needed
 }
 
-func (sa *sdpAttrib) Export() string {
+func (sa *sdpAttrib) String() string {
 	line := "a="
 	line += string(sa.Cat)
 	if sa.Val != nil {

@@ -1,6 +1,5 @@
 package message
 
-import "fmt"
 
 /*
 
@@ -57,12 +56,10 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM
-		fmt.Println("POS:", pos, "CHR:", string(v[pos]), "STATE:", state)
+		
 		switch state {
 		case FIELD_BASE:
 			if v[pos] != ',' || v[pos] != ' ' {
-
-				fmt.Println(getString(v, pos, pos+4))
 
 				if getString(v, pos, pos+9) == "username=" {
 					state = FIELD_USER

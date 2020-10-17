@@ -17,7 +17,7 @@ type sdpConnData struct {
 	Src      []byte // Full source if needed
 }
 
-func (sc *sdpConnData) Export() string {
+func (sc *sdpConnData) String() string {
 	line := "c="
 	line += string(sc.NetType) + " "
 	line += string(sc.AddrType) + " "

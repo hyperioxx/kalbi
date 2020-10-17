@@ -30,14 +30,14 @@ import "github.com/KalbiProject/Kalbi"
   - [func ParseSipTo(v []byte, out *SipTo)](<#func-parsesipto>)
   - [func ParseSipVia(v []byte, out *SipVia)](<#func-parsesipvia>)
   - [type SipContact](<#type-sipcontact>)
-    - [func (sc *SipContact) Export() string](<#func-sipcontact-export>)
+    - [func (sc *SipContact) String() string](<#func-sipcontact-export>)
     - [func (sc *SipContact) SetName(name string)](<#func-sipcontact-setname>)
   - [type SipCseq](<#type-sipcseq>)
-    - [func (sc *SipCseq) Export() string](<#func-sipcseq-export>)
+    - [func (sc *SipCseq) String() string](<#func-sipcseq-export>)
     - [func (sc *SipCseq) SetID(id string)](<#func-sipcseq-setid>)
     - [func (sc *SipCseq) SetMethod(method string)](<#func-sipcseq-setmethod>)
   - [type SipFrom](<#type-sipfrom>)
-    - [func (sf *SipFrom) Export() string](<#func-sipfrom-export>)
+    - [func (sf *SipFrom) String() string](<#func-sipfrom-export>)
     - [func (sf *SipFrom) SetHost(host string)](<#func-sipfrom-sethost>)
     - [func (sf *SipFrom) SetPort(port string)](<#func-sipfrom-setport>)
     - [func (sf *SipFrom) SetTag(tag string)](<#func-sipfrom-settag>)
@@ -50,10 +50,10 @@ import "github.com/KalbiProject/Kalbi"
     - [func Parse(v []byte) (output SipMsg)](<#func-parse>)
     - [func (sm *SipMsg) CopyHeaders(msg *SipMsg)](<#func-sipmsg-copyheaders>)
     - [func (sm *SipMsg) CopySdp(msg *SipMsg)](<#func-sipmsg-copysdp>)
-    - [func (sm *SipMsg) Export() string](<#func-sipmsg-export>)
+    - [func (sm *SipMsg) String() string](<#func-sipmsg-export>)
     - [func (sm *SipMsg) GetStatusCode() int](<#func-sipmsg-getstatuscode>)
   - [type SipReq](<#type-sipreq>)
-    - [func (sr *SipReq) Export() string](<#func-sipreq-export>)
+    - [func (sr *SipReq) String() string](<#func-sipreq-export>)
     - [func (sr *SipReq) SetHost(host string)](<#func-sipreq-sethost>)
     - [func (sr *SipReq) SetMethod(method string)](<#func-sipreq-setmethod>)
     - [func (sr *SipReq) SetPort(port string)](<#func-sipreq-setport>)
@@ -63,7 +63,7 @@ import "github.com/KalbiProject/Kalbi"
     - [func (sr *SipReq) SetUser(user string)](<#func-sipreq-setuser>)
     - [func (sr *SipReq) SetUserType(userType string)](<#func-sipreq-setusertype>)
   - [type SipTo](<#type-sipto>)
-    - [func (sf *SipTo) Export() string](<#func-sipto-export>)
+    - [func (sf *SipTo) String() string](<#func-sipto-export>)
     - [func (sf *SipTo) SetHost(host string)](<#func-sipto-sethost>)
     - [func (sf *SipTo) SetPort(port string)](<#func-sipto-setport>)
     - [func (sf *SipTo) SetTag(tag string)](<#func-sipto-settag>)
@@ -71,10 +71,10 @@ import "github.com/KalbiProject/Kalbi"
     - [func (sf *SipTo) SetUser(user string)](<#func-sipto-setuser>)
     - [func (sf *SipTo) SetUserType(userType string)](<#func-sipto-setusertype>)
   - [type SipVal](<#type-sipval>)
-    - [func (sv *SipVal) Export() string](<#func-sipval-export>)
+    - [func (sv *SipVal) String() string](<#func-sipval-export>)
     - [func (sv *SipVal) SetValue(value string)](<#func-sipval-setvalue>)
   - [type SipVia](<#type-sipvia>)
-    - [func (sv *SipVia) Export() string](<#func-sipvia-export>)
+    - [func (sv *SipVia) String() string](<#func-sipvia-export>)
     - [func (sv *SipVia) SetBranch(value string)](<#func-sipvia-setbranch>)
     - [func (sv *SipVia) SetHost(value string)](<#func-sipvia-sethost>)
     - [func (sv *SipVia) SetPort(value string)](<#func-sipvia-setport>)
@@ -133,10 +133,10 @@ import "github.com/KalbiProject/Kalbi"
   - [func ParserSdpTime(v []byte, out *sdpTime)](<#func-parsersdptime>)
   - [type SdpMsg](<#type-sdpmsg>)
     - [func Parse(v []byte) (output SdpMsg)](<#func-parse>)
-    - [func (sm *SdpMsg) Export() string](<#func-sdpmsg-export>)
+    - [func (sm *SdpMsg) String() string](<#func-sdpmsg-export>)
     - [func (sm *SdpMsg) Size() int](<#func-sdpmsg-size>)
   - [type SdpOrigin](<#type-sdporigin>)
-    - [func (so *SdpOrigin) Export() string](<#func-sdporigin-export>)
+    - [func (so *SdpOrigin) String() string](<#func-sdporigin-export>)
 
 - transport
   - [type ListeningPoint](<#type-listeningpoint>)
@@ -431,7 +431,7 @@ type SipContact struct {
 ### func (*SipContact) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipContact.go#L39>)
 
 ```go
-func (sc *SipContact) Export() string
+func (sc *SipContact) String() string
 ```
 
 ### func (*SipContact) [SetName](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipContact.go#L34>)
@@ -453,7 +453,7 @@ type SipCseq struct {
 ### func (*SipCseq) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipCseq.go#L30>)
 
 ```go
-func (sc *SipCseq) Export() string
+func (sc *SipCseq) String() string
 ```
 
 ### func (*SipCseq) [SetID](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipCseq.go#L22>)
@@ -486,7 +486,7 @@ type SipFrom struct {
 ### func (*SipFrom) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipFrom.go#L46>)
 
 ```go
-func (sf *SipFrom) Export() string
+func (sf *SipFrom) String() string
 ```
 
 ### func (*SipFrom) [SetHost](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipFrom.go#L30>)
@@ -592,7 +592,7 @@ CopySdp copys SDP from one SIP message to another
 ### func (*SipMsg) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sip.go#L60>)
 
 ```go
-func (sm *SipMsg) Export() string
+func (sm *SipMsg) String() string
 ```
 
 Export returns SIP message as string
@@ -624,7 +624,7 @@ type SipReq struct {
 ### func (*SipReq) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipRequestLine.go#L59>)
 
 ```go
-func (sr *SipReq) Export() string
+func (sr *SipReq) String() string
 ```
 
 ### func (*SipReq) [SetHost](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipRequestLine.go#L47>)
@@ -693,7 +693,7 @@ type SipTo struct {
 ### func (*SipTo) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipTo.go#L42>)
 
 ```go
-func (sf *SipTo) Export() string
+func (sf *SipTo) String() string
 ```
 
 ### func (*SipTo) [SetHost](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipTo.go#L26>)
@@ -744,7 +744,7 @@ type SipVal struct {
 ### func (*SipVal) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sip.go#L93>)
 
 ```go
-func (sv *SipVal) Export() string
+func (sv *SipVal) String() string
 ```
 
 Export returns SIP value as string
@@ -774,7 +774,7 @@ type SipVia struct {
 ### func (*SipVia) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipVia.go#L26>)
 
 ```go
-func (sv *SipVia) Export() string
+func (sv *SipVia) String() string
 ```
 
 ### func (*SipVia) [SetBranch](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/sipVia.go#L38>)
@@ -1599,7 +1599,7 @@ Parse Parses SDP
 ### func (*SdpMsg) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sdp/sdp.go#L47>)
 
 ```go
-func (sm *SdpMsg) Export() string
+func (sm *SdpMsg) String() string
 ```
 
 ### func (*SdpMsg) [Size](<https://github.com/KalbiProject/Kalbi/blob/master/sdp/sdp.go#L42>)
@@ -1627,7 +1627,7 @@ type SdpOrigin struct {
 ### func (*SdpOrigin) [Export](<https://github.com/KalbiProject/Kalbi/blob/master/sdp/sdpOrigin.go#L79>)
 
 ```go
-func (so *SdpOrigin) Export() string
+func (so *SdpOrigin) String() string
 ```
 
 

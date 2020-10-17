@@ -76,7 +76,7 @@ type SdpOrigin struct {
 	Src            []byte
 }
 
-func (so *SdpOrigin) Export() string {
+func (so *SdpOrigin) String() string {
 	line := "o="
 	line += string(so.Username) + " "
 	line += string(so.SessionId) + " "

@@ -53,8 +53,8 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction) {
 			ctx := TxMng.NewClientTransaction(msg)
 			ctx.ServerTxID = string(tx.GetBranchID())
 			fmt.Println("Branch: " + string(tx.GetLastMessage().Via[0].Branch))
-			fmt.Println(msg2.Sdp.Export())
-			fmt.Printf("SDP SIZE: %d", len(msg2.Sdp.Export()))
+			fmt.Println(msg2.Sdp.String())
+			fmt.Printf("SDP SIZE: %d", len(msg2.Sdp.String()))
 			//msg2.ContLen.SetValue(strconv.Itoa(msg.Sdp.Size()))
 			ctx.Send(msg2, user[0], user[1])
 
@@ -110,7 +110,7 @@ func (p *Proxy) HandleResponse(response transaction.Transaction) {
 			msg.Via[0].SetBranch(tx.GetBranchID())
 			msg.CopySdp(response.GetLastMessage())
 			//msg.ContLen.SetValue(strconv.Itoa(msg.Sdp.Size()))
-			fmt.Println(string(msg.Export()))
+			fmt.Println(string(msg.String()))
 			response.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 		}

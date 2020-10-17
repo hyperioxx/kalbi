@@ -27,7 +27,7 @@ type SipVia struct {
 	Src    []byte // Full source if needed
 }
 
-func (sv *SipVia) Export() string {
+func (sv *SipVia) String() string {
 	return "Via: SIP/2.0/" + strings.ToUpper(sv.Trans) + " " + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
 }
 

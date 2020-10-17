@@ -2,9 +2,10 @@ package message
 
 import (
 	"bytes"
-	"github.com/KalbiProject/Kalbi/sdp"
 	"strconv"
 	"strings"
+
+	"github.com/KalbiProject/Kalbi/sdp"
 )
 
 var sipType = 0
@@ -26,8 +27,8 @@ type SipMsg struct {
 	ContType SipVal
 	ContLen  SipVal
 	Src      []byte
-
-	Sdp sdp.SdpMsg
+	Body     []byte
+	Sdp      sdp.SdpMsg
 }
 
 //GetStatusCode returns responses status code
@@ -58,24 +59,24 @@ func (sm *SipMsg) CopySdp(msg *SipMsg) {
 }
 
 //Export returns SIP message as string
-func (sm *SipMsg) Export() string {
+func (sm *SipMsg) String() string {
 	sipmsg := ""
-	sipmsg += sm.Req.Export() + "\r\n"
-	sipmsg += sm.Via[0].Export() + "\r\n"
-	sipmsg += sm.From.Export() + "\r\n"
-	sipmsg += sm.To.Export() + "\r\n"
-	sipmsg += sm.Contact.Export() + "\r\n"
-	sipmsg += sm.Cseq.Export() + "\r\n"
+	sipmsg += sm.Req.String() + "\r\n"
+	sipmsg += sm.Via[0].String() + "\r\n"
+	sipmsg += sm.From.String() + "\r\n"
+	sipmsg += sm.To.String() + "\r\n"
+	sipmsg += sm.Contact.String() + "\r\n"
+	sipmsg += sm.Cseq.String() + "\r\n"
 	if sm.ContType.Value != nil {
-		sipmsg += "Content-Type: " + sm.ContType.Export() + "\r\n"
+		sipmsg += "Content-Type: " + sm.ContType.String() + "\r\n"
 	}
-	sipmsg += "Call-ID: " + sm.CallId.Export() + "\r\n"
-	sipmsg += "Max-Forwards: " + sm.MaxFwd.Export() + "\r\n"
-	sipmsg += "Content-Length: " + sm.ContLen.Export() + "\r\n"
+	sipmsg += "Call-ID: " + sm.CallId.String() + "\r\n"
+	sipmsg += "Max-Forwards: " + sm.MaxFwd.String() + "\r\n"
+	sipmsg += "Content-Length: " + sm.ContLen.String() + "\r\n"
 	sipmsg += "\r\n"
 
-	if sm.Sdp.Origin.SessionId != nil {
-		sipmsg += sm.Sdp.Export()
+	if sm.Body != nil {
+		sipmsg += string(sm.Body)
 	}
 
 	return sipmsg
@@ -91,7 +92,7 @@ func (sv *SipVal) SetValue(value string) {
 }
 
 //Export returns SIP value as string
-func (sv *SipVal) Export() string {
+func (sv *SipVal) String() string {
 	return string(sv.Value)
 }
 
@@ -101,6 +102,12 @@ func Parse(v []byte) (output SipMsg) {
 	// Allow multiple vias and media Attribs
 	viaIdx := 0
 	output.Via = make([]SipVia, 0, 8)
+
+	// Split SIP & Body
+	bodysplit := bytes.Split(v, []byte("\r\n\r\n"))
+	if len(bodysplit) > 1 {
+		output.Body = bodysplit[1]
+	}
 
 	lines := bytes.Split(v, []byte("\r\n"))
 

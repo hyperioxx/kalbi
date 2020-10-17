@@ -56,7 +56,7 @@ func (sr *SipReq) SetUserType(userType string) {
 	sr.UserType = []byte(userType)
 }
 
-func (sr *SipReq) Export() string {
+func (sr *SipReq) String() string {
 	requestline := ""
 	if sr.Method != nil {
 		requestline += string(sr.Method)

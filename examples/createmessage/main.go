@@ -9,9 +9,9 @@ import (
 
 func main() {
 	x := message.NewRequest(method.INVITE, "12345@127.0.0.1", "4321@127.0.0.1")
-	fmt.Println(x.Export())
+	fmt.Println(x.String())
 
 	y := message.NewResponse(status.OK, "12345@127.0.0.1", "4321@127.0.0.1")
-	fmt.Println(y.Export())
+	fmt.Println(y.String())
 
 }
