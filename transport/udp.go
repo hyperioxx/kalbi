@@ -29,6 +29,7 @@ func (ut *UDPTransport) Read() interfaces.SipEventObject {
 	return event
 }
 
+//Build initalizes the UDPTransport object
 func (ut *UDPTransport) Build(host string, port int) {
 	ut.Address = net.UDPAddr{
 		IP:   net.ParseIP(host),
@@ -43,6 +44,7 @@ func (ut *UDPTransport) Build(host string, port int) {
 
 }
 
+//Start starts the ListeningPoint
 func (ut *UDPTransport) Start() {
 	log.Log.Info("Starting UDP Listening Point ")
 	for {
@@ -51,10 +53,12 @@ func (ut *UDPTransport) Start() {
 	}
 }
 
+//SetTransportChannel setter that allows to set SipStack's Transport Channel
 func (ut *UDPTransport) SetTransportChannel(channel chan interfaces.SipEventObject) {
 	ut.TransportChannel = channel
 }
 
+//Send allows you to send a SIP message
 func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)
 	if err != nil {

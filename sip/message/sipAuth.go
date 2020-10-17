@@ -17,6 +17,7 @@ package message
 
 */
 
+//SipAuth SIP Authorization Header
 type SipAuth struct {
 	Username  []byte
 	Realm     []byte

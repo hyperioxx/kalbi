@@ -5,50 +5,28 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/message"
 )
 
-type ListeningPoint interface {
-	Read() *message.SipMsg
-	Build(string, int)
-	Start()
-	SetTransportChannel(chan *message.SipMsg)
-	Send(string, string, string) error
-}
-
-type Transaction interface {
-	GetBranchID() string
-	GetOrigin() *message.SipMsg
-	SetListeningPoint(ListeningPoint)
-	Send(*message.SipMsg, string, string)
-	Receive(*message.SipMsg)
-	GetLastMessage() *message.SipMsg
-	GetServerTransactionID() string
-	SetLastMessage(*message.SipMsg)
-	GetListeningPoint() ListeningPoint
-}
-
-type SipEventObject interface {
-	GetSipMessage() *message.SipMsg
-	SetSipMessage(*message.SipMsg)
-	GetTransaction() interfaces.Transaction
-	SetTransaction(interfaces.Transaction)
-}
-
+//SipEvent object that gets passed to the SipListener
 type SipEvent struct {
 	sipmsg *message.SipMsg
 	tx     interfaces.Transaction
 }
 
+//GetSipMessage returns message that created this event
 func (se *SipEvent) GetSipMessage() *message.SipMsg {
 	return se.sipmsg
 }
 
+//SetSipMessage sets message that created this event
 func (se *SipEvent) SetSipMessage(msg *message.SipMsg) {
 	se.sipmsg = msg
 }
 
+//GetTransaction returns transaction related to the SIP message that created this event
 func (se *SipEvent) GetTransaction() interfaces.Transaction {
 	return se.tx
 }
 
+//SetTransaction sets transaction related to the SIP message that created this event
 func (se *SipEvent) SetTransaction(tx interfaces.Transaction) {
 	se.tx = tx
 }

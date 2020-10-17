@@ -8,6 +8,7 @@ RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.3 From
 
 */
 
+//SipFrom SIP From Header
 type SipFrom struct {
 	UriType  string // Type of URI sip, sips, tel etc
 	Name     []byte // Named portion of URI
@@ -39,14 +40,17 @@ func (sf *SipFrom) SetPort(port string) {
 	sf.Port = []byte(port)
 }
 
+//SetUserType sets UserType
 func (sf *SipFrom) SetUserType(userType string) {
 	sf.UserType = []byte(userType)
 }
 
+//SetTag sets From Tag
 func (sf *SipFrom) SetTag(tag string) {
 	sf.Tag = []byte(tag)
 }
 
+//String returns Header as String
 func (sf *SipFrom) String() string {
 	requestline := "From: "
 	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
@@ -57,6 +61,7 @@ func (sf *SipFrom) String() string {
 	return requestline
 }
 
+//ParseSipFrom parser for SIP from Header
 func ParseSipFrom(v []byte, out *SipFrom) {
 
 	pos := 0

@@ -4,11 +4,13 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/message"
 )
 
+//SipListener interface for sip listener i.e. Your Application 
 type SipListener interface {
 	HandleRequests(SipEventObject)
 	HandleResponses(SipEventObject)
 }
 
+//Transaction interface for SIP transactions
 type Transaction interface {
 	GetBranchID() string
 	GetOrigin() *message.SipMsg
@@ -21,6 +23,7 @@ type Transaction interface {
 	GetListeningPoint() ListeningPoint
 }
 
+//SipEventObject interface for SIP events
 type SipEventObject interface {
 	GetSipMessage() *message.SipMsg
 	SetSipMessage(*message.SipMsg)
@@ -28,6 +31,7 @@ type SipEventObject interface {
 	SetTransaction(Transaction)
 }
 
+//ListeningPoint interface for listening point
 type ListeningPoint interface {
 	Read() SipEventObject
 	Build(string, int)
