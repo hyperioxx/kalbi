@@ -2,7 +2,6 @@ package dialog
 
 import (
 	"github.com/KalbiProject/Kalbi/log"
-   "github.com/KalbiProject/Kalbi/sip/transaction"
    "github.com/KalbiProject/Kalbi/interfaces"
 	"sync"
 )
