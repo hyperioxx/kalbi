@@ -333,35 +333,35 @@ func MessageDetails(data *SipMsg) string {
 const fieldNull = 0
 const fieldBase = 1
 const fieldValue = 2
-const FIELD_NAME = 3
-const FIELD_NAMEQ = 4
-const FIELD_USER = 5
-const FIELD_HOST = 6
+const fieldName = 3
+const fieldNameQ = 4
+const fieldUser = 5
+const fieldUserHost = 6
 const fieldPort = 7
-const FIELD_TAG = 8
-const FIELD_ID = 9
-const FIELD_METHOD = 10
-const FIELD_TRAN = 11
-const FIELD_BRANCH = 12
-const FIELD_RPORT = 13
-const FIELD_MADDR = 14
-const FIELD_TTL = 15
-const FIELD_REC = 16
-const FIELD_EXPIRES = 17
-const FIELD_Q = 18
-const FIELD_USERTYPE = 19
-const FIELD_STATUS = 20
-const FIELD_STATUSDESC = 21
+const fieldTag = 8
+const fieldID = 9
+const fieldMethod = 10
+const fieldTran = 11
+const fieldBranch = 12
+const fieldRport = 13
+const fieldMaddr = 14
+const fieldTTL = 15
+const fieldRec = 16
+const fieldExpires = 17
+const fieldQ = 18
+const fieldUserType = 19
+const fieldStatus = 20
+const fieldStatusDesc = 21
 
 // States for Auth Header
-const FIELD_QOP = 22
-const FIELD_NONCE = 23
-const FIELD_REALM = 24
-const FIELD_ALGORITHM = 25
-const FIELD_CNONCE = 26
-const FIELD_NC = 27
-const FIELD_RESPONSE = 28
-const FIELD_URI = 29
+const fieldQop = 22
+const fieldNonce = 23
+const fieldRealm = 24
+const fieldAlgorithm = 25
+const fieldCNonce = 26
+const fieldNC = 27
+const fieldResponse = 28
+const fieldURI = 29
 
 //
 

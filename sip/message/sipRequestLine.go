@@ -94,14 +94,14 @@ func ParseSipReq(v []byte, out *SipReq) {
 		switch state {
 		case fieldNull:
 			if v[pos] >= 'A' && v[pos] <= 'S' && pos == 0 {
-				state = FIELD_METHOD
+				state = fieldMethod
 				continue
 			}
 
-		case FIELD_METHOD:
+		case fieldMethod:
 			if v[pos] == ' ' || pos > 9 {
 				if string(out.Method) == "SIP/2.0" {
-					state = FIELD_STATUS
+					state = fieldStatus
 					out.Method = []byte{}
 				} else {
 					state = fieldBase
@@ -115,37 +115,37 @@ func ParseSipReq(v []byte, out *SipReq) {
 			if v[pos] != ' ' {
 				// Not a space so check for uri types
 				if getString(v, pos, pos+4) == "sip:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "sip"
 					continue
 				}
 				if getString(v, pos, pos+5) == "sips:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 5
 					out.UriType = "sips"
 					continue
 				}
 				if getString(v, pos, pos+4) == "tel:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "tel"
 					continue
 				}
 				if getString(v, pos, pos+5) == "user=" {
-					state = FIELD_USERTYPE
+					state = fieldUserType
 					pos = pos + 5
 					continue
 				}
 				if v[pos] == '@' {
-					state = FIELD_HOST
+					state = fieldUserHost
 					out.User = out.Host // Move host to user
 					out.Host = nil      // Clear the host
 					pos++
 					continue
 				}
 			}
-		case FIELD_USER:
+		case fieldUser:
 			if v[pos] == ':' {
 				state = fieldPort
 				pos++
@@ -157,7 +157,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 				continue
 			}
 			if v[pos] == '@' {
-				state = FIELD_HOST
+				state = fieldUserHost
 				out.User = out.Host // Move host to user
 				out.Host = nil      // Clear the host
 				pos++
@@ -165,7 +165,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 			}
 			out.Host = append(out.Host, v[pos]) // Append to host for now
 
-		case FIELD_HOST:
+		case fieldUserHost:
 			if v[pos] == ':' {
 				state = fieldPort
 				pos++
@@ -186,7 +186,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_USERTYPE:
+		case fieldUserType:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -194,20 +194,20 @@ func ParseSipReq(v []byte, out *SipReq) {
 			}
 			out.UserType = append(out.UserType, v[pos])
 
-		case FIELD_STATUS:
+		case fieldStatus:
 			if v[pos] == ';' || v[pos] == '>' {
 				state = fieldBase
 				pos++
 				continue
 			}
 			if v[pos] == ' ' {
-				state = FIELD_STATUSDESC
+				state = fieldStatusDesc
 				pos++
 				continue
 			}
 			out.StatusCode = append(out.StatusCode, v[pos])
 
-		case FIELD_STATUSDESC:
+		case fieldStatusDesc:
 			if v[pos] == ';' || v[pos] == '>' {
 				state = fieldBase
 				pos++

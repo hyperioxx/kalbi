@@ -78,7 +78,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 				// Not a space
 				if getString(v, pos, pos+8) == "SIP/2.0/" {
 					// Transport type
-					state = FIELD_HOST
+					state = fieldUserHost
 					pos = pos + 8
 					if getString(v, pos, pos+3) == "UDP" {
 						out.Trans = "udp"
@@ -103,37 +103,37 @@ func ParseSipVia(v []byte, out *SipVia) {
 				}
 				// Look for a Branch identifier
 				if getString(v, pos, pos+7) == "branch=" {
-					state = FIELD_BRANCH
+					state = fieldBranch
 					pos = pos + 7
 					continue
 				}
 				// Look for a Rport identifier
 				if getString(v, pos, pos+6) == "rport=" {
-					state = FIELD_RPORT
+					state = fieldRport
 					pos = pos + 6
 					continue
 				}
 				// Look for a maddr identifier
 				if getString(v, pos, pos+6) == "maddr=" {
-					state = FIELD_MADDR
+					state = fieldMaddr
 					pos = pos + 6
 					continue
 				}
 				// Look for a ttl identifier
 				if getString(v, pos, pos+4) == "ttl=" {
-					state = FIELD_TTL
+					state = fieldTTL
 					pos = pos + 4
 					continue
 				}
 				// Look for a recevived identifier
 				if getString(v, pos, pos+9) == "received=" {
-					state = FIELD_REC
+					state = fieldRec
 					pos = pos + 9
 					continue
 				}
 			}
 
-		case FIELD_HOST:
+		case fieldUserHost:
 			if v[pos] == ':' {
 				state = fieldPort
 				pos++
@@ -158,7 +158,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_BRANCH:
+		case fieldBranch:
 			if v[pos] == ';' {
 				state = fieldBase
 				pos++
@@ -166,7 +166,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Branch = append(out.Branch, v[pos])
 
-		case FIELD_RPORT:
+		case fieldRport:
 			if v[pos] == ';' {
 				state = fieldBase
 				pos++
@@ -174,7 +174,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Rport = append(out.Rport, v[pos])
 
-		case FIELD_MADDR:
+		case fieldMaddr:
 			if v[pos] == ';' {
 				state = fieldBase
 				pos++
@@ -182,7 +182,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Maddr = append(out.Maddr, v[pos])
 
-		case FIELD_TTL:
+		case fieldTTL:
 			if v[pos] == ';' {
 				state = fieldBase
 				pos++
@@ -190,7 +190,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Ttl = append(out.Ttl, v[pos])
 
-		case FIELD_REC:
+		case fieldRec:
 			if v[pos] == ';' {
 				state = fieldBase
 				pos++

@@ -61,7 +61,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			if v[pos] != ',' || v[pos] != ' ' {
 
 				if getString(v, pos, pos+9) == "username=" {
-					state = FIELD_USER
+					state = fieldUser
 					if v[pos+9] == '"' {
 						pos = pos + 10
 					} else {
@@ -71,7 +71,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				}
 
 				if getString(v, pos, pos+9) == "response=" {
-					state = FIELD_RESPONSE
+					state = fieldResponse
 					if v[pos+9] == '"' {
 						pos = pos + 10
 					} else {
@@ -82,7 +82,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				}
 
 				if getString(v, pos, pos+4) == "qop=" {
-					state = FIELD_QOP
+					state = fieldQop
 					if v[pos+4] == '"' {
 						pos = pos + 5
 					} else {
@@ -92,7 +92,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				}
 
 				if getString(v, pos, pos+4) == "uri=" {
-					state = FIELD_URI
+					state = fieldURI
 					if v[pos+4] == '"' {
 						pos = pos + 5
 					} else {
@@ -102,36 +102,36 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				}
 
 				if getString(v, pos, pos+3) == "nc=" {
-					state = FIELD_NC
+					state = fieldNC
 					pos = pos + 3
 					continue
 				}
 
 				if getString(v, pos, pos+7) == "cnonce=" {
-					state = FIELD_CNONCE
+					state = fieldCNonce
 					pos = pos + 8
 					continue
 				}
 
 				if getString(v, pos, pos+6) == "nonce=" {
-					state = FIELD_NONCE
+					state = fieldNonce
 					pos = pos + 7
 					continue
 				}
 				if getString(v, pos, pos+6) == "realm=" {
-					state = FIELD_REALM
+					state = fieldRealm
 					pos = pos + 7
 					continue
 				}
 				if getString(v, pos, pos+10) == "algorithm=" {
-					state = FIELD_ALGORITHM
+					state = fieldAlgorithm
 					pos = pos + 10
 					continue
 				}
 
 			}
 
-		case FIELD_QOP:
+		case fieldQop:
 			if v[pos] == ' ' || v[pos] == ',' || v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -139,7 +139,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.QoP = append(out.QoP, v[pos])
 
-		case FIELD_NONCE:
+		case fieldNonce:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -147,7 +147,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.Nonce = append(out.Nonce, v[pos])
 
-		case FIELD_CNONCE:
+		case fieldCNonce:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -155,7 +155,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.CNonce = append(out.CNonce, v[pos])
 
-		case FIELD_URI:
+		case fieldURI:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -163,7 +163,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.URI = append(out.URI, v[pos])
 
-		case FIELD_RESPONSE:
+		case fieldResponse:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -171,7 +171,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.Response = append(out.Response, v[pos])
 
-		case FIELD_REALM:
+		case fieldRealm:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -179,7 +179,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.Realm = append(out.Realm, v[pos])
 
-		case FIELD_ALGORITHM:
+		case fieldAlgorithm:
 			if v[pos] == ' ' || v[pos] == ',' {
 				state = fieldBase
 				pos++
@@ -187,7 +187,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.Algorithm = append(out.Algorithm, v[pos])
 
-		case FIELD_USER:
+		case fieldUser:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -195,7 +195,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			}
 			out.Username = append(out.Username, v[pos])
 
-		case FIELD_NC:
+		case fieldNC:
 			if v[pos] == ',' || v[pos] == ' ' {
 				state = fieldBase
 				pos++

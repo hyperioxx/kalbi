@@ -87,45 +87,45 @@ func ParseSipContact(v []byte, out *SipContact) {
 		switch state {
 		case fieldBase:
 			if v[pos] == '"' && out.UriType == "" {
-				state = FIELD_NAMEQ
+				state = fieldNameQ
 				pos++
 				continue
 			}
 			if v[pos] != ' ' {
 				// Not a space so check for uri types
 				if getString(v, pos, pos+4) == "sip:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "sip"
 					continue
 				}
 				if getString(v, pos, pos+5) == "sips:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 5
 					out.UriType = "sips"
 					continue
 				}
 				if getString(v, pos, pos+4) == "tel:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "tel"
 					continue
 				}
 				// Look for a Q identifier
 				if getString(v, pos, pos+2) == "q=" {
-					state = FIELD_Q
+					state = fieldQ
 					pos = pos + 2
 					continue
 				}
 				// Look for a Expires identifier
 				if getString(v, pos, pos+8) == "expires=" {
-					state = FIELD_EXPIRES
+					state = fieldExpires
 					pos = pos + 8
 					continue
 				}
 				// Look for a transport identifier
 				if getString(v, pos, pos+10) == "transport=" {
-					state = FIELD_TRAN
+					state = fieldTran
 					pos = pos + 10
 					continue
 				}
@@ -137,12 +137,12 @@ func ParseSipContact(v []byte, out *SipContact) {
 				}
 				// Check for other chrs
 				if v[pos] != '<' && v[pos] != '>' && v[pos] != ';' && out.UriType == "" {
-					state = FIELD_NAME
+					state = fieldName
 					continue
 				}
 			}
 
-		case FIELD_NAMEQ:
+		case fieldNameQ:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -150,7 +150,7 @@ func ParseSipContact(v []byte, out *SipContact) {
 			}
 			out.Name = append(out.Name, v[pos])
 
-		case FIELD_NAME:
+		case fieldName:
 			if v[pos] == '<' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -158,15 +158,15 @@ func ParseSipContact(v []byte, out *SipContact) {
 			}
 			out.Name = append(out.Name, v[pos])
 
-		case FIELD_USER:
+		case fieldUser:
 			if v[pos] == '@' {
-				state = FIELD_HOST
+				state = fieldUserHost
 				pos++
 				continue
 			}
 			out.User = append(out.User, v[pos])
 
-		case FIELD_HOST:
+		case fieldUserHost:
 			if v[pos] == ':' {
 				state = fieldPort
 				pos++
@@ -187,7 +187,7 @@ func ParseSipContact(v []byte, out *SipContact) {
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_TRAN:
+		case fieldTran:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -195,7 +195,7 @@ func ParseSipContact(v []byte, out *SipContact) {
 			}
 			out.Tran = append(out.Tran, v[pos])
 
-		case FIELD_Q:
+		case fieldQ:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -203,7 +203,7 @@ func ParseSipContact(v []byte, out *SipContact) {
 			}
 			out.Qval = append(out.Qval, v[pos])
 
-		case FIELD_EXPIRES:
+		case fieldExpires:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++

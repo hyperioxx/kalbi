@@ -84,33 +84,33 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 		switch state {
 		case fieldBase:
 			if v[pos] == '"' && out.UriType == "" {
-				state = FIELD_NAMEQ
+				state = fieldNameQ
 				pos++
 				continue
 			}
 			if v[pos] != ' ' {
 				// Not a space so check for uri types
 				if getString(v, pos, pos+4) == "sip:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "sip"
 					continue
 				}
 				if getString(v, pos, pos+5) == "sips:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 5
 					out.UriType = "sips"
 					continue
 				}
 				if getString(v, pos, pos+4) == "tel:" {
-					state = FIELD_USER
+					state = fieldUser
 					pos = pos + 4
 					out.UriType = "tel"
 					continue
 				}
 				// Look for a Tag identifier
 				if getString(v, pos, pos+4) == "tag=" {
-					state = FIELD_TAG
+					state = fieldTag
 					pos = pos + 4
 					continue
 				}
@@ -122,18 +122,18 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 				}
 				// Look for a User Type identifier
 				if getString(v, pos, pos+5) == "user=" {
-					state = FIELD_USERTYPE
+					state = fieldUserType
 					pos = pos + 5
 					continue
 				}
 				// Check for other chrs
 				if v[pos] != '<' && v[pos] != '>' && v[pos] != ';' && out.UriType == "" {
-					state = FIELD_NAME
+					state = fieldName
 					continue
 				}
 			}
 
-		case FIELD_NAMEQ:
+		case fieldNameQ:
 			if v[pos] == '"' {
 				state = fieldBase
 				pos++
@@ -141,7 +141,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 			}
 			out.Name = append(out.Name, v[pos])
 
-		case FIELD_NAME:
+		case fieldName:
 			if v[pos] == '<' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -149,15 +149,15 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 			}
 			out.Name = append(out.Name, v[pos])
 
-		case FIELD_USER:
+		case fieldUser:
 			if v[pos] == '@' {
-				state = FIELD_HOST
+				state = fieldUserHost
 				pos++
 				continue
 			}
 			out.User = append(out.User, v[pos])
 
-		case FIELD_HOST:
+		case fieldUserHost:
 			if v[pos] == ':' {
 				state = fieldPort
 				pos++
@@ -178,7 +178,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_USERTYPE:
+		case fieldUserType:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
@@ -186,7 +186,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 			}
 			out.UserType = append(out.UserType, v[pos])
 
-		case FIELD_TAG:
+		case fieldTag:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
 				state = fieldBase
 				pos++
