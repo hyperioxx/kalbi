@@ -19,6 +19,7 @@ Examples:
 
 */
 
+//SipContact SIP Contact Header
 type SipContact struct {
 	UriType string // Type of URI sip, sips, tel etc
 	Name    []byte // Named portion of URI
@@ -31,11 +32,13 @@ type SipContact struct {
 	Src     []byte // Full source if needed
 }
 
+//SetName stes name portion of header
 func (sc *SipContact) SetName(name string) {
 	sc.Name = []byte(name)
 
 }
 
+//String returns Header as String
 func (sc *SipContact) String() string {
 	line := "Contact: "
 	if sc.Name != nil {
@@ -59,6 +62,7 @@ func (sc *SipContact) String() string {
 	return line
 }
 
+//ParseSipContact parses SIP contact header
 func ParseSipContact(v []byte, out *SipContact) {
 
 	pos := 0

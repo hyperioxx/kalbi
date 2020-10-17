@@ -15,6 +15,7 @@ usage of the procedures in [4]).
 
 */
 
+//SipVia SIP Via Header
 type SipVia struct {
 	Trans  string // Type of Transport udp, tcp, tls, sctp etc
 	Host   []byte // Host part
@@ -27,6 +28,7 @@ type SipVia struct {
 	Src    []byte // Full source if needed
 }
 
+//String returns Header as String
 func (sv *SipVia) String() string {
 	return "Via: SIP/2.0/" + strings.ToUpper(sv.Trans) + " " + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
 }
@@ -36,18 +38,22 @@ func (sv *SipVia) SetTransport(trans string) {
 	sv.Trans = strings.ToUpper(trans)
 }
 
+//SetHost set host portion of uri
 func (sv *SipVia) SetHost(value string) {
 	sv.Host = []byte(value)
 }
 
+//SetPort sets port portion of uri
 func (sv *SipVia) SetPort(value string) {
 	sv.Port = []byte(value)
 }
 
+//SetBranch sets branch
 func (sv *SipVia) SetBranch(value string) {
 	sv.Branch = []byte(value)
 }
 
+//ParseSipVia parses SIP Via Header
 func ParseSipVia(v []byte, out *SipVia) {
 
 	pos := 0

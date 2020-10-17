@@ -66,6 +66,7 @@ package sdp
       in a manner that does not affect the global uniqueness of the field.
 */
 
+//SdpOrigin SDP origin header "o="
 type SdpOrigin struct {
 	Username       []byte
 	SessionId      []byte
@@ -76,6 +77,7 @@ type SdpOrigin struct {
 	Src            []byte
 }
 
+//String returns header as string
 func (so *SdpOrigin) String() string {
 	line := "o="
 	line += string(so.Username) + " "
@@ -87,6 +89,7 @@ func (so *SdpOrigin) String() string {
 	return line
 }
 
+//ParseSdpOrigin parses SDP origin header
 func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	pos := 0
 	state := fieldUsername

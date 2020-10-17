@@ -66,6 +66,7 @@ func (st *sdpTime) String() string {
 	return line
 }
 
+//ParserSdpTime parses SDP time header
 func ParserSdpTime(v []byte, out *sdpTime) {
 	pos := 0
 	state := fieldTimeStart
