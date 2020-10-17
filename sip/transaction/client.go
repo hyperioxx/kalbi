@@ -148,7 +148,7 @@ func (ct *ClientTransaction) SetServerTransaction(txID string) {
 	ct.ServerTxID = txID
 }
 
-//GetServerTransaction returns a ServerTransaction that has been set with SetServerTransaction()
+//GetServerTransactionID returns a ServerTransaction that has been set with SetServerTransaction()
 func (ct *ClientTransaction) GetServerTransactionID() string {
 	return ct.ServerTxID
 }
