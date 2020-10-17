@@ -12,6 +12,7 @@ SIP/2.0 200 OK
 
 */
 
+//SipReq is the initial line of a SIP message
 type SipReq struct {
 	Method     []byte // Sip Method eg INVITE etc
 	UriType    string // Type of URI sip, sips, tel etc
@@ -24,38 +25,47 @@ type SipReq struct {
 	Src        []byte // Full source if needed
 }
 
+//SetMethod gives the ability to set method e.g INVITE, REGISTER
 func (sr *SipReq) SetMethod(method string) {
 	sr.Method = []byte(method)
 }
 
+//SetUriType gives the ability to set URI type e.g. sip:, sips:
 func (sr *SipReq) SetUriType(uriType string) {
 	sr.UriType = uriType
 }
 
+//SetStatusCode gives the ability to set SIP status codes e.g. 200, 100, 302
 func (sr *SipReq) SetStatusCode(code int) {
 	sr.StatusCode = []byte(strconv.Itoa(code))
 }
 
+//SetStatusDesc gives the ability to set status descriptions e.g. OK, Trying, Moved Temporarily
 func (sr *SipReq) SetStatusDesc(desc string) {
 	sr.StatusDesc = []byte(desc)
 }
 
+//SetUser set user portion of uri
 func (sr *SipReq) SetUser(user string) {
 	sr.User = []byte(user)
 }
 
+//SetHost set host protion of uri
 func (sr *SipReq) SetHost(host string) {
 	sr.Host = []byte(host)
 }
 
+//SetPort set port portion of uri
 func (sr *SipReq) SetPort(port string) {
 	sr.Port = []byte(port)
 }
 
+//SetUserType sets user type
 func (sr *SipReq) SetUserType(userType string) {
 	sr.UserType = []byte(userType)
 }
 
+//String returns header as string
 func (sr *SipReq) String() string {
 	requestline := ""
 	if sr.Method != nil {
@@ -68,6 +78,7 @@ func (sr *SipReq) String() string {
 
 }
 
+//ParseSipReq parse initial request line
 func ParseSipReq(v []byte, out *SipReq) {
 
 	pos := 0

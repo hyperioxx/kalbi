@@ -82,11 +82,13 @@ func (sm *SipMsg) String() string {
 	return sipmsg
 }
 
+//SipVal is the value of a simple SIP Header e.g. Max Forwards
 type SipVal struct {
 	Value []byte // Sip Value
 	Src   []byte // Full source if needed
 }
 
+//SetValue sets the value of a simple SIP Header e.g. Max Forwards
 func (sv *SipVal) SetValue(value string) {
 	sv.Value = []byte(value)
 }
