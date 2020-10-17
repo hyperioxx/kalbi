@@ -35,7 +35,7 @@ func (sc *SipCseq) String() string {
 
 func ParseSipCseq(v []byte, out *SipCseq) {
 	pos := 0
-	state := FIELD_ID
+	state := fieldID
 
 	// Init the output area
 	out.Id = nil
@@ -52,15 +52,15 @@ func ParseSipCseq(v []byte, out *SipCseq) {
 		// FSM
 		//fmt.Println("POS:", pos, "CHR:", string(v[pos]), "STATE:", state)
 		switch state {
-		case FIELD_ID:
+		case fieldID:
 			if v[pos] == ' ' {
-				state = FIELD_METHOD
+				state = fieldMethod
 				pos++
 				continue
 			}
 			out.Id = append(out.Id, v[pos])
 
-		case FIELD_METHOD:
+		case fieldMethod:
 			out.Method = append(out.Method, v[pos])
 		}
 		pos++

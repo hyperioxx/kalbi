@@ -255,7 +255,7 @@ const fieldBase = 1
 ```
 
 ```go
-const FIELD_BRANCH = 12
+const fieldBranch = 12
 ```
 
 ```go
@@ -267,7 +267,7 @@ const fieldConnAddr = 41
 ```
 
 ```go
-const FIELD_EXPIRES = 17
+const fieldExpires = 17
 ```
 
 ```go
@@ -275,11 +275,11 @@ const fieldFmt = 44
 ```
 
 ```go
-const FIELD_HOST = 6
+const fieldUserHost = 6
 ```
 
 ```go
-const FIELD_ID = 9
+const fieldID = 9
 ```
 
 ```go
@@ -287,7 +287,7 @@ const fieldIgnore = 255
 ```
 
 ```go
-const FIELD_MADDR = 14
+const fieldMaddr = 14
 ```
 
 ```go
@@ -295,15 +295,15 @@ const fieldMedia = 42
 ```
 
 ```go
-const FIELD_METHOD = 10
+const fieldMethod = 10
 ```
 
 ```go
-const FIELD_NAME = 3
+const fieldName = 3
 ```
 
 ```go
-const FIELD_NAMEQ = 4
+const fieldNameQ = 4
 ```
 
 ```go
@@ -319,43 +319,43 @@ const fieldProto = 43
 ```
 
 ```go
-const FIELD_Q = 18
+const fieldQ = 18
 ```
 
 ```go
-const FIELD_REC = 16
+const fieldRec = 16
 ```
 
 ```go
-const FIELD_RPORT = 13
+const fieldRport = 13
 ```
 
 ```go
-const FIELD_STATUS = 20
+const fieldStatus = 20
 ```
 
 ```go
-const FIELD_STATUSDESC = 21
+const fieldStatusDesc = 21
 ```
 
 ```go
-const FIELD_TAG = 8
+const fieldTag = 8
 ```
 
 ```go
-const FIELD_TRAN = 11
+const fieldTran = 11
 ```
 
 ```go
-const FIELD_TTL = 15
+const fieldTTL = 15
 ```
 
 ```go
-const FIELD_USER = 5
+const fieldUser = 5
 ```
 
 ```go
-const FIELD_USERTYPE = 19
+const fieldUserType = 19
 ```
 
 ```go
