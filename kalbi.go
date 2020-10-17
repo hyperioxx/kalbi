@@ -1,7 +1,6 @@
 package kalbi
 
 import (
-	"fmt"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/dialog"
 	"github.com/KalbiProject/Kalbi/sip/message"
