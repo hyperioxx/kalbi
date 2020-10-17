@@ -1,12 +1,12 @@
 package kalbi
 
 import (
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/dialog"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/transaction"
 	"github.com/KalbiProject/Kalbi/transport"
-	"github.com/KalbiProject/Kalbi/interfaces"
 )
 
 //NewSipStack  creates new sip stack
@@ -15,7 +15,7 @@ func NewSipStack(Name string) *SipStack {
 	stack.Name = Name
 	stack.TransManager = transaction.NewTransactionManager()
 	stack.TransportChannel = make(chan interfaces.SipEventObject)
-    
+
 	return stack
 }
 
@@ -60,7 +60,7 @@ func (ed *SipStack) CreateResponseChannel() chan interfaces.Transaction {
 	return Channel
 }
 
-func (ed *SipStack) SetSipListener(listener interfaces.SipListener){
+func (ed *SipStack) SetSipListener(listener interfaces.SipListener) {
 	ed.sipListener = listener
 
 }
@@ -80,18 +80,18 @@ func (ed *SipStack) Start() {
 	ed.TransManager.ListeningPoint = ed.ListeningPoints[0]
 	ed.Alive = true
 	for _, listeningPoint := range ed.ListeningPoints {
-         go listeningPoint.Start()
+		go listeningPoint.Start()
 	}
 
 	for ed.Alive == true {
-			msg := <-ed.TransportChannel
-			event := ed.TransManager.Handle(msg)
-			message := event.GetSipMessage()
-			if message.Req.StatusCode != nil {
-                go ed.sipListener.HandleResponses(event)
-			}else if message.Req.Method != nil {
-                go ed.sipListener.HandleRequests(event)
-			}
-            
+		msg := <-ed.TransportChannel
+		event := ed.TransManager.Handle(msg)
+		message := event.GetSipMessage()
+		if message.Req.StatusCode != nil {
+			go ed.sipListener.HandleResponses(event)
+		} else if message.Req.Method != nil {
+			go ed.sipListener.HandleRequests(event)
+		}
+
 	}
 }

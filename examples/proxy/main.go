@@ -23,7 +23,7 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction) {
 		msg := message.NewResponse(status.OK, string(tx.GetOrigin().To.User)+"@"+string(tx.GetOrigin().To.Host), string(tx.GetOrigin().From.User)+"@"+string(tx.GetOrigin().From.Host))
 		msg.CopyHeaders(tx.GetOrigin())
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
-        
+
 	}
 	if string(tx.GetLastMessage().Req.Method) == method.INVITE {
 
@@ -43,7 +43,7 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction) {
 			msg2 := message.NewRequest(method.INVITE, string(tx.GetOrigin().To.User)+"@"+string(tx.GetOrigin().To.Host), string(tx.GetOrigin().From.User)+"@"+string(tx.GetOrigin().From.Host))
 			msg2.CopyHeaders(tx.GetOrigin())
 			msg2.CopySdp(tx.GetOrigin())
-            msg2.To.Host = []byte(user[0])
+			msg2.To.Host = []byte(user[0])
 			msg2.Via[0].Host = []byte("192.168.10.122")
 			msg2.Via[0].SetBranch(transaction.GenerateBranchId())
 			msg2.Contact.Host = []byte("192.168.10.122")
@@ -55,7 +55,7 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction) {
 			fmt.Println("Branch: " + string(tx.GetLastMessage().Via[0].Branch))
 			fmt.Println(msg2.Sdp.Export())
 			fmt.Printf("SDP SIZE: %d", len(msg2.Sdp.Export()))
-            //msg2.ContLen.SetValue(strconv.Itoa(msg.Sdp.Size()))
+			//msg2.ContLen.SetValue(strconv.Itoa(msg.Sdp.Size()))
 			ctx.Send(msg2, user[0], user[1])
 
 		}
@@ -83,27 +83,25 @@ func (p *Proxy) HandleRequest(tx transaction.Transaction) {
 
 }
 
-
 func (p *Proxy) HandleResponse(response transaction.Transaction) {
 
-	 
-	 if response.GetLastMessage().GetStatusCode() == 100 {
-		 return
+	if response.GetLastMessage().GetStatusCode() == 100 {
+		return
 
 	} else if response.GetLastMessage().GetStatusCode() == 180 {
-		 return
-	
-	 } else {
-		  
-		  TxMng := p.stack.GetTransactionManager()
-		  tx, exists := TxMng.FindServerTransactionByID(response.GetServerTransactionID())
-		  if exists == false {
-			  fmt.Println("Server Tranaction has been terminated as 200 OK has been sent, must send statlessly ")
-			  msg := message.NewResponse(status.OK, "@", "@")
-			  msg.CopyHeaders(response.GetOrigin())
-			  msg.CopySdp(response.GetOrigin())
-			  response.Send(msg, string(response.GetLastMessage().Contact.Host), string(response.GetLastMessage().Contact.Port))
-		  }else {
+		return
+
+	} else {
+
+		TxMng := p.stack.GetTransactionManager()
+		tx, exists := TxMng.FindServerTransactionByID(response.GetServerTransactionID())
+		if exists == false {
+			fmt.Println("Server Tranaction has been terminated as 200 OK has been sent, must send statlessly ")
+			msg := message.NewResponse(status.OK, "@", "@")
+			msg.CopyHeaders(response.GetOrigin())
+			msg.CopySdp(response.GetOrigin())
+			response.Send(msg, string(response.GetLastMessage().Contact.Host), string(response.GetLastMessage().Contact.Port))
+		} else {
 			fmt.Println("Server Tranaction Found")
 			msg := message.NewResponse(status.OK, "@", "@")
 
@@ -115,11 +113,10 @@ func (p *Proxy) HandleResponse(response transaction.Transaction) {
 			fmt.Println(string(msg.Export()))
 			response.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
-		  }
-	
-	 }
+		}
 
-    
+	}
+
 }
 
 func (p *Proxy) AddToRegister(key string, contact string) {
@@ -151,8 +148,7 @@ func (p *Proxy) Start() {
 	p.responseschannel = p.stack.CreateResponseChannel()
 	go p.stack.Start()
 	go p.ServeRequests()
-	
-	
+
 	p.ServeResponses()
 
 }
