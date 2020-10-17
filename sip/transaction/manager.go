@@ -25,6 +25,7 @@ type TransactionManager struct {
 	ClientTX        map[string]Transaction
 	RequestChannel  chan Transaction
 	ResponseChannel chan Transaction
+	sipListener     SipListener
 	ListeningPoint  transport.ListeningPoint
 	txLock          *sync.RWMutex
 }
@@ -44,7 +45,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 		}
 
 		tx.Receive(message)
-		tm.ResponseChannel <- tx
+		go tm.sipListener.HandleResponses(tx)
 
 	} else if message.Req.Method != nil {
 		log.Log.Info("Server transaction")
@@ -59,7 +60,7 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 		}
 
 		tx.Receive(message)
-		tm.RequestChannel <- tx
+		go tm.sipListener.HandleRequests(tx)
 	}
 
 }
@@ -186,4 +187,9 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 	tm.PutServerTransaction(tx)
 	return tx
 
+}
+
+
+func (tm *TransactionManager) SetSipListener(listener SipListener) {
+	tm.sipListener = listener
 }
