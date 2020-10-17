@@ -26,7 +26,7 @@ type SipVia struct {
 }
 
 func (sv *SipVia) Export() string {
-	return "Via: SIP/2.0/" + sv.Trans  + string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
+	return "Via: SIP/2.0/" + strings.ToUpper(sv.Trans) + " "+ string(sv.Host) + ":" + string(sv.Port) + ";branch=" + string(sv.Branch)
 }
 
 //SetTransport sets transport in via header
