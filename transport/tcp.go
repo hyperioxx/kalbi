@@ -14,6 +14,7 @@ type TCPTransport struct {
 	connTable        map[string]net.Conn
 }
 
+////Read from TCP Socket
 func (tt *TCPTransport) Read() *message.SipMsg {
 
 	buffer := make([]byte, 2048)
@@ -32,6 +33,7 @@ func (tt *TCPTransport) Read() *message.SipMsg {
 
 }
 
+//Start starts the ListeningPoint
 func (tt *TCPTransport) Start() {
 	log.Log.Info("Starting TCP Listening Point ")
 	for {
@@ -40,10 +42,12 @@ func (tt *TCPTransport) Start() {
 	}
 }
 
+//SetTransportChannel setter that allows to set SipStack's Transport Channel
 func (tt *TCPTransport) SetTransportChannel(channel chan *message.SipMsg) {
 	tt.TransportChannel = channel
 }
 
+//Build initalizes the TCPTransport object
 func (tt *TCPTransport) Build(host string, port int) {
 	var err error
 	tcpAddr := net.TCPAddr{

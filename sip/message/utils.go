@@ -6,6 +6,7 @@ import (
 	"math/rand"
 )
 
+//GenerateBranchId generates a new branch ID
 func GenerateBranchId() string {
 	b := make([]byte, 8)
 	_, err := rand.Read(b)
