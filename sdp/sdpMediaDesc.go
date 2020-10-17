@@ -37,7 +37,7 @@ func (sm *sdpMediaDesc) String() string {
 func parseSdpMediaDesc(v []byte, out *sdpMediaDesc) {
 
 	pos := 0
-	state := FIELD_MEDIA
+	state := fieldMedia
 
 	// Init the output area
 	out.MediaType = nil
@@ -55,31 +55,31 @@ func parseSdpMediaDesc(v []byte, out *sdpMediaDesc) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_MEDIA:
+		case fieldMedia:
 			if v[pos] == ' ' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			out.MediaType = append(out.MediaType, v[pos])
 
-		case FIELD_PORT:
+		case fieldPort:
 			if v[pos] == ' ' {
-				state = FIELD_PROTO
+				state = fieldProto
 				pos++
 				continue
 			}
 			out.Port = append(out.Port, v[pos])
 
-		case FIELD_PROTO:
+		case fieldProto:
 			if v[pos] == ' ' {
-				state = FIELD_FMT
+				state = fieldFmt
 				pos++
 				continue
 			}
 			out.Proto = append(out.Proto, v[pos])
 
-		case FIELD_FMT:
+		case fieldFmt:
 			out.Fmt = append(out.Fmt, v[pos])
 		}
 		pos++

@@ -247,11 +247,11 @@ import "github.com/KalbiProject/Kalbi/sip/message"
 ## Constants
 
 ```go
-const FIELD_ADDRTYPE = 40
+const fieldAddrType = 40
 ```
 
 ```go
-const FIELD_BASE = 1
+const fieldBase = 1
 ```
 
 ```go
@@ -259,11 +259,11 @@ const FIELD_BRANCH = 12
 ```
 
 ```go
-const FIELD_CAT = 45
+const fieldCat = 45
 ```
 
 ```go
-const FIELD_CONNADDR = 41
+const fieldConnAddr = 41
 ```
 
 ```go
@@ -271,7 +271,7 @@ const FIELD_EXPIRES = 17
 ```
 
 ```go
-const FIELD_FMT = 44
+const fieldFmt = 44
 ```
 
 ```go
@@ -283,7 +283,7 @@ const FIELD_ID = 9
 ```
 
 ```go
-const FIELD_IGNORE = 255
+const fieldIgnore = 255
 ```
 
 ```go
@@ -291,7 +291,7 @@ const FIELD_MADDR = 14
 ```
 
 ```go
-const FIELD_MEDIA = 42
+const fieldMedia = 42
 ```
 
 ```go
@@ -307,15 +307,15 @@ const FIELD_NAMEQ = 4
 ```
 
 ```go
-const FIELD_NULL = 0
+const fieldNull = 0
 ```
 
 ```go
-const FIELD_PORT = 7
+const fieldPort = 7
 ```
 
 ```go
-const FIELD_PROTO = 43
+const fieldProto = 43
 ```
 
 ```go
@@ -359,7 +359,7 @@ const FIELD_USERTYPE = 19
 ```
 
 ```go
-const FIELD_VALUE = 2
+const fieldValue = 2
 ```
 
 ## func [GenerateBranchId](<https://github.com/KalbiProject/Kalbi/blob/master/sip/message/utils.go#L9>)
@@ -1488,77 +1488,77 @@ import "github.com/KalbiProject/Kalbi/sdp"
 ## Constants
 
 ```go
-const FIELD_ADDRTYPE = 4
+const fieldAddrType = 4
 ```
 
 ```go
-const FIELD_BASE = 1
+const fieldBase = 1
 ```
 
 ```go
-const FIELD_CAT = 9
+const fieldCat = 9
 ```
 
 ```go
-const FIELD_CONNADDR = 5
+const fieldConnAddr = 5
 ```
 
 ```go
-const FIELD_FMT = 8
+const fieldFmt = 8
 ```
 
 ```go
-const FIELD_IGNORE = 255
+const fieldIgnore = 255
 ```
 
 ```go
-const FIELD_MEDIA = 6
+const fieldMedia = 6
 ```
 
 ```go
-const FIELD_NETTYPE = 13
+const fieldNetType = 13
 ```
 
 FMS States
 
 ```go
-const FIELD_NULL = 0
+const fieldNull = 0
 ```
 
 ```go
-const FIELD_PORT = 3
+const fieldPort = 3
 ```
 
 ```go
-const FIELD_PROTO = 7
+const fieldProto = 7
 ```
 
 ```go
-const FIELD_SESSIONID = 11
+const fieldSessionID = 11
 ```
 
 ```go
-const FIELD_SESSIONVERSION = 12
+const fieldSessionVersion = 12
 ```
 
 ```go
-const FIELD_TIMESTART = 15
+const fieldTimeStart = 15
 ```
 
 ```go
-const FIELD_TIMESTOP = 16
+const fieldTimeStop = 16
 ```
 
 ```go
-const FIELD_UNIADDR = 14
+const fieldUniAddr = 14
 ```
 
 ```go
-const FIELD_USERNAME = 10
+const fieldUsername = 10
 ```
 
 ```go
-const FIELD_VALUE = 2
+const fieldValue = 2
 ```
 
 ## func [ParseSdpOrigin](<https://github.com/KalbiProject/Kalbi/blob/master/sdp/sdpOrigin.go#L90>)

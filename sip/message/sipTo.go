@@ -51,7 +51,7 @@ func (sf *SipTo) String() string {
 func ParseSipTo(v []byte, out *SipTo) {
 
 	pos := 0
-	state := FIELD_BASE
+	state := fieldBase
 
 	// Init the output area
 	out.UriType = ""
@@ -72,7 +72,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] == '"' && out.UriType == "" {
 				state = FIELD_NAMEQ
 				pos++
@@ -112,7 +112,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 				}
 				// Look for other identifiers and ignore
 				if v[pos] == '=' {
-					state = FIELD_IGNORE
+					state = fieldIgnore
 					pos = pos + 1
 					continue
 				}
@@ -125,7 +125,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 
 		case FIELD_NAMEQ:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -133,7 +133,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 
 		case FIELD_NAME:
 			if v[pos] == '<' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -149,20 +149,20 @@ func ParseSipTo(v []byte, out *SipTo) {
 
 		case FIELD_HOST:
 			if v[pos] == ':' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Host = append(out.Host, v[pos])
 
-		case FIELD_PORT:
+		case fieldPort:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -170,7 +170,7 @@ func ParseSipTo(v []byte, out *SipTo) {
 
 		case FIELD_USERTYPE:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -178,14 +178,14 @@ func ParseSipTo(v []byte, out *SipTo) {
 
 		case FIELD_TAG:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Tag = append(out.Tag, v[pos])
-		case FIELD_IGNORE:
+		case fieldIgnore:
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

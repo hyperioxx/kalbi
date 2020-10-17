@@ -89,7 +89,7 @@ func (so *SdpOrigin) String() string {
 
 func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	pos := 0
-	state := FIELD_USERNAME
+	state := fieldUsername
 
 	// Init the output area
 	out.Username = nil
@@ -109,46 +109,46 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_USERNAME:
+		case fieldUsername:
 			if v[pos] == ' ' {
-				state = FIELD_SESSIONID
+				state = fieldSessionID
 				pos++
 				continue
 			}
 			out.Username = append(out.Username, v[pos])
-		case FIELD_SESSIONID:
+		case fieldSessionID:
 			if v[pos] == ' ' {
-				state = FIELD_SESSIONVERSION
+				state = fieldSessionVersion
 				pos++
 				continue
 			}
 			out.SessionId = append(out.SessionId, v[pos])
 
-		case FIELD_SESSIONVERSION:
+		case fieldSessionVersion:
 			if v[pos] == ' ' {
-				state = FIELD_NETTYPE
+				state = fieldNetType
 				pos++
 				continue
 			}
 			out.SessionVersion = append(out.SessionVersion, v[pos])
 
-		case FIELD_NETTYPE:
+		case fieldNetType:
 			if v[pos] == ' ' {
-				state = FIELD_ADDRTYPE
+				state = fieldAddrType
 				pos++
 				continue
 			}
 			out.NetType = append(out.NetType, v[pos])
-		case FIELD_ADDRTYPE:
+		case fieldAddrType:
 			if v[pos] == ' ' {
-				state = FIELD_UNIADDR
+				state = fieldUniAddr
 				pos++
 				continue
 			}
 			out.AddrType = append(out.AddrType, v[pos])
-		case FIELD_UNIADDR:
+		case fieldUniAddr:
 			if v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

@@ -68,7 +68,7 @@ func (st *sdpTime) String() string {
 
 func ParserSdpTime(v []byte, out *sdpTime) {
 	pos := 0
-	state := FIELD_TIMESTART
+	state := fieldTimeStart
 
 	// Init the output area
 	out.TimeStart = nil
@@ -84,15 +84,15 @@ func ParserSdpTime(v []byte, out *sdpTime) {
 	for pos < len(v) {
 		switch state {
 
-		case FIELD_TIMESTART:
+		case fieldTimeStart:
 			if v[pos] == ' ' {
-				state = FIELD_TIMESTOP
+				state = fieldTimeStop
 				pos++
 				continue
 			}
 			out.TimeStart = append(out.TimeStart, v[pos])
 
-		case FIELD_TIMESTOP:
+		case fieldTimeStop:
 			out.TimeStop = append(out.TimeStop, v[pos])
 		}
 		pos++

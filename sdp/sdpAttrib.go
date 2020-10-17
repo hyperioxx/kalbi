@@ -40,7 +40,7 @@ func (sa *sdpAttrib) String() string {
 
 func parseSdpAttrib(v []byte, out *sdpAttrib) {
 	pos := 0
-	state := FIELD_CAT
+	state := fieldCat
 
 	// Init the output area
 	out.Cat = nil
@@ -56,15 +56,15 @@ func parseSdpAttrib(v []byte, out *sdpAttrib) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_CAT:
+		case fieldCat:
 			if v[pos] == ':' {
-				state = FIELD_VALUE
+				state = fieldValue
 				pos++
 				continue
 			}
 			out.Cat = append(out.Cat, v[pos])
 
-		case FIELD_VALUE:
+		case fieldValue:
 			out.Val = append(out.Val, v[pos])
 		}
 		pos++

@@ -330,14 +330,14 @@ func MessageDetails(data *SipMsg) string {
 
 }
 
-const FIELD_NULL = 0
-const FIELD_BASE = 1
-const FIELD_VALUE = 2
+const fieldNull = 0
+const fieldBase = 1
+const fieldValue = 2
 const FIELD_NAME = 3
 const FIELD_NAMEQ = 4
 const FIELD_USER = 5
 const FIELD_HOST = 6
-const FIELD_PORT = 7
+const fieldPort = 7
 const FIELD_TAG = 8
 const FIELD_ID = 9
 const FIELD_METHOD = 10
@@ -365,11 +365,11 @@ const FIELD_URI = 29
 
 //
 
-const FIELD_ADDRTYPE = 40
-const FIELD_CONNADDR = 41
-const FIELD_MEDIA = 42
-const FIELD_PROTO = 43
-const FIELD_FMT = 44
-const FIELD_CAT = 45
+const fieldAddrType = 40
+const fieldConnAddr = 41
+const fieldMedia = 42
+const fieldProto = 43
+const fieldFmt = 44
+const fieldCat = 45
 
-const FIELD_IGNORE = 255
+const fieldIgnore = 255

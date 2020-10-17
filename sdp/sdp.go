@@ -8,25 +8,25 @@ import (
 var keepSrc = true
 
 //FMS States
-const FIELD_NULL = 0
-const FIELD_BASE = 1
-const FIELD_VALUE = 2
-const FIELD_PORT = 3
-const FIELD_ADDRTYPE = 4
-const FIELD_CONNADDR = 5
-const FIELD_MEDIA = 6
-const FIELD_PROTO = 7
-const FIELD_FMT = 8
-const FIELD_CAT = 9
-const FIELD_USERNAME = 10
-const FIELD_SESSIONID = 11
-const FIELD_SESSIONVERSION = 12
-const FIELD_NETTYPE = 13
-const FIELD_UNIADDR = 14
-const FIELD_TIMESTART = 15
-const FIELD_TIMESTOP = 16
+const fieldNull = 0
+const fieldBase = 1
+const fieldValue = 2
+const fieldPort = 3
+const fieldAddrType = 4
+const fieldConnAddr = 5
+const fieldMedia = 6
+const fieldProto = 7
+const fieldFmt = 8
+const fieldCat = 9
+const fieldUsername = 10
+const fieldSessionID = 11
+const fieldSessionVersion = 12
+const fieldNetType = 13
+const fieldUniAddr = 14
+const fieldTimeStart = 15
+const fieldTimeStop = 16
 
-const FIELD_IGNORE = 255
+const fieldIgnore = 255
 
 //SdpMsg is representation of an SDP message
 type SdpMsg struct {
