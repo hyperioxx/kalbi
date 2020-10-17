@@ -32,6 +32,7 @@ type SipStack struct {
 	sipListener      interfaces.SipListener
 }
 
+//GetTransactionManager returns TransactionManager
 func (ed *SipStack) GetTransactionManager() *transaction.TransactionManager {
 	return ed.TransManager
 }
@@ -44,15 +45,18 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) tr
 	return listenpoint
 }
 
+//SetSipListener sets a struct that follows the SipListener interface
 func (ed *SipStack) SetSipListener(listener interfaces.SipListener) {
 	ed.sipListener = listener
 
 }
 
+//IsAlive check if SipStack is alive
 func (ed *SipStack) IsAlive() bool {
 	return ed.Alive
 }
 
+//Stop stops SipStack execution
 func (ed *SipStack) Stop() {
 	log.Log.Info("Stopping SIPStack...")
 	ed.Alive = false

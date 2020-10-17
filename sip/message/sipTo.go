@@ -15,30 +15,37 @@ type SipTo struct {
 	Src      []byte // Full source if needed
 }
 
+//SetUriType gives the ability to set URI type e.g. sip:, sips:
 func (sf *SipTo) SetUriType(uriType string) {
 	sf.UriType = uriType
 }
 
+//SetUser set user portion of uri
 func (sf *SipTo) SetUser(user string) {
 	sf.User = []byte(user)
 }
 
+//SetHost set host protion of uri
 func (sf *SipTo) SetHost(host string) {
 	sf.Host = []byte(host)
 }
 
+//SetPort set port portion of uri
 func (sf *SipTo) SetPort(port string) {
 	sf.Port = []byte(port)
 }
 
+//SetUserType sets user type
 func (sf *SipTo) SetUserType(userType string) {
 	sf.UserType = []byte(userType)
 }
 
+//SetTag sets To Tag
 func (sf *SipTo) SetTag(tag string) {
 	sf.Tag = []byte(tag)
 }
 
+//String returns header as string
 func (sf *SipTo) String() string {
 	requestline := "To: "
 	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
@@ -48,6 +55,7 @@ func (sf *SipTo) String() string {
 	return requestline
 }
 
+//ParseSipTo parses SIP To Header
 func ParseSipTo(v []byte, out *SipTo) {
 
 	pos := 0
