@@ -70,7 +70,7 @@ func (tm *TransactionManager) Handle(event SipEventObject) SipEventObject {
 	return event
 }
 
-//FindTransaction finds transaction by SipMsgg struct
+//FindServerTransaction finds transaction by SipMsg
 func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -79,7 +79,7 @@ func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interf
 	return tx, exists
 }
 
-//FindTransaction finds transaction by SipMsgg struct
+//FindClientTransaction finds transaction by SipMsg
 func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -88,7 +88,7 @@ func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interf
 	return tx, exists
 }
 
-//FindTransactionByID finds transaction by id
+//FindServerTransactionByID finds transaction by id
 func (tm *TransactionManager) FindServerTransactionByID(value string) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -97,7 +97,7 @@ func (tm *TransactionManager) FindServerTransactionByID(value string) (interface
 	return tx, exists
 }
 
-//FindTransactionByID finds transaction by id
+//FindClientTransactionByID finds transaction by id
 func (tm *TransactionManager) FindClientTransactionByID(value string) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()

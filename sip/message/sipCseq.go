@@ -13,26 +13,31 @@ package message
 
 */
 
+//SipCseq SIP CSeq Header
 type SipCseq struct {
 	Id     []byte // Cseq ID
 	Method []byte // Cseq Method
 	Src    []byte // Full source if needed
 }
 
+//SetID sets CSeq ID
 func (sc *SipCseq) SetID(id string) {
 	sc.Id = []byte(id)
 }
 
+//SetMethod sets method
 func (sc *SipCseq) SetMethod(method string) {
 	sc.Method = []byte(method)
 }
 
+//String returns Header as String
 func (sc *SipCseq) String() string {
 	line := "Cseq: "
 	line += string(sc.Id) + " " + string(sc.Method)
 	return line
 }
 
+//ParseSipCseq parses CSeq Header
 func ParseSipCseq(v []byte, out *SipCseq) {
 	pos := 0
 	state := fieldID
