@@ -48,6 +48,9 @@ func (ut *UDPTransport) Start() {
 	}
 }
 
+func (ut *UDPTransport) SetTransportChannel(channel chan *message.SipMsg) {
+	ut.TransportChannel = channel
+}
 
 func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)
