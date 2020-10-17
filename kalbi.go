@@ -55,6 +55,11 @@ func (ed *SipStack) CreateResponseChannel() chan transaction.Transaction {
 	return Channel
 }
 
+func (ed *SipStack) SetSipListener(listener transaction.SipListener){
+	ed.TransManager.SetSipListener(listener)
+
+}
+
 func (ed *SipStack) IsAlive() bool {
 	return ed.Alive
 }
