@@ -351,10 +351,11 @@ const FIELD_QOP = 22
 const FIELD_NONCE = 23
 const FIELD_REALM = 24
 const FIELD_ALGORITHM = 25
-const FIELD_CNONCE = 26 
+const FIELD_CNONCE = 26
 const FIELD_NC = 27
 const FIELD_RESPONSE = 28
 const FIELD_URI = 29
+
 //
 
 const FIELD_ADDRTYPE = 40

@@ -1,7 +1,8 @@
 package interfaces
 
-import ("github.com/KalbiProject/Kalbi/sip/message"
-        )
+import (
+	"github.com/KalbiProject/Kalbi/sip/message"
+)
 
 type SipListener interface {
 	HandleRequests(SipEventObject)
@@ -16,18 +17,16 @@ type Transaction interface {
 	Receive(*message.SipMsg)
 	GetLastMessage() *message.SipMsg
 	GetServerTransactionID() string
-   SetLastMessage(*message.SipMsg)
-   GetListeningPoint() ListeningPoint
+	SetLastMessage(*message.SipMsg)
+	GetListeningPoint() ListeningPoint
 }
 
-
-type SipEventObject interface{
+type SipEventObject interface {
 	GetSipMessage() *message.SipMsg
 	SetSipMessage(*message.SipMsg)
 	GetTransaction() Transaction
-	SetTransaction( Transaction)
+	SetTransaction(Transaction)
 }
-
 
 type ListeningPoint interface {
 	Read() SipEventObject

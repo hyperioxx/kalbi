@@ -1,9 +1,9 @@
 package message
 
-func NewViaHeader(){
-    
+func NewViaHeader() {
+
 }
 
-func NewContactHeader(){
+func NewContactHeader() {
 
 }

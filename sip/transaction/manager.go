@@ -1,10 +1,10 @@
 package transaction
 
 import (
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/sirupsen/logrus"
 	"sync"
 )
@@ -48,7 +48,6 @@ func (tm *TransactionManager) Handle(event SipEventObject) SipEventObject {
 		tx.Receive(message)
 		event.SetTransaction(tx)
 		return event
-		
 
 	} else if message.Req.Method != nil {
 		log.Log.Info("Server transaction")

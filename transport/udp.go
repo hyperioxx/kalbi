@@ -2,10 +2,10 @@ package transport
 
 import (
 	"fmt"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip"
 	"github.com/KalbiProject/Kalbi/sip/event"
-	"github.com/KalbiProject/Kalbi/interfaces"
 	"net"
 )
 
@@ -47,7 +47,7 @@ func (ut *UDPTransport) Start() {
 	log.Log.Info("Starting UDP Listening Point ")
 	for {
 		msg := ut.Read()
-		ut.TransportChannel <-msg
+		ut.TransportChannel <- msg
 	}
 }
 
@@ -73,4 +73,3 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	conn.Close()
 	return nil
 }
-

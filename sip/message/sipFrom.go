@@ -19,20 +19,21 @@ type SipFrom struct {
 	Src      []byte // Full source if needed
 }
 
-//SetUriType sets the uri type e.g. sip , sips 
+//SetUriType sets the uri type e.g. sip , sips
 func (sf *SipFrom) SetUriType(uriType string) {
 	sf.UriType = uriType
 }
 
-//SetUser sets user part of the uri 
+//SetUser sets user part of the uri
 func (sf *SipFrom) SetUser(user string) {
 	sf.User = []byte(user)
 }
 
-//SetHost sets host part of uri 
+//SetHost sets host part of uri
 func (sf *SipFrom) SetHost(host string) {
 	sf.Host = []byte(host)
 }
+
 //SetPort sets port of uri
 func (sf *SipFrom) SetPort(port string) {
 	sf.Port = []byte(port)
@@ -49,7 +50,7 @@ func (sf *SipFrom) SetTag(tag string) {
 func (sf *SipFrom) Export() string {
 	requestline := "From: "
 	requestline += "<" + sf.UriType + ":" + string(sf.User) + "@" + string(sf.Host) + ">"
-	
+
 	if sf.Tag != nil {
 		requestline += ";tag=" + string(sf.Tag)
 	}

@@ -1,6 +1,7 @@
 package message
 
 import "fmt"
+
 /*
 
 20.7 Authorization
@@ -19,17 +20,16 @@ import "fmt"
 */
 
 type SipAuth struct {
-	Username    []byte 
-	Realm       []byte  
-	Nonce       []byte
-	CNonce      []byte
-	QoP         []byte  
-	Algorithm   []byte  
-	Nc          []byte
-	URI         []byte
-	Response    []byte
-    Src         []byte
-
+	Username  []byte
+	Realm     []byte
+	Nonce     []byte
+	CNonce    []byte
+	QoP       []byte
+	Algorithm []byte
+	Nc        []byte
+	URI       []byte
+	Response  []byte
+	Src       []byte
 }
 
 //ParseSipAuth parse's WWW-Authenticate/Authorization headers
@@ -61,57 +61,57 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 		switch state {
 		case FIELD_BASE:
 			if v[pos] != ',' || v[pos] != ' ' {
-			
-				fmt.Println(getString(v, pos, pos + 4))
 
-				if getString(v, pos , pos + 9) == "username=" {
+				fmt.Println(getString(v, pos, pos+4))
+
+				if getString(v, pos, pos+9) == "username=" {
 					state = FIELD_USER
-					if v[pos + 9] == '"' {
+					if v[pos+9] == '"' {
 						pos = pos + 10
-					}else {
-                        pos = pos + 9
+					} else {
+						pos = pos + 9
 					}
 					continue
 				}
 
-				if getString(v, pos , pos + 9) == "response=" {
-					  state = FIELD_RESPONSE
-					  if v[pos + 9] == '"' {
+				if getString(v, pos, pos+9) == "response=" {
+					state = FIELD_RESPONSE
+					if v[pos+9] == '"' {
 						pos = pos + 10
-					  }else {
-                          pos = pos + 9
-					  }
-					  continue
-					  
+					} else {
+						pos = pos + 9
+					}
+					continue
+
 				}
-	
-				if getString(v, pos, pos + 4) == "qop=" {
+
+				if getString(v, pos, pos+4) == "qop=" {
 					state = FIELD_QOP
-					if v[pos + 4] == '"'{
+					if v[pos+4] == '"' {
 						pos = pos + 5
-					}else{
+					} else {
 						pos = pos + 4
 					}
 					continue
 				}
 
-				if getString(v, pos, pos + 4) == "uri=" {
+				if getString(v, pos, pos+4) == "uri=" {
 					state = FIELD_URI
-					if v[pos + 4] == '"'{
+					if v[pos+4] == '"' {
 						pos = pos + 5
-					}else{
+					} else {
 						pos = pos + 4
 					}
 					continue
 				}
 
-				if getString(v, pos, pos + 3) == "nc=" {
+				if getString(v, pos, pos+3) == "nc=" {
 					state = FIELD_NC
 					pos = pos + 3
 					continue
 				}
-				
-				if getString(v, pos, pos + 7) == "cnonce=" {
+
+				if getString(v, pos, pos+7) == "cnonce=" {
 					state = FIELD_CNONCE
 					pos = pos + 8
 					continue
@@ -133,11 +133,10 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 					continue
 				}
 
-			
 			}
 
 		case FIELD_QOP:
-			if v[pos] == ' ' || v[pos] == ',' || v[pos] == '"'{
+			if v[pos] == ' ' || v[pos] == ',' || v[pos] == '"' {
 				state = FIELD_BASE
 				pos++
 				continue
@@ -167,7 +166,6 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				continue
 			}
 			out.URI = append(out.URI, v[pos])
-
 
 		case FIELD_RESPONSE:
 			if v[pos] == '"' {
@@ -207,8 +205,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				pos++
 				continue
 			}
-            out.Nc = append(out.Nc, v[pos])
-
+			out.Nc = append(out.Nc, v[pos])
 
 		case FIELD_IGNORE:
 			if v[pos] == ' ' || v[pos] == ',' {
