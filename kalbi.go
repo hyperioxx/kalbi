@@ -88,9 +88,9 @@ func (ed *SipStack) Start() {
 			event := ed.TransManager.Handle(msg)
 			message := event.GetSipMessage()
 			if message.Req.StatusCode != nil {
-                ed.sipListener.HandleResponses(event)
+                go ed.sipListener.HandleResponses(event)
 			}else if message.Req.Method != nil {
-                ed.sipListener.HandleRequests(event)
+                go ed.sipListener.HandleRequests(event)
 			}
             
 	}
