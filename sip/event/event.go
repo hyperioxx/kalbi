@@ -1,8 +1,9 @@
 package event
 
-import ("github.com/KalbiProject/Kalbi/sip/message"
-"github.com/KalbiProject/Kalbi/interfaces")
-
+import (
+	"github.com/KalbiProject/Kalbi/interfaces"
+	"github.com/KalbiProject/Kalbi/sip/message"
+)
 
 type ListeningPoint interface {
 	Read() *message.SipMsg
@@ -20,27 +21,24 @@ type Transaction interface {
 	Receive(*message.SipMsg)
 	GetLastMessage() *message.SipMsg
 	GetServerTransactionID() string
-   SetLastMessage(*message.SipMsg)
-   GetListeningPoint() ListeningPoint
+	SetLastMessage(*message.SipMsg)
+	GetListeningPoint() ListeningPoint
 }
 
-type SipEventObject interface{
+type SipEventObject interface {
 	GetSipMessage() *message.SipMsg
 	SetSipMessage(*message.SipMsg)
 	GetTransaction() interfaces.Transaction
-	SetTransaction( interfaces.Transaction)
+	SetTransaction(interfaces.Transaction)
 }
-
 
 type SipEvent struct {
-	sipmsg    *message.SipMsg
-    tx        interfaces.Transaction
-    
+	sipmsg *message.SipMsg
+	tx     interfaces.Transaction
 }
 
-
-func (se * SipEvent) GetSipMessage() *message.SipMsg {
-     return se.sipmsg
+func (se *SipEvent) GetSipMessage() *message.SipMsg {
+	return se.sipmsg
 }
 
 func (se *SipEvent) SetSipMessage(msg *message.SipMsg) {

@@ -21,10 +21,10 @@ Server Transaction
 
 import (
 	//"fmt"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/looplab/fsm"
 )
 
@@ -90,8 +90,8 @@ func (st *ServerTransaction) SetListeningPoint(lp interfaces.ListeningPoint) {
 }
 
 //GetListeningPoint returns current listening point
-func (st *ServerTransaction) GetListeningPoint() interfaces.ListeningPoint{
-    return st.ListeningPoint
+func (st *ServerTransaction) GetListeningPoint() interfaces.ListeningPoint {
+	return st.ListeningPoint
 }
 
 //GetBranchID returns branchId which is the identifier of a transaction

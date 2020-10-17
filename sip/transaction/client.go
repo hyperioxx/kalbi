@@ -37,10 +37,10 @@ package transaction
    handshake, TUs SHOULD respond immediately to non-INVITE requests. */
 
 import (
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/looplab/fsm"
 	"time"
 )
@@ -108,8 +108,8 @@ func (ct *ClientTransaction) SetListeningPoint(lp interfaces.ListeningPoint) {
 }
 
 //GetListeningPoint returns current listening point
-func (ct *ClientTransaction) GetListeningPoint() interfaces.ListeningPoint{
-    return ct.ListeningPoint
+func (ct *ClientTransaction) GetListeningPoint() interfaces.ListeningPoint {
+	return ct.ListeningPoint
 }
 
 //GetBranchID returns branchId which is the identifier of a transaction
@@ -253,4 +253,3 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 		}
 	}
 }
-

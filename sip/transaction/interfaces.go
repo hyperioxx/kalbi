@@ -1,9 +1,8 @@
 package transaction
 
-
 import (
-	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/interfaces"
+	"github.com/KalbiProject/Kalbi/sip/message"
 )
 
 type ListeningPoint interface {
@@ -14,19 +13,17 @@ type ListeningPoint interface {
 	Send(string, string, string) error
 }
 
-
-type SipEventObject interface{
+type SipEventObject interface {
 	GetSipMessage() *message.SipMsg
 	SetSipMessage(*message.SipMsg)
 	GetTransaction() interfaces.Transaction
-	SetTransaction( interfaces.Transaction)
+	SetTransaction(interfaces.Transaction)
 }
 
 type SipListener interface {
 	HandleRequests(interfaces.Transaction)
 	HandleResponses(interfaces.Transaction)
 }
-
 
 /*type Transaction interface {
 	GetBranchID() string
