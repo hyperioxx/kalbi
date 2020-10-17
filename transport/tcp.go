@@ -47,7 +47,7 @@ func (tt *TCPTransport) SetTransportChannel(channel chan *message.SipMsg) {
 	tt.TransportChannel = channel
 }
 
-//Build initalizes the TCPTransport object
+//Build initializes the TCPTransport object
 func (tt *TCPTransport) Build(host string, port int) {
 	var err error
 	tcpAddr := net.TCPAddr{
