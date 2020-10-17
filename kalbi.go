@@ -7,7 +7,6 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/transaction"
 	"github.com/KalbiProject/Kalbi/transport"
 	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/sip/event"
 )
 
 //NewSipStack  creates new sip stack
@@ -15,7 +14,7 @@ func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
 	stack.TransManager = transaction.NewTransactionManager()
-	stack.TransportChannel = make(chan event.S)
+	stack.TransportChannel = make(chan interfaces.SipEventObject)
     
 	return stack
 }
@@ -87,7 +86,7 @@ func (ed *SipStack) Start() {
 	for ed.Alive == true {
 			msg := <-ed.TransportChannel
 			event := ed.TransManager.Handle(msg)
-			message := event.GetSipMessage
+			message := event.GetSipMessage()
 			if message.Req.StatusCode != nil {
                 ed.sipListener.HandleResponses(event)
 			}else if message.Req.Method != nil {

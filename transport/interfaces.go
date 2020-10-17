@@ -6,7 +6,7 @@ import (
 )
 
 type ListeningPoint interface {
-	Read() SipEventObject
+	Read() interfaces.SipEventObject
 	Build(string, int)
 	Start()
 	SetTransportChannel(chan interfaces.SipEventObject)
