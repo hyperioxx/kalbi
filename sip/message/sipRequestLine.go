@@ -72,9 +72,8 @@ func (sr *SipReq) String() string {
 		requestline += string(sr.Method)
 		return requestline + " " + sr.UriType + ":" + string(sr.User) + "@" + string(sr.Host) + " " + string(sr.UserType) + "SIP/2.0"
 
-	} else {
-		return requestline + "SIP/2.0 " + string(sr.StatusCode) + " " + string(sr.StatusDesc)
 	}
+	return requestline + "SIP/2.0 " + string(sr.StatusCode) + " " + string(sr.StatusDesc)
 
 }
 

@@ -4,7 +4,7 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/message"
 )
 
-//SipListener interface for sip listener i.e. Your Application 
+//SipListener interface for sip listener i.e. Your Application
 type SipListener interface {
 	HandleRequests(SipEventObject)
 	HandleResponses(SipEventObject)

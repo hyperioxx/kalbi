@@ -7,7 +7,7 @@ import (
 )
 
 func TestSIPParser(t *testing.T) {
-	byteMsg := []byte(MSG)
+	byteMsg := []byte(msg)
 	x := message.Parse(byteMsg)
 
 	fmt.Println(string(x.Body))

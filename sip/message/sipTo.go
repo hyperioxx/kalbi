@@ -4,6 +4,7 @@ package message
 // Also requires a pointer to a struct of type sipTo to write output to
 // RFC 3261 - https://www.ietf.org/rfc/rfc3261.txt - 8.1.1.2 To
 
+//SipTo SIP To Header
 type SipTo struct {
 	UriType  string // Type of URI sip, sips, tel etc
 	Name     []byte // Named portion of URI
