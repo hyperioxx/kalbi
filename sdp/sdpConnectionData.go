@@ -28,7 +28,7 @@ func (sc *sdpConnData) String() string {
 func parseSdpConnectionData(v []byte, out *sdpConnData) {
 
 	pos := 0
-	state := FIELD_BASE
+	state := fieldBase
 
 	// Init the output area
 	//out.NetType = nil
@@ -45,25 +45,25 @@ func parseSdpConnectionData(v []byte, out *sdpConnData) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] == ' ' {
-				state = FIELD_ADDRTYPE
+				state = fieldAddrType
 				pos++
 				continue
 			}
 			out.NetType = append(out.NetType, v[pos])
 
-		case FIELD_ADDRTYPE:
+		case fieldAddrType:
 			if v[pos] == ' ' {
-				state = FIELD_CONNADDR
+				state = fieldConnAddr
 				pos++
 				continue
 			}
 			out.AddrType = append(out.AddrType, v[pos])
 
-		case FIELD_CONNADDR:
+		case fieldConnAddr:
 			if v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

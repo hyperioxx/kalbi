@@ -92,7 +92,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_NULL:
+		case fieldNull:
 			if v[pos] >= 'A' && v[pos] <= 'S' && pos == 0 {
 				state = FIELD_METHOD
 				continue
@@ -104,14 +104,14 @@ func ParseSipReq(v []byte, out *SipReq) {
 					state = FIELD_STATUS
 					out.Method = []byte{}
 				} else {
-					state = FIELD_BASE
+					state = fieldBase
 				}
 				pos++
 				continue
 			}
 			out.Method = append(out.Method, v[pos])
 
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] != ' ' {
 				// Not a space so check for uri types
 				if getString(v, pos, pos+4) == "sip:" {
@@ -147,12 +147,12 @@ func ParseSipReq(v []byte, out *SipReq) {
 			}
 		case FIELD_USER:
 			if v[pos] == ':' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -167,20 +167,20 @@ func ParseSipReq(v []byte, out *SipReq) {
 
 		case FIELD_HOST:
 			if v[pos] == ':' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Host = append(out.Host, v[pos])
 
-		case FIELD_PORT:
+		case fieldPort:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -188,7 +188,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 
 		case FIELD_USERTYPE:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -196,7 +196,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 
 		case FIELD_STATUS:
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -209,7 +209,7 @@ func ParseSipReq(v []byte, out *SipReq) {
 
 		case FIELD_STATUSDESC:
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

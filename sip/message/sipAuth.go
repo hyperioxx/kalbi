@@ -34,7 +34,7 @@ type SipAuth struct {
 func ParseSipAuth(v []byte, out *SipAuth) {
 
 	pos := 0
-	state := FIELD_BASE
+	state := fieldBase
 
 	// Init the output area
 	out.Username = nil
@@ -57,7 +57,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 		// FSM
 
 		switch state {
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] != ',' || v[pos] != ' ' {
 
 				if getString(v, pos, pos+9) == "username=" {
@@ -133,7 +133,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_QOP:
 			if v[pos] == ' ' || v[pos] == ',' || v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -141,7 +141,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_NONCE:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -149,7 +149,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_CNONCE:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -157,7 +157,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_URI:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -165,7 +165,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_RESPONSE:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -173,7 +173,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_REALM:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -181,7 +181,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_ALGORITHM:
 			if v[pos] == ' ' || v[pos] == ',' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -189,7 +189,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_USER:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -197,15 +197,15 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		case FIELD_NC:
 			if v[pos] == ',' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Nc = append(out.Nc, v[pos])
 
-		case FIELD_IGNORE:
+		case fieldIgnore:
 			if v[pos] == ' ' || v[pos] == ',' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

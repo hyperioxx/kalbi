@@ -51,7 +51,7 @@ func (sv *SipVia) SetBranch(value string) {
 func ParseSipVia(v []byte, out *SipVia) {
 
 	pos := 0
-	state := FIELD_BASE
+	state := fieldBase
 
 	// Init the output area
 	out.Trans = ""
@@ -73,7 +73,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 	for pos < len(v) {
 		// FSM
 		switch state {
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] != ' ' {
 				// Not a space
 				if getString(v, pos, pos+8) == "SIP/2.0/" {
@@ -135,12 +135,12 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_HOST:
 			if v[pos] == ':' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -150,9 +150,9 @@ func ParseSipVia(v []byte, out *SipVia) {
 			}
 			out.Host = append(out.Host, v[pos])
 
-		case FIELD_PORT:
+		case fieldPort:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -160,7 +160,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_BRANCH:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -168,7 +168,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_RPORT:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -176,7 +176,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_MADDR:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -184,7 +184,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_TTL:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -192,7 +192,7 @@ func ParseSipVia(v []byte, out *SipVia) {
 
 		case FIELD_REC:
 			if v[pos] == ';' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}

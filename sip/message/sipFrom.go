@@ -60,7 +60,7 @@ func (sf *SipFrom) String() string {
 func ParseSipFrom(v []byte, out *SipFrom) {
 
 	pos := 0
-	state := FIELD_BASE
+	state := fieldBase
 
 	// Init the output area
 	out.UriType = ""
@@ -82,7 +82,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 		// FSM
 		//fmt.Println("POS:", pos, "CHR:", string(v[pos]), "STATE:", state)
 		switch state {
-		case FIELD_BASE:
+		case fieldBase:
 			if v[pos] == '"' && out.UriType == "" {
 				state = FIELD_NAMEQ
 				pos++
@@ -116,7 +116,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 				}
 				// Look for other identifiers and ignore
 				if v[pos] == '=' {
-					state = FIELD_IGNORE
+					state = fieldIgnore
 					pos = pos + 1
 					continue
 				}
@@ -135,7 +135,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 
 		case FIELD_NAMEQ:
 			if v[pos] == '"' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -143,7 +143,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 
 		case FIELD_NAME:
 			if v[pos] == '<' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -159,20 +159,20 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 
 		case FIELD_HOST:
 			if v[pos] == ':' {
-				state = FIELD_PORT
+				state = fieldPort
 				pos++
 				continue
 			}
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Host = append(out.Host, v[pos])
 
-		case FIELD_PORT:
+		case fieldPort:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -180,7 +180,7 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 
 		case FIELD_USERTYPE:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
@@ -188,15 +188,15 @@ func ParseSipFrom(v []byte, out *SipFrom) {
 
 		case FIELD_TAG:
 			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
 			out.Tag = append(out.Tag, v[pos])
 
-		case FIELD_IGNORE:
+		case fieldIgnore:
 			if v[pos] == ';' || v[pos] == '>' {
-				state = FIELD_BASE
+				state = fieldBase
 				pos++
 				continue
 			}
