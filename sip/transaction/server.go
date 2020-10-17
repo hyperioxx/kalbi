@@ -24,7 +24,7 @@ import (
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/transport"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/looplab/fsm"
 )
 
@@ -49,7 +49,7 @@ type ServerTransaction struct {
 	Origin         *message.SipMsg
 	FSM            *fsm.FSM
 	msgHistory     []*message.SipMsg
-	ListeningPoint transport.ListeningPoint
+	ListeningPoint interfaces.ListeningPoint
 	Host           string
 	Port           string
 	LastMessage    *message.SipMsg
@@ -85,12 +85,12 @@ func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 }
 
 //SetListeningPoint sets a listening point to the client transaction
-func (st *ServerTransaction) SetListeningPoint(lp transport.ListeningPoint) {
+func (st *ServerTransaction) SetListeningPoint(lp interfaces.ListeningPoint) {
 	st.ListeningPoint = lp
 }
 
 //GetListeningPoint returns current listening point
-func (st *ServerTransaction) GetListeningPoint() transport.ListeningPoint{
+func (st *ServerTransaction) GetListeningPoint() interfaces.ListeningPoint{
     return st.ListeningPoint
 }
 

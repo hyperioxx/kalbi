@@ -4,7 +4,7 @@ import (
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/transport"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/sirupsen/logrus"
 	"sync"
 )
@@ -12,8 +12,8 @@ import (
 //NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
-	txmng.ClientTX = make(map[string]Transaction)
-	txmng.ServerTX = make(map[string]Transaction)
+	txmng.ClientTX = make(map[string]interfaces.Transaction)
+	txmng.ServerTX = make(map[string]interfaces.Transaction)
 	txmng.txLock = &sync.RWMutex{}
 
 	return txmng
@@ -21,17 +21,18 @@ func NewTransactionManager() *TransactionManager {
 
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	ServerTX        map[string]Transaction
-	ClientTX        map[string]Transaction
-	RequestChannel  chan Transaction
-	ResponseChannel chan Transaction
-	sipListener     SipListener
-	ListeningPoint  transport.ListeningPoint
+	ServerTX        map[string]interfaces.Transaction
+	ClientTX        map[string]interfaces.Transaction
+	RequestChannel  chan interfaces.Transaction
+	ResponseChannel chan interfaces.Transaction
+	ListeningPoint  interfaces.ListeningPoint
 	txLock          *sync.RWMutex
 }
 
 // Handle runs TransManager
-func (tm *TransactionManager) Handle(message *message.SipMsg) {
+func (tm *TransactionManager) Handle(event SipEventObject) SipEventObject {
+
+	message := event.GetSipMessage()
 
 	if message.Req.StatusCode != nil {
 		log.Log.Info("Client transaction")
@@ -45,7 +46,9 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 		}
 
 		tx.Receive(message)
-		go tm.sipListener.HandleResponses(tx)
+		event.SetTransaction(tx)
+		return event
+		
 
 	} else if message.Req.Method != nil {
 		log.Log.Info("Server transaction")
@@ -60,13 +63,16 @@ func (tm *TransactionManager) Handle(message *message.SipMsg) {
 		}
 
 		tx.Receive(message)
-		go tm.sipListener.HandleRequests(tx)
-	}
 
+		event.SetTransaction(tx)
+
+		return event
+	}
+	return event
 }
 
 //FindTransaction finds transaction by SipMsgg struct
-func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (Transaction, bool) {
+func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ServerTX[string(msg.Via[0].Branch)]
@@ -75,7 +81,7 @@ func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (Transa
 }
 
 //FindTransaction finds transaction by SipMsgg struct
-func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (Transaction, bool) {
+func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ClientTX[string(msg.Via[0].Branch)]
@@ -84,7 +90,7 @@ func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (Transa
 }
 
 //FindTransactionByID finds transaction by id
-func (tm *TransactionManager) FindServerTransactionByID(value string) (Transaction, bool) {
+func (tm *TransactionManager) FindServerTransactionByID(value string) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ServerTX[value]
@@ -93,7 +99,7 @@ func (tm *TransactionManager) FindServerTransactionByID(value string) (Transacti
 }
 
 //FindTransactionByID finds transaction by id
-func (tm *TransactionManager) FindClientTransactionByID(value string) (Transaction, bool) {
+func (tm *TransactionManager) FindClientTransactionByID(value string) (interfaces.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ClientTX[value]
@@ -102,14 +108,14 @@ func (tm *TransactionManager) FindClientTransactionByID(value string) (Transacti
 }
 
 //PutServerTransaction stores a transaction
-func (tm *TransactionManager) PutServerTransaction(tx Transaction) {
+func (tm *TransactionManager) PutServerTransaction(tx interfaces.Transaction) {
 	tm.txLock.Lock()
 	tm.ServerTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
 }
 
 //PutClientTransaction stores a transaction
-func (tm *TransactionManager) PutClientTransaction(tx Transaction) {
+func (tm *TransactionManager) PutClientTransaction(tx interfaces.Transaction) {
 	tm.txLock.Lock()
 	tm.ClientTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
@@ -187,9 +193,4 @@ func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerT
 	tm.PutServerTransaction(tx)
 	return tx
 
-}
-
-
-func (tm *TransactionManager) SetSipListener(listener SipListener) {
-	tm.sipListener = listener
 }

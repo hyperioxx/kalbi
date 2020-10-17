@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip"
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/Kalbi/sip/event"
+	"github.com/KalbiProject/Kalbi/interfaces"
 	"net"
 )
 
@@ -12,18 +13,20 @@ import (
 type UDPTransport struct {
 	Address          net.UDPAddr
 	Connection       *net.UDPConn
-	TransportChannel chan *message.SipMsg
+	TransportChannel chan interfaces.SipEventObject
 }
 
 //Read from UDP Socket
-func (ut *UDPTransport) Read() *message.SipMsg {
+func (ut *UDPTransport) Read() SipEventObject{
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFromUDP(buffer)
 	if err != nil {
 		log.Log.Error(err)
 	}
 	request := sip.Parse(buffer[:n])
-	return &request
+	event := new(event.SipEvent)
+	event.SetSipMessage(&request)
+	return event
 }
 
 func (ut *UDPTransport) Build(host string, port int) {
@@ -48,7 +51,7 @@ func (ut *UDPTransport) Start() {
 	}
 }
 
-func (ut *UDPTransport) SetTransportChannel(channel chan *message.SipMsg) {
+func (ut *UDPTransport) SetTransportChannel(channel chan interfaces.SipEventObject) {
 	ut.TransportChannel = channel
 }
 
