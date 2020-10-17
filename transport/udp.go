@@ -10,8 +10,9 @@ import (
 
 //UDPTransport is a network protocol listening point for the EventDispatcher
 type UDPTransport struct {
-	Address    net.UDPAddr
-	Connection *net.UDPConn
+	Address          net.UDPAddr
+	Connection       *net.UDPConn
+	TransportChannel chan *message.SipMsg
 }
 
 //Read from UDP Socket
@@ -38,6 +39,15 @@ func (ut *UDPTransport) Build(host string, port int) {
 	}
 
 }
+
+func (ut *UDPTransport) Start() {
+	log.Log.Info("Starting UDP Listening Point ")
+	for {
+		msg := ut.Read()
+		ut.TransportChannel <-msg
+	}
+}
+
 
 func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	addr, err := net.ResolveUDPAddr("udp", host+":"+port)

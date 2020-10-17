@@ -7,5 +7,6 @@ import (
 type ListeningPoint interface {
 	Read() *message.SipMsg
 	Build(string, int)
+	Start()
 	Send(string, string, string) error
 }
