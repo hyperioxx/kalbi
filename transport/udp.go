@@ -29,7 +29,7 @@ func (ut *UDPTransport) Read() interfaces.SipEventObject {
 	return event
 }
 
-//Build initalizes the UDPTransport object
+//Build initializes the UDPTransport object
 func (ut *UDPTransport) Build(host string, port int) {
 	ut.Address = net.UDPAddr{
 		IP:   net.ParseIP(host),
