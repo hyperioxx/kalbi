@@ -30,7 +30,7 @@ type TransactionManager struct {
 }
 
 // Handle runs TransManager
-func (tm *TransactionManager) Handle(event SipEventObject) SipEventObject {
+func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces.SipEventObject {
 
 	message := event.GetSipMessage()
 
