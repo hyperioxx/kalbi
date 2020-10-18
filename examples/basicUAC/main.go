@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/sip/message"
@@ -8,9 +9,27 @@ import (
 	"github.com/KalbiProject/Kalbi/sip/status"
 )
 
-type Client struct {
-	stack *kalbi.SipStack
+const title = `##    ##    ###    ##       ########  ####     ######  ##       #### ######## ##    ## ######## 
+##   ##    ## ##   ##       ##     ##  ##     ##    ## ##        ##  ##       ###   ##    ##    
+##  ##    ##   ##  ##       ##     ##  ##     ##       ##        ##  ##       ####  ##    ##    
+#####    ##     ## ##       ########   ##     ##       ##        ##  ######   ## ## ##    ##    
+##  ##   ######### ##       ##     ##  ##     ##       ##        ##  ##       ##  ####    ##    
+##   ##  ##     ## ##       ##     ##  ##     ##    ## ##        ##  ##       ##   ###    ##    
+##    ## ##     ## ######## ########  ####     ######  ######## #### ######## ##    ##    ##    `
+
+type ClientProperties struct {
+	IP          string
+	Username    string
+	Domain      string
+	Password    string
+	Registrar   string
 }
+
+type Client struct {
+	stack       *kalbi.SipStack
+	properties  *ClientProperties
+}
+
 
 func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 
@@ -19,7 +38,12 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 	case method.CANCEL:
 		//handle CANCEL request
 	case method.INVITE:
-		//handle INVITE request
+		responseLine := message.NewResponseLine(status.OK, "It's Cool")
+		msg := message.NewResponse(responseLine, nil, nil, nil, nil, nil)
+		msg.CopyHeaders(tx.GetOrigin())
+		msg.ContLen.SetValue("0")
+		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+
 	case method.REGISTER:
 		//handle REGISTER request
 	case method.BYE:
@@ -27,7 +51,8 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 	case method.ACK:
 
 	default:
-		msg := message.NewResponse(status.OK, "@", "@")
+		responseLine := message.NewResponseLine(status.OK, "It's Cool")
+		msg := message.NewResponse(responseLine, nil, nil, nil, nil, nil)
 		msg.CopyHeaders(tx.GetOrigin())
 		msg.ContLen.SetValue("0")
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
@@ -38,7 +63,7 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
 	response := event.GetTransaction()
-
+    fmt.Println(string(event.GetSipMessage().Src))
 	switch response.GetLastMessage().GetStatusCode() {
 
 	case 100:
@@ -47,14 +72,30 @@ func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 		//Handle 180 Ringing
 	case 200:
 		//Handle 200 OK
+	case 401:
+        
 	default:
 		//Handle Default
 	}
 
 }
+func (c *Client) SendRegister() {
 
-func (c *Client) SendInvite() {
-	request := message.NewRequest(method.INVITE, "4321@127.0.0.1", "1234@127.0.0.1") //Args:  METHOD  TO HEADER  FROM HEADER
+	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
+	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060") //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
+	requestVia.SetBranch(message.GenerateBranchId())
+	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
+	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
+	requestContact := message.NewContactHeader("sip", c.properties.Username, c.properties.IP)
+	requestCallID := message.NewCallID("123456789")//Creates CallID e.g. Call-ID: 123456789
+	requestCseq := message.NewCSeq("1", method.REGISTER) //Creates CSeq e.g. CSeq: 1 INVITE
+	requestMaxFor := message.NewMaxForwards("70") //Creates Max-Forwards e.g. Max-Forwards: 70
+	requestContentLen := message.NewContentLength("0")
+	request := message.NewRequest(requestLine, requestVia , requestTo, requestFrom, requestContact, requestCallID, requestCseq, requestMaxFor, requestContentLen)
+
+	txmng := c.stack.GetTransactionManager()
+	txmng.NewClientTransaction(request)
+	c.stack.ListeningPoints[0].Send(c.properties.Registrar, "5060", request.String())
 }
 
 func (c *Client) Start(host string, port int) {
@@ -64,9 +105,80 @@ func (c *Client) Start(host string, port int) {
 	go c.stack.Start()
 }
 
+
+
+func configure() *ClientProperties {
+	props := new(ClientProperties)
+	fmt.Println(title + "\n\n\n\n")
+
+	//Username
+	fmt.Print("Username:")
+	_, err := fmt.Scan(&props.Username)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//Domain
+	fmt.Print("Domain:")
+	_, err = fmt.Scan(&props.Domain)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//Password will be visable because I cba to set stty echo off using syscalls 
+	fmt.Print("Password:")
+	_, err = fmt.Scan(&props.Password)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//IP 
+	fmt.Print("Machine IP:")
+	_, err = fmt.Scan(&props.IP)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//Registrar
+	fmt.Print("Registrar:")
+	_, err = fmt.Scan(&props.Registrar)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return props
+}
+
+
+func basicCliInterface() {
+
+	alive := true
+	var command string
+	for alive == true{
+		
+		fmt.Print("kalbiclient> ")
+
+		_, err := fmt.Scan(&command)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if command == "exit"{
+             alive = false
+		}else {
+			fmt.Println("Unknown command")
+		}
+		
+	}
+
+}
+
+
+
 func main() {
+	props := configure()
 	client := new(Client)
-	client.Start("127.0.0.1", 5060)
-	client.SendInvite()
-	select {} //blocking action
+	client.properties = props
+	client.Start(props.IP, 5060)
+	client.SendRegister()
+	basicCliInterface() 
 }

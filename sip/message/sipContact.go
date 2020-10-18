@@ -32,6 +32,11 @@ type SipContact struct {
 	Src     []byte // Full source if needed
 }
 
+//SetUriType sets the uri type e.g. sip , sips
+func (sc *SipContact) SetUriType(uriType string) {
+	sc.UriType = uriType
+}
+
 //SetUser sets user part of the uri
 func (sc *SipContact) SetUser(user string) {
 	sc.User = []byte(user)

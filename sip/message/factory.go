@@ -1,10 +1,11 @@
 package message
 
 //NewRequestLine creates new request line
-func NewRequestLine(method string, uriType string, host string, port string) *SipReq {
+func NewRequestLine(method string, uriType string, user string, host string, port string) *SipReq {
 	requestLine := new(SipReq)
 	requestLine.SetMethod(method)
 	requestLine.SetUriType(uriType)
+	requestLine.SetUser(user)
 	requestLine.SetHost(host)
 	requestLine.SetPort(port)
 	return requestLine
@@ -28,8 +29,9 @@ func NewViaHeader(transport string, host string, port string) *SipVia {
 }
 
 //NewFromHeader creates new From header
-func NewFromHeader(user string, host string, port string) *SipFrom {
+func NewFromHeader(user string, uriType string, host string, port string) *SipFrom {
 	from := new(SipFrom)
+	from.SetUriType(uriType)
 	from.SetUser(user)
 	from.SetHost(host)
 	from.SetPort(port)
@@ -37,8 +39,9 @@ func NewFromHeader(user string, host string, port string) *SipFrom {
 }
 
 //NewToHeader creates new To header
-func NewToHeader(user string, host string, port string) *SipTo {
+func NewToHeader(user string, uriType string, host string, port string) *SipTo {
 	to := new(SipTo)
+	to.SetUriType(uriType)
 	to.SetUser(user)
 	to.SetHost(host)
 	to.SetPort(port)
@@ -46,11 +49,11 @@ func NewToHeader(user string, host string, port string) *SipTo {
 }
 
 //NewContactHeader creates new Contact Header
-func NewContactHeader(user string, host string, port string) *SipContact {
+func NewContactHeader(uriType string, user string, host string) *SipContact {
 	contact := new(SipContact)
+	contact.SetUriType(uriType)
 	contact.SetUser(user)
 	contact.SetHost(host)
-	contact.SetPort(port)
 	return contact
 }
 
@@ -74,4 +77,11 @@ func NewMaxForwards(value string) *SipVal {
 	maxFor := new(SipVal)
 	maxFor.SetValue(value)
 	return maxFor
+}
+
+//NewContentLength creates new Content Length Header
+func NewContentLength(value string) *SipVal {
+	contlen := new(SipVal)
+	contlen.SetValue(value)
+	return contlen
 }
