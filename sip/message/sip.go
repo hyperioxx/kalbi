@@ -31,6 +31,11 @@ type SipMsg struct {
 	Sdp      sdp.SdpMsg
 }
 
+//SetAuthHeader sets auth header
+func (sm *SipMsg) SetAuthHeader(auth *SipAuth) {
+	sm.Auth = *auth
+}
+
 //GetStatusCode returns responses status code
 func (sm *SipMsg) GetStatusCode() int {
 	code, err := strconv.Atoi(string(sm.Req.StatusCode))
@@ -70,6 +75,11 @@ func (sm *SipMsg) String() string {
 	if sm.ContType.Value != nil {
 		sipmsg += "Content-Type: " + sm.ContType.String() + "\r\n"
 	}
+	if sm.Auth.Response != nil {
+        sipmsg += "Authorization: " + sm.Auth.String() + "\r\n"
+	}else if sm.Auth.Nonce != nil{
+		sipmsg += "WWW-Authenticate: " + sm.Auth.String() + "\r\n"
+	}
 	sipmsg += "Call-ID: " + sm.CallId.String() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.String() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.String() + "\r\n"
@@ -81,6 +91,9 @@ func (sm *SipMsg) String() string {
 
 	return sipmsg
 }
+
+
+
 
 //SipVal is the value of a simple SIP Header e.g. Max Forwards
 type SipVal struct {

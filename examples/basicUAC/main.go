@@ -2,20 +2,19 @@ package main
 
 import (
 	"fmt"
+	"time"
 	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
 	"github.com/KalbiProject/Kalbi/sip/status"
+	"github.com/KalbiProject/Kalbi/authentication"
 )
 
-const title = `##    ##    ###    ##       ########  ####     ######  ##       #### ######## ##    ## ######## 
-##   ##    ## ##   ##       ##     ##  ##     ##    ## ##        ##  ##       ###   ##    ##    
-##  ##    ##   ##  ##       ##     ##  ##     ##       ##        ##  ##       ####  ##    ##    
-#####    ##     ## ##       ########   ##     ##       ##        ##  ######   ## ## ##    ##    
-##  ##   ######### ##       ##     ##  ##     ##       ##        ##  ##       ##  ####    ##    
-##   ##  ##     ## ##       ##     ##  ##     ##    ## ##        ##  ##       ##   ###    ##    
-##    ## ##     ## ######## ########  ####     ######  ######## #### ######## ##    ##    ##    `
+const (
+	title = "Kalbi Simple SIP CLient"
+    prompt = "kalbiclient> ")
+
 
 type ClientProperties struct {
 	IP          string
@@ -60,6 +59,39 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 
 }
 
+
+func (c *Client) ReRegister(event interfaces.SipEventObject){
+	//response := event.GetSipMessage()
+
+	time.Sleep(60 * time.Second) 
+	
+	originRequest :=  event.GetTransaction().GetOrigin()
+
+	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
+	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060") //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
+	requestVia.SetBranch(message.GenerateBranchId())//Generate Branch
+	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
+	requestFrom.SetTag("3234jhf23")
+	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
+	requestContact := message.NewContactHeader("sip", c.properties.Username, c.properties.IP) //Creates contact header
+	requestCallID := message.NewCallID(message.GenerateNewCallID())//Creates CallID e.g. Call-ID: 123456789
+	requestCseq := message.NewCSeq("1", method.REGISTER) //Creates CSeq e.g. CSeq: 1 INVITE
+	
+	requestMaxFor := message.NewMaxForwards("70") //Creates Max-Forwards e.g. Max-Forwards: 70
+	requestContentLen := message.NewContentLength("0")//Creates Content Length Header
+	request := message.NewRequest(requestLine, requestVia , requestTo, requestFrom, requestContact, requestCallID, requestCseq, requestMaxFor, requestContentLen)
+
+    request.SetAuthHeader(&originRequest.Auth)
+
+	txmng := c.stack.GetTransactionManager()
+	txmng.NewClientTransaction(request)
+	c.stack.ListeningPoints[0].Send(c.properties.Registrar, "5060", request.String())
+	
+	
+}
+
+
+
 func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
 	response := event.GetTransaction()
@@ -71,26 +103,63 @@ func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 	case 180:
 		//Handle 180 Ringing
 	case 200:
-		//Handle 200 OK
+		if string(response.GetOrigin().Req.Method) == method.REGISTER {
+              go c.ReRegister(event)
+		}
 	case 401:
-        
+        c.HandleUnAuth(event)
 	default:
 		//Handle Default
 	}
 
 }
+
+func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
+	response := event.GetSipMessage()
+
+	//copy original auth header
+	authHeader := response.Auth
+
+
+	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
+	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060") //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
+	requestVia.SetBranch(message.GenerateBranchId())//Generate Branch
+	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
+	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
+	requestContact := message.NewContactHeader("sip", c.properties.Username, c.properties.IP) //Creates contact header
+	requestCallID := message.NewCallID(message.GenerateNewCallID())//Creates CallID e.g. Call-ID: 123456789
+	requestCseq := message.NewCSeq("1", method.REGISTER) //Creates CSeq e.g. CSeq: 1 INVITE
+	requestMaxFor := message.NewMaxForwards("70") //Creates Max-Forwards e.g. Max-Forwards: 70
+	requestContentLen := message.NewContentLength("0")//Creates Content Length Header
+	request := message.NewRequest(requestLine, requestVia , requestTo, requestFrom, requestContact, requestCallID, requestCseq, requestMaxFor, requestContentLen)
+	
+    authHeader.SetCNonce("nwqlcqw80wnf")
+	authHeader.SetUsername("02922401513")
+	authHeader.SetNc("00000001")
+	authHeader.SetURI("sip:"+ c.properties.Domain)
+	authHeader.SetResponse(authentication.MD5Challange(authHeader.GetUsername(), authHeader.GetRealm(), c.properties.Password, authHeader.GetURI(), authHeader.GetNonce(), authHeader.GetCNonce(), authHeader.GetNc(), authHeader.GetQoP(), method.REGISTER ))
+	request.SetAuthHeader(&authHeader)
+    
+	txmng := c.stack.GetTransactionManager()
+	txmng.NewClientTransaction(request)
+	c.stack.ListeningPoints[0].Send(c.properties.Registrar, "5060", request.String())
+
+
+}
+
 func (c *Client) SendRegister() {
 
 	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060") //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())
+	requestVia.SetBranch(message.GenerateBranchId())//Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
+	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
-	requestContact := message.NewContactHeader("sip", c.properties.Username, c.properties.IP)
-	requestCallID := message.NewCallID("123456789")//Creates CallID e.g. Call-ID: 123456789
+	requestContact := message.NewContactHeader("sip", c.properties.Username, c.properties.IP) //Creates contact header
+	requestCallID := message.NewCallID(message.GenerateNewCallID())//Creates CallID e.g. Call-ID: 123456789
 	requestCseq := message.NewCSeq("1", method.REGISTER) //Creates CSeq e.g. CSeq: 1 INVITE
 	requestMaxFor := message.NewMaxForwards("70") //Creates Max-Forwards e.g. Max-Forwards: 70
-	requestContentLen := message.NewContentLength("0")
+	requestContentLen := message.NewContentLength("0")//Creates Content Length Header
 	request := message.NewRequest(requestLine, requestVia , requestTo, requestFrom, requestContact, requestCallID, requestCseq, requestMaxFor, requestContentLen)
 
 	txmng := c.stack.GetTransactionManager()
@@ -109,7 +178,7 @@ func (c *Client) Start(host string, port int) {
 
 func configure() *ClientProperties {
 	props := new(ClientProperties)
-	fmt.Println(title + "\n\n\n\n")
+	fmt.Println(title + "\n")
 
 	//Username
 	fmt.Print("Username:")
@@ -152,26 +221,29 @@ func configure() *ClientProperties {
 
 func basicCliInterface() {
 
+    
 	alive := true
 	var command string
-	for alive == true{
+	for alive == true {
 		
-		fmt.Print("kalbiclient> ")
+		fmt.Print(prompt)
 
-		_, err := fmt.Scan(&command)
-		if err != nil {
-			fmt.Println(err)
-		}
-		if command == "exit"{
-             alive = false
-		}else {
+		fmt.Scanln(&command)
+
+		switch command {
+		case "exit":
+			alive = false
+			fmt.Println("Exiting...")
+		case "":
+			continue
+		default:
 			fmt.Println("Unknown command")
+
 		}
-		
+
 	}
 
 }
-
 
 
 func main() {

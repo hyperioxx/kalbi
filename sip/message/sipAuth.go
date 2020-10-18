@@ -31,6 +31,129 @@ type SipAuth struct {
 	Src       []byte
 }
 
+//SetUsername sets username 
+func (sa *SipAuth) SetUsername(value string) {
+    sa.Username = []byte(value)
+}
+
+//GetUsername returns username
+func (sa *SipAuth) GetUsername() string {
+    return string(sa.Username)
+}
+
+//SetRealm sets realm
+func (sa *SipAuth) SetRealm(value string) {
+    sa.Realm = []byte(value)
+}
+
+//GetRealm returns realm
+func (sa *SipAuth) GetRealm() string {
+    return string(sa.Realm)
+}
+
+//SetNonce sets nonce
+func (sa *SipAuth) SetNonce(value string) {
+	sa.Nonce = []byte(value)
+}
+
+//GetNonce returns nonce
+func (sa *SipAuth) GetNonce() string {
+    return string(sa.Nonce)
+}
+
+//SetCNonce sets cnonce
+func (sa *SipAuth) SetCNonce(value string) {
+	sa.CNonce = []byte(value)
+}
+
+//GetCNonce returns cnonce
+func (sa *SipAuth) GetCNonce() string {
+    return string(sa.CNonce)
+}
+
+//SetQoP sets qop
+func (sa *SipAuth) SetQoP(value string) {
+    sa.QoP = []byte(value)
+}
+
+//GetQoP returns qop
+func (sa *SipAuth) GetQoP() string {
+    return string(sa.QoP)
+}
+
+//SetAlgorithm sets algorithm
+func (sa *SipAuth) SetAlgorithm(value string) {
+    sa.Algorithm = []byte(value)
+}
+
+//GetAlgorithm returns algorithm
+func (sa *SipAuth) GetAlgorithm() string {
+    return string(sa.Algorithm)
+}
+
+//SetNc sets nc
+func (sa *SipAuth) SetNc(value string) {
+    sa.Nc = []byte(value)
+}
+
+//GetAlgorithm returns nc
+func (sa *SipAuth) GetNc() string {
+    return string(sa.Nc)
+}
+
+//SetURI sets nc
+func (sa *SipAuth) SetURI(value string) {
+    sa.URI = []byte(value)
+}
+
+//GetURI returns nc
+func (sa *SipAuth) GetURI() string {
+    return string(sa.URI)
+}
+
+//SetResponse sets response
+func (sa *SipAuth) SetResponse(value string) {
+    sa.Response = []byte(value)
+}
+
+//GetResponse returns response
+func (sa *SipAuth) GetResponse() string {
+    return string(sa.Response)
+}
+
+func (sa *SipAuth) String() string {
+	line := "DIGEST "
+	if sa.QoP != nil {
+		line += "qop=" + string(sa.QoP) + " "
+	} 
+	if sa.Nonce != nil {
+		line += ",nonce=\"" + string(sa.Nonce) + "\" " 
+	}
+	if sa.Realm != nil {
+        line += ",realm=\"" + string(sa.Realm) + "\" "
+	}
+	if sa.Algorithm != nil {
+        line += ",algorithm=" + string(sa.Algorithm) + " "
+	}
+	if sa.Username != nil {
+        line += ",username=\"" + string(sa.Username) + "\" "
+	}
+	if sa.URI != nil {
+        line += ",uri=\"" + string(sa.URI) + "\" "
+	}
+	if sa.Nc != nil {
+		line += ",nc="+ string(sa.Nc) + " "
+	}
+	if sa.Response != nil {
+		line += ",response=\"" + string(sa.Response) + "\" "
+	}
+	if sa.CNonce != nil {
+		line += ",cnonce=\"" + string(sa.CNonce) + "\" "
+	}
+    return line
+}
+
+
 //ParseSipAuth parse's WWW-Authenticate/Authorization headers
 func ParseSipAuth(v []byte, out *SipAuth) {
 
