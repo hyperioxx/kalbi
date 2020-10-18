@@ -11,6 +11,8 @@ import (
 
 //UDPTransport is a network protocol listening point for the EventDispatcher
 type UDPTransport struct {
+	Host             string
+	Port             int
 	Address          net.UDPAddr
 	Connection       *net.UDPConn
 	TransportChannel chan interfaces.SipEventObject
@@ -29,8 +31,20 @@ func (ut *UDPTransport) Read() interfaces.SipEventObject {
 	return event
 }
 
+//GetHost returns ip interface address
+func (ut *UDPTransport) GetHost() string {
+	return ut.Host
+}
+
+//GetPort returns ip interface port
+func (ut *UDPTransport) GetPort() int {
+	return ut.Port
+}
+
 //Build initializes the UDPTransport object
 func (ut *UDPTransport) Build(host string, port int) {
+	ut.Host = host
+	ut.Port = port
 	ut.Address = net.UDPAddr{
 		IP:   net.ParseIP(host),
 		Port: port,

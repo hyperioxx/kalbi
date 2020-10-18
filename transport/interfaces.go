@@ -14,14 +14,6 @@ type ListeningPoint interface {
 	Send(string, string, string) error
 }
 
-//SipEventObject interface for SIP events
-type SipEventObject interface {
-	GetSipMessage() *message.SipMsg
-	SetSipMessage(*message.SipMsg)
-	GetTransaction() interfaces.Transaction
-	SetTransaction(interfaces.Transaction)
-}
-
 //Transaction interface for SIP transactions
 type Transaction interface {
 	GetBranchID() string
