@@ -6,6 +6,7 @@ import (
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip"
 	"github.com/KalbiProject/Kalbi/sip/event"
+	reuse "github.com/libp2p/go-reuseport"
 	"net"
 )
 
@@ -14,17 +15,18 @@ type UDPTransport struct {
 	Host             string
 	Port             int
 	Address          net.UDPAddr
-	Connection       *net.UDPConn
+	Connection       net.PacketConn
 	TransportChannel chan interfaces.SipEventObject
 }
 
 //Read from UDP Socket
 func (ut *UDPTransport) Read() interfaces.SipEventObject {
 	buffer := make([]byte, 2048)
-	n, _, err := ut.Connection.ReadFromUDP(buffer)
+	n, _, err := ut.Connection.ReadFrom(buffer)
 	if err != nil {
 		log.Log.Error(err)
 	}
+	
 	request := sip.Parse(buffer[:n])
 	event := new(event.SipEvent)
 	event.SetSipMessage(&request)
@@ -51,7 +53,7 @@ func (ut *UDPTransport) Build(host string, port int) {
 	}
 
 	var err error
-	ut.Connection, err = net.ListenUDP("udp", &ut.Address)
+	ut.Connection, err = reuse.ListenPacket("udp", ut.Address.String())
 	if err != nil {
 		panic(err)
 	}
@@ -79,7 +81,11 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 		log.Log.Error(err)
 	}
 	log.Log.Info("Sending message to " + host + ":" + port)
-	conn, err := net.DialUDP("udp", nil, addr)
+	conn, err := reuse.Dial("udp", ut.Address.String(), addr.String())
+
+
+
+	
 	if err != nil {
 		fmt.Printf("Some error %v", err)
 		return err
