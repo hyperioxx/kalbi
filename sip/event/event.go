@@ -9,6 +9,7 @@ import (
 type SipEvent struct {
 	sipmsg *message.SipMsg
 	tx     interfaces.Transaction
+	lp     interfaces.ListeningPoint
 }
 
 //GetSipMessage returns message that created this event
@@ -29,4 +30,14 @@ func (se *SipEvent) GetTransaction() interfaces.Transaction {
 //SetTransaction sets transaction related to the SIP message that created this event
 func (se *SipEvent) SetTransaction(tx interfaces.Transaction) {
 	se.tx = tx
+}
+
+//SetListeningPoint gives ability to set interfaces.ListeningPoint
+func (se *SipEvent) SetListeningPoint(lp interfaces.ListeningPoint) {
+	se.lp = lp
+}
+
+//GetListeningPoint returns interfaces.ListeningPoint
+func (se *SipEvent) GetListeningPoint() interfaces.ListeningPoint {
+	return se.lp
 }

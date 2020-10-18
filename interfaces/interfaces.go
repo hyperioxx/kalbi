@@ -29,6 +29,8 @@ type SipEventObject interface {
 	SetSipMessage(*message.SipMsg)
 	GetTransaction() Transaction
 	SetTransaction(Transaction)
+	SetListeningPoint(ListeningPoint)
+	GetListeningPoint() ListeningPoint
 }
 
 //ListeningPoint interface for listening point
@@ -36,6 +38,8 @@ type ListeningPoint interface {
 	Read() SipEventObject
 	Build(string, int)
 	Start()
+	GetHost() string
+	GetPort() int
 	SetTransportChannel(chan SipEventObject)
 	Send(string, string, string) error
 }

@@ -42,7 +42,6 @@ Still in development
 
 package main
 
-package Client
 
 import (
 	"github.com/KalbiProject/Kalbi"

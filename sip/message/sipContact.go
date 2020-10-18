@@ -32,6 +32,21 @@ type SipContact struct {
 	Src     []byte // Full source if needed
 }
 
+//SetUser sets user part of the uri
+func (sc *SipContact) SetUser(user string) {
+	sc.User = []byte(user)
+}
+
+//SetHost sets host part of uri
+func (sc *SipContact) SetHost(host string) {
+	sc.Host = []byte(host)
+}
+
+//SetPort sets port of uri
+func (sc *SipContact) SetPort(port string) {
+	sc.Port = []byte(port)
+}
+
 //SetName stes name portion of header
 func (sc *SipContact) SetName(name string) {
 	sc.Name = []byte(name)
