@@ -37,6 +37,7 @@ package transaction
    handshake, TUs SHOULD respond immediately to non-INVITE requests. */
 
 import (
+	"fmt"
 	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
@@ -87,7 +88,9 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 			{Name: clientInput300Plus, Src: []string{"Proceeding"}, Dst: "Completed"},
 			{Name: clientInput2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
 			{Name: clientInputTransportErr, Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
-		}, fsm.Callbacks{clientInput2xx: ct.actDelete,
+		}, fsm.Callbacks{
+			clientInput1xx: ct.act100,
+			clientInput2xx: ct.actDelete,
 			clientInput300Plus: ct.act300,
 			clientInputTimerA:  ct.actResend,
 			clientInputTimerB:  ct.actTransErr,
@@ -124,23 +127,30 @@ func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 
 //Receive takes in the SIP message from the transport layer
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
+
+	//fmt.Println("CURRENT STATE: " + ct.FSM.Current())
 	ct.LastMessage = msg
 	if msg.GetStatusCode() < 200 {
-		err := ct.FSM.Event(serverInputUser1xx)
+		err := ct.FSM.Event(clientInput1xx)
 		if err != nil {
 			log.Log.Error(err)
 		}
 	} else if msg.GetStatusCode() < 300 {
-		err := ct.FSM.Event(serverInputUser2xx)
+		err := ct.FSM.Event(clientInput2xx)
 		if err != nil {
 			log.Log.Error(err)
 		}
 	} else {
-		err := ct.FSM.Event(serverInputUser300Plus)
+		err := ct.FSM.Event(clientInput300Plus)
 		if err != nil {
 			log.Log.Error(err)
 		}
 	}
+}
+
+
+func (ct *ClientTransaction) act100(event *fsm.Event) {
+    ct.timerA.Stop()
 }
 
 //SetServerTransaction is used to set a Server Transaction
@@ -174,7 +184,7 @@ func (ct *ClientTransaction) actSend(event *fsm.Event) {
 }
 
 func (ct *ClientTransaction) act300(event *fsm.Event) {
-	log.Log.Debug("Client transaction %p, act_300", ct)
+	log.Log.Info("Client transaction %p, act_300", ct)
 	ct.timerD = time.AfterFunc(ct.timerDTime, func() {
 		err := ct.FSM.Event(clientInputTimerD)
 		if err != nil {
@@ -196,7 +206,7 @@ func (ct *ClientTransaction) actDelete(event *fsm.Event) {
 }
 
 func (ct *ClientTransaction) actResend(event *fsm.Event) {
-	log.Log.Debug("Client transaction %p, act_resend", ct)
+	log.Log.Info("Client transaction %p, act_resend", ct)
 	ct.timerATime *= 2
 	ct.timerA.Reset(ct.timerATime)
 	ct.Resend()
@@ -223,7 +233,6 @@ func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, por
 
 //Send is used to send a SIP message
 func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string) {
-	defer ct.FSM.Event(serverInputRequest)
 	ct.Origin = msg
 	ct.Host = host
 	ct.Port = port
@@ -252,4 +261,5 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 			log.Log.Error(err)
 		}
 	}
+	ct.FSM.Event(clientInputRequest)
 }
