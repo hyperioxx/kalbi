@@ -251,10 +251,6 @@ func (c *Client) basicCliInterface() {
 		case "exit":
 			alive = false
 			fmt.Println("Exiting...")
-		case "call":
-			c.SendInvite("07375375830")
-			fmt.Println("AM I GETTING HERE !!!")
-			command = ""
 		case "":
 			continue
 		default:
