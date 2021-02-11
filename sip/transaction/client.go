@@ -37,7 +37,6 @@ package transaction
    handshake, TUs SHOULD respond immediately to non-INVITE requests. */
 
 import (
-	"fmt"
 	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
