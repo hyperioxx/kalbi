@@ -33,7 +33,7 @@ Golang SIP/VoIP SDK/Framework used to build large platforms for VoIP and realtim
 [Examples](https://github.com/KalbiProject/Kalbi/tree/master/examples) - Kalbi Examples folder 
 
 
-### Core Team
+## Core Team
 
 <table>
    <tr>
