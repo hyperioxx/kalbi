@@ -117,8 +117,8 @@ func (st *ServerTransaction) SetLastMessage(msg *message.SipMsg) {
 //Receive takes in the SIP message from the transport layer
 func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	st.LastMessage = msg
-	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))
-	log.Log.Info(message.MessageDetails(msg))
+	//log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))
+	//log.Log.Info(message.MessageDetails(msg))
 	if msg.Req.Method != nil || string(msg.Req.Method) != method.ACK {
 		err := st.FSM.Event(serverInputRequest)
 		if err != nil {
