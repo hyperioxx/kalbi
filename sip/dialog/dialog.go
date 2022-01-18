@@ -79,7 +79,7 @@ func NewDialogManager() *DialogManager {
 
 	diagMng.dialogs = make(map[string]Dialog)
 	diagMng.Lock = &sync.RWMutex{}
-	return new(DialogManager)
+	return diagMng
 }
 
 //DialogManager hold multiple dialogs
