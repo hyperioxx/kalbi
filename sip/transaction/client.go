@@ -37,12 +37,14 @@ package transaction
    handshake, TUs SHOULD respond immediately to non-INVITE requests. */
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/KalbiProject/Kalbi/interfaces"
 	"github.com/KalbiProject/Kalbi/log"
 	"github.com/KalbiProject/Kalbi/sip/message"
 	"github.com/KalbiProject/Kalbi/sip/method"
 	"github.com/looplab/fsm"
-	"time"
 )
 
 const (
@@ -88,8 +90,8 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 			{Name: clientInput2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
 			{Name: clientInputTransportErr, Src: []string{"Calling", "Proceeding", "Completed"}, Dst: "Terminated"},
 		}, fsm.Callbacks{
-			clientInput1xx: ct.act100,
-			clientInput2xx: ct.actDelete,
+			clientInput1xx:     ct.act100,
+			clientInput2xx:     ct.actDelete,
 			clientInput300Plus: ct.act300,
 			clientInputTimerA:  ct.actResend,
 			clientInputTimerB:  ct.actTransErr,
@@ -147,9 +149,8 @@ func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 	}
 }
 
-
 func (ct *ClientTransaction) act100(event *fsm.Event) {
-    ct.timerA.Stop()
+	ct.timerA.Stop()
 }
 
 //SetServerTransaction is used to set a Server Transaction
@@ -183,7 +184,7 @@ func (ct *ClientTransaction) actSend(event *fsm.Event) {
 }
 
 func (ct *ClientTransaction) act300(event *fsm.Event) {
-	log.Log.Info("Client transaction %p, act_300", ct)
+	log.Log.Info(fmt.Sprintf("Client transaction %p, act_300", ct))
 	ct.timerD = time.AfterFunc(ct.timerDTime, func() {
 		err := ct.FSM.Event(clientInputTimerD)
 		if err != nil {
@@ -205,7 +206,7 @@ func (ct *ClientTransaction) actDelete(event *fsm.Event) {
 }
 
 func (ct *ClientTransaction) actResend(event *fsm.Event) {
-	log.Log.Info("Client transaction %p, act_resend", ct)
+	log.Log.Info(fmt.Sprintf("Client transaction %p, act_resend", ct))
 	ct.timerATime *= 2
 	ct.timerA.Reset(ct.timerATime)
 	ct.Resend()
