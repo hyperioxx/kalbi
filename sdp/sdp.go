@@ -9,7 +9,6 @@ var keepSrc = true
 
 //FMS States
 const (
-	fieldNull           = 0
 	fieldBase           = 1
 	fieldValue          = 2
 	fieldPort           = 3
@@ -26,7 +25,6 @@ const (
 	fieldUniAddr        = 14
 	fieldTimeStart      = 15
 	fieldTimeStop       = 16
-	fieldIgnore         = 255
 )
 
 // SdpMsg is representation of an SDP message
