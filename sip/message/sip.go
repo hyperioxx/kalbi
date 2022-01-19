@@ -8,7 +8,6 @@ import (
 	"github.com/KalbiProject/Kalbi/sdp"
 )
 
-var sipType = 0
 var keepSrc = true
 
 //SipMsg is a representation of a SIP message
@@ -76,8 +75,8 @@ func (sm *SipMsg) String() string {
 		sipmsg += "Content-Type: " + sm.ContType.String() + "\r\n"
 	}
 	if sm.Auth.Response != nil {
-        sipmsg += "Authorization: " + sm.Auth.String() + "\r\n"
-	}else if sm.Auth.Nonce != nil{
+		sipmsg += "Authorization: " + sm.Auth.String() + "\r\n"
+	} else if sm.Auth.Nonce != nil {
 		sipmsg += "WWW-Authenticate: " + sm.Auth.String() + "\r\n"
 	}
 	sipmsg += "Call-ID: " + sm.CallId.String() + "\r\n"
@@ -91,9 +90,6 @@ func (sm *SipMsg) String() string {
 
 	return sipmsg
 }
-
-
-
 
 //SipVal is the value of a simple SIP Header e.g. Max Forwards
 type SipVal struct {
@@ -345,46 +341,46 @@ func MessageDetails(data *SipMsg) string {
 
 }
 
-const fieldNull = 0
-const fieldBase = 1
-const fieldValue = 2
-const fieldName = 3
-const fieldNameQ = 4
-const fieldUser = 5
-const fieldUserHost = 6
-const fieldPort = 7
-const fieldTag = 8
-const fieldID = 9
-const fieldMethod = 10
-const fieldTran = 11
-const fieldBranch = 12
-const fieldRport = 13
-const fieldMaddr = 14
-const fieldTTL = 15
-const fieldRec = 16
-const fieldExpires = 17
-const fieldQ = 18
-const fieldUserType = 19
-const fieldStatus = 20
-const fieldStatusDesc = 21
+const (
+	fieldNull       = 0
+	fieldBase       = 1
+	fieldValue      = 2
+	fieldName       = 3
+	fieldNameQ      = 4
+	fieldUser       = 5
+	fieldUserHost   = 6
+	fieldPort       = 7
+	fieldTag        = 8
+	fieldID         = 9
+	fieldMethod     = 10
+	fieldTran       = 11
+	fieldBranch     = 12
+	fieldRport      = 13
+	fieldMaddr      = 14
+	fieldTTL        = 15
+	fieldRec        = 16
+	fieldExpires    = 17
+	fieldQ          = 18
+	fieldUserType   = 19
+	fieldStatus     = 20
+	fieldStatusDesc = 21
 
-// States for Auth Header
-const fieldQop = 22
-const fieldNonce = 23
-const fieldRealm = 24
-const fieldAlgorithm = 25
-const fieldCNonce = 26
-const fieldNC = 27
-const fieldResponse = 28
-const fieldURI = 29
+	// States for Auth Header
+	fieldQop       = 22
+	fieldNonce     = 23
+	fieldRealm     = 24
+	fieldAlgorithm = 25
+	fieldCNonce    = 26
+	fieldNC        = 27
+	fieldResponse  = 28
+	fieldURI       = 29
 
-//
-
-const fieldAddrType = 40
-const fieldConnAddr = 41
-const fieldMedia = 42
-const fieldProto = 43
-const fieldFmt = 44
-const fieldCat = 45
-
-const fieldIgnore = 255
+	//
+	fieldAddrType = 40
+	fieldConnAddr = 41
+	fieldMedia    = 42
+	fieldProto    = 43
+	fieldFmt      = 44
+	fieldCat      = 45
+	fieldIgnore   = 255
+)
