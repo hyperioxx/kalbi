@@ -8,27 +8,28 @@ import (
 var keepSrc = true
 
 //FMS States
-const fieldNull = 0
-const fieldBase = 1
-const fieldValue = 2
-const fieldPort = 3
-const fieldAddrType = 4
-const fieldConnAddr = 5
-const fieldMedia = 6
-const fieldProto = 7
-const fieldFmt = 8
-const fieldCat = 9
-const fieldUsername = 10
-const fieldSessionID = 11
-const fieldSessionVersion = 12
-const fieldNetType = 13
-const fieldUniAddr = 14
-const fieldTimeStart = 15
-const fieldTimeStop = 16
+const (
+	fieldNull           = 0
+	fieldBase           = 1
+	fieldValue          = 2
+	fieldPort           = 3
+	fieldAddrType       = 4
+	fieldConnAddr       = 5
+	fieldMedia          = 6
+	fieldProto          = 7
+	fieldFmt            = 8
+	fieldCat            = 9
+	fieldUsername       = 10
+	fieldSessionID      = 11
+	fieldSessionVersion = 12
+	fieldNetType        = 13
+	fieldUniAddr        = 14
+	fieldTimeStart      = 15
+	fieldTimeStop       = 16
+	fieldIgnore         = 255
+)
 
-const fieldIgnore = 255
-
-//SdpMsg is representation of an SDP message
+// SdpMsg is representation of an SDP message
 type SdpMsg struct {
 	Origin    SdpOrigin
 	Version   sdpVersion
@@ -38,7 +39,7 @@ type SdpMsg struct {
 	ConnData  sdpConnData
 }
 
-//Size returns size in bytes
+// Size returns size in bytes
 func (sm *SdpMsg) Size() int {
 	sdp := sm.String()
 	return len([]byte(sdp))
