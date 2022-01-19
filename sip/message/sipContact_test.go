@@ -4,7 +4,7 @@ import "testing"
 
 func TestSipContact_SetUriType(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -15,7 +15,7 @@ func TestSipContact_SetUriType(t *testing.T) {
 		Src     []byte
 	}
 	type args struct {
-		uriType string
+		URIType string
 	}
 	tests := []struct {
 		name   string
@@ -27,7 +27,7 @@ func TestSipContact_SetUriType(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,
@@ -37,14 +37,14 @@ func TestSipContact_SetUriType(t *testing.T) {
 				Expires: tt.fields.Expires,
 				Src:     tt.fields.Src,
 			}
-			sc.SetUriType(tt.args.uriType)
+			sc.SetUriType(tt.args.URIType)
 		})
 	}
 }
 
 func TestSipContact_SetUser(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -67,7 +67,7 @@ func TestSipContact_SetUser(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,
@@ -84,7 +84,7 @@ func TestSipContact_SetUser(t *testing.T) {
 
 func TestSipContact_SetHost(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -107,7 +107,7 @@ func TestSipContact_SetHost(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,
@@ -124,7 +124,7 @@ func TestSipContact_SetHost(t *testing.T) {
 
 func TestSipContact_SetPort(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -147,7 +147,7 @@ func TestSipContact_SetPort(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,
@@ -164,7 +164,7 @@ func TestSipContact_SetPort(t *testing.T) {
 
 func TestSipContact_SetName(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -187,7 +187,7 @@ func TestSipContact_SetName(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,
@@ -204,7 +204,7 @@ func TestSipContact_SetName(t *testing.T) {
 
 func TestSipContact_String(t *testing.T) {
 	type fields struct {
-		UriType string
+		URIType string
 		Name    []byte
 		User    []byte
 		Host    []byte
@@ -224,7 +224,7 @@ func TestSipContact_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipContact{
-				UriType: tt.fields.UriType,
+				UriType: tt.fields.URIType,
 				Name:    tt.fields.Name,
 				User:    tt.fields.User,
 				Host:    tt.fields.Host,

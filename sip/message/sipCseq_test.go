@@ -4,7 +4,7 @@ import "testing"
 
 func TestSipCseq_SetID(t *testing.T) {
 	type fields struct {
-		Id     []byte
+		ID     []byte
 		Method []byte
 		Src    []byte
 	}
@@ -21,7 +21,7 @@ func TestSipCseq_SetID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.Id,
+				Id:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}
@@ -32,7 +32,7 @@ func TestSipCseq_SetID(t *testing.T) {
 
 func TestSipCseq_SetMethod(t *testing.T) {
 	type fields struct {
-		Id     []byte
+		ID     []byte
 		Method []byte
 		Src    []byte
 	}
@@ -49,7 +49,7 @@ func TestSipCseq_SetMethod(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.Id,
+				Id:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}
@@ -60,7 +60,7 @@ func TestSipCseq_SetMethod(t *testing.T) {
 
 func TestSipCseq_String(t *testing.T) {
 	type fields struct {
-		Id     []byte
+		ID     []byte
 		Method []byte
 		Src    []byte
 	}
@@ -74,7 +74,7 @@ func TestSipCseq_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.Id,
+				Id:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}

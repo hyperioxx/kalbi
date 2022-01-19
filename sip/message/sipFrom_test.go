@@ -2,9 +2,9 @@ package message
 
 import "testing"
 
-func TestSipFrom_SetUriType(t *testing.T) {
+func TestSipFrom_SetURIType(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -14,7 +14,7 @@ func TestSipFrom_SetUriType(t *testing.T) {
 		Src      []byte
 	}
 	type args struct {
-		uriType string
+		URIType string
 	}
 	tests := []struct {
 		name   string
@@ -26,7 +26,7 @@ func TestSipFrom_SetUriType(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -35,14 +35,14 @@ func TestSipFrom_SetUriType(t *testing.T) {
 				UserType: tt.fields.UserType,
 				Src:      tt.fields.Src,
 			}
-			sf.SetUriType(tt.args.uriType)
+			sf.SetUriType(tt.args.URIType)
 		})
 	}
 }
 
 func TestSipFrom_SetUser(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -64,7 +64,7 @@ func TestSipFrom_SetUser(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -80,7 +80,7 @@ func TestSipFrom_SetUser(t *testing.T) {
 
 func TestSipFrom_SetHost(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -102,7 +102,7 @@ func TestSipFrom_SetHost(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -118,7 +118,7 @@ func TestSipFrom_SetHost(t *testing.T) {
 
 func TestSipFrom_SetPort(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -140,7 +140,7 @@ func TestSipFrom_SetPort(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -156,7 +156,7 @@ func TestSipFrom_SetPort(t *testing.T) {
 
 func TestSipFrom_SetUserType(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -178,7 +178,7 @@ func TestSipFrom_SetUserType(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -194,7 +194,7 @@ func TestSipFrom_SetUserType(t *testing.T) {
 
 func TestSipFrom_SetTag(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -216,7 +216,7 @@ func TestSipFrom_SetTag(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,
@@ -232,7 +232,7 @@ func TestSipFrom_SetTag(t *testing.T) {
 
 func TestSipFrom_String(t *testing.T) {
 	type fields struct {
-		UriType  string
+		URIType  string
 		Name     []byte
 		User     []byte
 		Host     []byte
@@ -251,7 +251,7 @@ func TestSipFrom_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sf := &SipFrom{
-				UriType:  tt.fields.UriType,
+				UriType:  tt.fields.URIType,
 				Name:     tt.fields.Name,
 				User:     tt.fields.User,
 				Host:     tt.fields.Host,

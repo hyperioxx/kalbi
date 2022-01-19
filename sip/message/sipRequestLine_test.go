@@ -5,7 +5,7 @@ import "testing"
 func TestSipReq_SetMethod(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -28,7 +28,7 @@ func TestSipReq_SetMethod(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -42,10 +42,10 @@ func TestSipReq_SetMethod(t *testing.T) {
 	}
 }
 
-func TestSipReq_SetUriType(t *testing.T) {
+func TestSipReq_SetURIType(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -55,7 +55,7 @@ func TestSipReq_SetUriType(t *testing.T) {
 		Src        []byte
 	}
 	type args struct {
-		uriType string
+		URIType string
 	}
 	tests := []struct {
 		name   string
@@ -68,7 +68,7 @@ func TestSipReq_SetUriType(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -77,7 +77,7 @@ func TestSipReq_SetUriType(t *testing.T) {
 				UserType:   tt.fields.UserType,
 				Src:        tt.fields.Src,
 			}
-			sr.SetUriType(tt.args.uriType)
+			sr.SetUriType(tt.args.URIType)
 		})
 	}
 }
@@ -85,7 +85,7 @@ func TestSipReq_SetUriType(t *testing.T) {
 func TestSipReq_SetStatusCode(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -108,7 +108,7 @@ func TestSipReq_SetStatusCode(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -125,7 +125,7 @@ func TestSipReq_SetStatusCode(t *testing.T) {
 func TestSipReq_SetStatusDesc(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -148,7 +148,7 @@ func TestSipReq_SetStatusDesc(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -165,7 +165,7 @@ func TestSipReq_SetStatusDesc(t *testing.T) {
 func TestSipReq_SetUser(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -188,7 +188,7 @@ func TestSipReq_SetUser(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -205,7 +205,7 @@ func TestSipReq_SetUser(t *testing.T) {
 func TestSipReq_SetHost(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -228,7 +228,7 @@ func TestSipReq_SetHost(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -245,7 +245,7 @@ func TestSipReq_SetHost(t *testing.T) {
 func TestSipReq_SetPort(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -268,7 +268,7 @@ func TestSipReq_SetPort(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -285,7 +285,7 @@ func TestSipReq_SetPort(t *testing.T) {
 func TestSipReq_SetUserType(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -308,7 +308,7 @@ func TestSipReq_SetUserType(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
@@ -325,7 +325,7 @@ func TestSipReq_SetUserType(t *testing.T) {
 func TestSipReq_String(t *testing.T) {
 	type fields struct {
 		Method     []byte
-		UriType    string
+		URIType    string
 		StatusCode []byte
 		StatusDesc []byte
 		User       []byte
@@ -345,7 +345,7 @@ func TestSipReq_String(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			sr := &SipReq{
 				Method:     tt.fields.Method,
-				UriType:    tt.fields.UriType,
+				UriType:    tt.fields.URIType,
 				StatusCode: tt.fields.StatusCode,
 				StatusDesc: tt.fields.StatusDesc,
 				User:       tt.fields.User,
