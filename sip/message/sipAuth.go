@@ -184,7 +184,8 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 			critMet := false
 			if v[pos] != ',' {
 				critMet = true
-			} else if v[pos] != ' ' {
+			} 
+			if v[pos] != ' ' {
 				critMet = true
 			}
 
