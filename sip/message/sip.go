@@ -344,7 +344,7 @@ func MessageDetails(data *SipMsg) string {
 const (
 	fieldNull       = 0
 	fieldBase       = 1
-	fieldValue      = 2
+	// fieldValue      = 2
 	fieldName       = 3
 	fieldNameQ      = 4
 	fieldUser       = 5
@@ -376,11 +376,11 @@ const (
 	fieldURI       = 29
 
 	//
-	fieldAddrType = 40
-	fieldConnAddr = 41
-	fieldMedia    = 42
-	fieldProto    = 43
-	fieldFmt      = 44
-	fieldCat      = 45
+	// fieldAddrType = 40
+	// fieldConnAddr = 41
+	// fieldMedia    = 42
+	// fieldProto    = 43
+	// fieldFmt      = 44
+	// fieldCat      = 45
 	fieldIgnore   = 255
 )
