@@ -10,7 +10,7 @@ func TestSipVia_String(t *testing.T) {
 		Branch []byte
 		Rport  []byte
 		Maddr  []byte
-		Ttl    []byte
+		TTL    []byte
 		Rcvd   []byte
 		Src    []byte
 	}
@@ -30,7 +30,7 @@ func TestSipVia_String(t *testing.T) {
 				Branch: tt.fields.Branch,
 				Rport:  tt.fields.Rport,
 				Maddr:  tt.fields.Maddr,
-				Ttl:    tt.fields.Ttl,
+				Ttl:    tt.fields.TTL,
 				Rcvd:   tt.fields.Rcvd,
 				Src:    tt.fields.Src,
 			}
@@ -49,7 +49,7 @@ func TestSipVia_SetTransport(t *testing.T) {
 		Branch []byte
 		Rport  []byte
 		Maddr  []byte
-		Ttl    []byte
+		TTL    []byte
 		Rcvd   []byte
 		Src    []byte
 	}
@@ -72,7 +72,7 @@ func TestSipVia_SetTransport(t *testing.T) {
 				Branch: tt.fields.Branch,
 				Rport:  tt.fields.Rport,
 				Maddr:  tt.fields.Maddr,
-				Ttl:    tt.fields.Ttl,
+				Ttl:    tt.fields.TTL,
 				Rcvd:   tt.fields.Rcvd,
 				Src:    tt.fields.Src,
 			}
@@ -89,7 +89,7 @@ func TestSipVia_SetHost(t *testing.T) {
 		Branch []byte
 		Rport  []byte
 		Maddr  []byte
-		Ttl    []byte
+		TTL    []byte
 		Rcvd   []byte
 		Src    []byte
 	}
@@ -112,7 +112,7 @@ func TestSipVia_SetHost(t *testing.T) {
 				Branch: tt.fields.Branch,
 				Rport:  tt.fields.Rport,
 				Maddr:  tt.fields.Maddr,
-				Ttl:    tt.fields.Ttl,
+				Ttl:    tt.fields.TTL,
 				Rcvd:   tt.fields.Rcvd,
 				Src:    tt.fields.Src,
 			}
@@ -129,7 +129,7 @@ func TestSipVia_SetPort(t *testing.T) {
 		Branch []byte
 		Rport  []byte
 		Maddr  []byte
-		Ttl    []byte
+		TTL    []byte
 		Rcvd   []byte
 		Src    []byte
 	}
@@ -152,7 +152,7 @@ func TestSipVia_SetPort(t *testing.T) {
 				Branch: tt.fields.Branch,
 				Rport:  tt.fields.Rport,
 				Maddr:  tt.fields.Maddr,
-				Ttl:    tt.fields.Ttl,
+				Ttl:    tt.fields.TTL,
 				Rcvd:   tt.fields.Rcvd,
 				Src:    tt.fields.Src,
 			}
@@ -169,7 +169,7 @@ func TestSipVia_SetBranch(t *testing.T) {
 		Branch []byte
 		Rport  []byte
 		Maddr  []byte
-		Ttl    []byte
+		TTL    []byte
 		Rcvd   []byte
 		Src    []byte
 	}
@@ -192,7 +192,7 @@ func TestSipVia_SetBranch(t *testing.T) {
 				Branch: tt.fields.Branch,
 				Rport:  tt.fields.Rport,
 				Maddr:  tt.fields.Maddr,
-				Ttl:    tt.fields.Ttl,
+				Ttl:    tt.fields.TTL,
 				Rcvd:   tt.fields.Rcvd,
 				Src:    tt.fields.Src,
 			}
