@@ -1,28 +1,45 @@
 package dialog
 
 import (
+	"fmt"
 	"reflect"
 	"sync"
 	"testing"
 )
 
+var (
+	dlgID = int32(1213456)
+	dlg   = Dialog{
+		DialogId: dlgID,
+		CallId:   "testCallerID",
+		ToTag:    "testToTag",
+		FromTag:  "testFromTag",
+	}
+	dlgMapNil = make(map[string]Dialog)
+	dlgMapdlg = map[string]Dialog{}
+	rw        = sync.RWMutex{}
+)
+
 func TestNewDialogManager(t *testing.T) {
 	tests := []struct {
 		name string
-		want *DialogManager
+		want string
 	}{
-		// TODO: Add test cases.
+		{"Test 1 - NewDialogManager", "*dialog.DialogManager"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewDialogManager(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewDialogManager() = %v, want %v", got, tt.want)
+			if got := NewDialogManager(); fmt.Sprintf("%T", got) != "*dialog.DialogManager" {
+				t.Errorf("NewDialogManager() = %v, want %v", fmt.Sprintf("%T", got), tt.want)
 			}
 		})
 	}
 }
 
 func TestDialogManager_GetDialog(t *testing.T) {
+
+	dlgMapdlg["test"] = dlg
+
 	type fields struct {
 		dialogs map[string]Dialog
 		Lock    *sync.RWMutex
@@ -36,7 +53,8 @@ func TestDialogManager_GetDialog(t *testing.T) {
 		args   args
 		want   *Dialog
 	}{
-		// TODO: Add test cases.
+		{"Test 1 - NewDialogManager - nil", fields{dialogs: dlgMapNil, Lock: &rw}, args{value: ""}, nil},
+		{"Test 2 - NewDialogManager - basic dialog", fields{dialogs: dlgMapdlg, Lock: &rw}, args{value: "test"}, &dlg},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -64,7 +82,8 @@ func TestDialogManager_DeleteDialog(t *testing.T) {
 		fields fields
 		args   args
 	}{
-		// TODO: Add test cases.
+		{"Test 1 - TestDialogManager_DeleteDialog - nil", fields{dialogs: dlgMapNil, Lock: &rw}, args{value: ""}},
+		{"Test 2 - TestDialogManager_DeleteDialog - basic dialog", fields{dialogs: dlgMapdlg, Lock: &rw}, args{value: "test"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -73,11 +92,16 @@ func TestDialogManager_DeleteDialog(t *testing.T) {
 				Lock:    tt.fields.Lock,
 			}
 			dm.DeleteDialog(tt.args.value)
+			if dm.dialogs[tt.args.value].DialogId != 0 || dm.dialogs[tt.args.value].CallId != "" || dm.dialogs[tt.args.value].ToTag != "" || dm.dialogs[tt.args.value].FromTag != "" {
+				t.Errorf(`DialogManager.GetDialog() = %v, want 0 for int32 or "" for string fields`, dm.dialogs[tt.args.value])
+			}
+
 		})
 	}
 }
 
 func TestDialogManager_NewDialog(t *testing.T) {
+
 	type fields struct {
 		dialogs map[string]Dialog
 		Lock    *sync.RWMutex
@@ -85,9 +109,8 @@ func TestDialogManager_NewDialog(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   *Dialog
 	}{
-		// TODO: Add test cases.
+		{"Test 1 - TestDialogManager_NewDialog - nil", fields{dialogs: dlgMapNil, Lock: &rw}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -95,8 +118,16 @@ func TestDialogManager_NewDialog(t *testing.T) {
 				dialogs: tt.fields.dialogs,
 				Lock:    tt.fields.Lock,
 			}
-			if got := dm.NewDialog(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DialogManager.NewDialog() = %v, want %v", got, tt.want)
+			got := dm.NewDialog()
+			if reflect.TypeOf(got.DialogId).Kind() != reflect.Int32 {
+				t.Errorf("GenerateDialogId() = %v, want %v", fmt.Sprintf("%T",got),"int32")
+			}
+			if got.CallId != "" || got.ToTag != "" || got.FromTag != ""{
+				t.Error("GenerateDialogId() = string key is not blank")
+
+			}
+			if got.ClientTx != nil || got.ServerTx != nil {
+				t.Error("GenerateDialogId() = interface key is not blank")
 			}
 		})
 	}
