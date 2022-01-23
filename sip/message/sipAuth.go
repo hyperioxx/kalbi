@@ -1,5 +1,7 @@
 package message
 
+import "github.com/KalbiProject/Kalbi/utils"
+
 /*
 
 20.7 Authorization
@@ -16,6 +18,9 @@ package message
    rules described in Section 7.3.
 
 */
+var (
+	condByteSlice = []byte{',', ' '}
+)
 
 //SipAuth SIP Authorization Header
 type SipAuth struct {
@@ -181,15 +186,7 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 
 		switch state {
 		case fieldBase:
-			critMet := false
-			if v[pos] != ',' {
-				critMet = true
-			} 
-			if v[pos] != ' ' {
-				critMet = true
-			}
-
-			if critMet {
+			if !utils.ContainsByte(v[pos], condByteSlice) {
 				if getString(v, pos, pos+9) == "username=" {
 					state = fieldUser
 					if v[pos+9] == '"' {
