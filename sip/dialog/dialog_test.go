@@ -92,8 +92,6 @@ func TestDialogManager_DeleteDialog(t *testing.T) {
 				Lock:    tt.fields.Lock,
 			}
 			dm.DeleteDialog(tt.args.value)
-			fmt.Println(dm)
-			fmt.Printf("second line: %#v\n", dm.dialogs[tt.args.value])
 			if dm.dialogs[tt.args.value].DialogId != 0 || dm.dialogs[tt.args.value].CallId != "" || dm.dialogs[tt.args.value].ToTag != "" || dm.dialogs[tt.args.value].FromTag != "" {
 				t.Errorf(`DialogManager.GetDialog() = %v, want 0 for int32 or "" for string fields`, dm.dialogs[tt.args.value])
 			}
@@ -121,7 +119,6 @@ func TestDialogManager_NewDialog(t *testing.T) {
 				Lock:    tt.fields.Lock,
 			}
 			got := dm.NewDialog()
-			fmt.Println(got)
 			if reflect.TypeOf(got.DialogId).Kind() != reflect.Int32 {
 				t.Errorf("GenerateDialogId() = %v, want %v", fmt.Sprintf("%T",got),"int32")
 			}
