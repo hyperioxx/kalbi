@@ -1,6 +1,6 @@
 package message
 
-//NewRequest creates new SIP request
+// NewResponse creates new SIP Response
 func NewResponse(request *SipReq, via *SipVia, to *SipTo, from *SipFrom, callID *SipVal, maxfor *SipVal) *SipMsg {
 	r := new(SipMsg)
 	r.Req = *request

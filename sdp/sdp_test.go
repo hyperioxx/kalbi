@@ -49,6 +49,9 @@ var (
 
 	testInBytes = []byte{116, 101, 115, 116}
 
+	testInBytesAndSpaces = []byte{116, 101, 115, 116, 32, 32, 32, 32, 32, 32}
+	_                    = testInBytesAndSpaces
+
 	testParseBytes = []byte{118, 61, 116, 101, 115, 116, 13, 10, 111, 61, 116, 101, 115, 116, 32, 116, 101,
 		115, 116, 32, 116, 101, 115, 116, 32, 116, 101, 115, 116, 32, 116, 101, 115, 116, 32, 116, 101, 115,
 		116, 13, 10, 115, 61, 116, 101, 115, 116, 13, 10, 99, 61, 116, 101, 115, 116, 32, 116, 101, 115, 116,
@@ -211,8 +214,8 @@ func Test_testByteEq(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"testing test function", args{a:[]byte{116, 101, 115, 116}, b:[]byte{116, 101, 115, 116}},true},
-		{"testing test function", args{a:[]byte{116, 101, 115, 116}, b:[]byte{11, 101, 115, 116}},false},
+		{"testing test function", args{a: []byte{116, 101, 115, 116}, b: []byte{116, 101, 115, 116}}, true},
+		{"testing test function", args{a: []byte{116, 101, 115, 116}, b: []byte{11, 101, 115, 116}}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

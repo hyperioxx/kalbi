@@ -107,7 +107,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	if keepSrc {
 		out.Src = v
 	}
-
+	Exit:
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM
@@ -153,7 +153,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 			if v[pos] == ' ' {
 				state = fieldBase
 				pos++
-				continue
+				break Exit
 			}
 			out.UniAddr = append(out.UniAddr, v[pos])
 		}

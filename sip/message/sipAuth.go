@@ -101,7 +101,7 @@ func (sa *SipAuth) SetNc(value string) {
 	sa.Nc = []byte(value)
 }
 
-//GetAlgorithm returns nc
+//GetNc returns nc
 func (sa *SipAuth) GetNc() string {
 	return string(sa.Nc)
 }
