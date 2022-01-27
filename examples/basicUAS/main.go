@@ -2,6 +2,8 @@ package main
 
 import (
 	//"fmt"
+	"fmt"
+
 	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/interfaces"
 )
@@ -13,7 +15,8 @@ func main() {
 	stack.REGISTER(func(event interfaces.SipEventObject) {
 	
 		tx := event.GetTransaction()
-		tx.Send()
+		fmt.Println(tx.GetLastMessage())
+		//tx.Send()
 
 	})
 
