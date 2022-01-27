@@ -189,6 +189,7 @@ func (c *Client) SendInvite(to string) {
 	tx := txmng.NewClientTransaction(request)
 	tx.Send(request, c.properties.Registrar, "5060")
 }
+
 // Start()
 // example Client struct method to start Sip Stack
 func (c *Client) Start(host string, port int) {
@@ -197,7 +198,8 @@ func (c *Client) Start(host string, port int) {
 	c.stack.SetSipListener(c)
 	go c.stack.Start()
 }
-// configure 
+
+// configure
 // returns pointer to ClientProperties
 func configure() *ClientProperties {
 	props := new(ClientProperties)
@@ -267,6 +269,7 @@ func (c *Client) basicCliInterface() {
 	}
 
 }
+
 // main()
 // example main function
 func main() {

@@ -85,5 +85,3 @@ func NewContentLength(value string) *SipVal {
 	contlen.SetValue(value)
 	return contlen
 }
-
-
