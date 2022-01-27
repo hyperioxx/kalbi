@@ -5,7 +5,7 @@ import "testing"
 func TestSdpOrigin_String(t *testing.T) {
 	type fields struct {
 		Username       []byte
-		SessionID     []byte
+		SessionID      []byte
 		SessionVersion []byte
 		NetType        []byte
 		AddrType       []byte
@@ -17,7 +17,7 @@ func TestSdpOrigin_String(t *testing.T) {
 		fields fields
 		want   string
 	}{
-		{"test TestSdpOrigin_String", fields{Username: testInBytes, SessionID: testInBytes, SessionVersion: testInBytes, NetType: testInBytes, AddrType: testInBytes, UniAddr: testInBytes,Src: testInBytes}, "o=test test test test test test"},
+		{"test TestSdpOrigin_String", fields{Username: testInBytes, SessionID: testInBytes, SessionVersion: testInBytes, NetType: testInBytes, AddrType: testInBytes, UniAddr: testInBytes, Src: testInBytes}, "o=test test test test test test"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
