@@ -29,14 +29,14 @@ import (
 )
 
 const (
-	serverInputRequest      = "server_input_request"
-	serverInputAck          = "server_input_ack"
-	serverInputUser1xx      = "server_input_user_1xx"
-	serverInputUser2xx      = "server_input_user_2xx"
-	serverInputUser300Plus  = "server_input_user_300_plus"
-	serverInputTimerG       = "server_input_timer_g"
-	serverInputTimerH       = "server_input_timer_h"
-	serverInputTimerI       = "server_input_timer_i"
+	serverInputRequest     = "server_input_request"
+	serverInputAck         = "server_input_ack"
+	serverInputUser1xx     = "server_input_user_1xx"
+	serverInputUser2xx     = "server_input_user_2xx"
+	serverInputUser300Plus = "server_input_user_300_plus"
+	// serverInputTimerG       = "server_input_timer_g"
+	// serverInputTimerH       = "server_input_timer_h"
+	// serverInputTimerI       = "server_input_timer_i"
 	serverInputTransportErr = "server_input_transport_err"
 	serverInputDelete       = "server_input_delete"
 )

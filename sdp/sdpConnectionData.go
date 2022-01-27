@@ -36,11 +36,12 @@ func parseSdpConnectionData(v []byte, out *sdpConnData) {
 	out.ConnAddr = nil
 	out.Src = nil
 
-	// Keep the source line if needed
+	// Keep the source line if needed // Always true? 2022-01-27
 	if keepSrc {
 		out.Src = v
 	}
 
+Exit:
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM
@@ -63,11 +64,10 @@ func parseSdpConnectionData(v []byte, out *sdpConnData) {
 
 		case fieldConnAddr:
 			if v[pos] == ' ' {
-				state = fieldBase
-				pos++
-				continue
+				break Exit 
 			}
 			out.ConnAddr = append(out.ConnAddr, v[pos])
+
 		}
 		pos++
 	}
