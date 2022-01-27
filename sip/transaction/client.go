@@ -261,5 +261,8 @@ func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string)
 			log.Log.Error(err)
 		}
 	}
-	ct.FSM.Event(clientInputRequest)
+	err = ct.FSM.Event(clientInputRequest)
+	if err != nil {
+		log.Log.Error(err)
+	}
 }

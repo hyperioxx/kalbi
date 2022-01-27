@@ -151,8 +151,6 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 			out.AddrType = append(out.AddrType, v[pos])
 		case fieldUniAddr:
 			if v[pos] == ' ' {
-				state = fieldBase
-				pos++
 				break Exit
 			}
 			out.UniAddr = append(out.UniAddr, v[pos])

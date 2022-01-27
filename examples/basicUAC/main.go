@@ -199,7 +199,7 @@ func (c *Client) Start(host string, port int) {
 	go c.stack.Start()
 }
 
-// configure
+// configure()
 // returns pointer to ClientProperties
 func configure() *ClientProperties {
 	props := new(ClientProperties)

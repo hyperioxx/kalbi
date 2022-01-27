@@ -39,7 +39,9 @@ func (sa *sdpAttrib) String() string {
 }
 
 func parseSdpAttrib(v []byte, out *sdpAttrib) {
-	pos := 0
+	var (
+		pos int 
+	)
 	state := fieldCat
 
 	// Init the output area
