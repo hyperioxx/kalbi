@@ -1,6 +1,13 @@
 package sdp
 
-import "testing"
+import (
+	"bytes"
+	"testing"
+)
+
+var (
+	testSdpOriginStr = "testusername testsessionid testsessionversion testnet testaddr testuni testsrc "
+)
 
 func TestSdpOrigin_String(t *testing.T) {
 	type fields struct {
@@ -45,13 +52,45 @@ func TestParseSdpOrigin(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
+		want *SdpOrigin
 	}{
-		// TODO: Add test cases.
+		{"Test 1", args{
+			v:   []byte(testSdpOriginStr),
+			out: &SdpOrigin{}},
+			&SdpOrigin{
+				Username: []byte("testusername"),
+				SessionId: []byte("testsessionid"),
+				SessionVersion: []byte("testsessionversion"),
+				NetType: []byte("testnet"),
+				AddrType: []byte("testaddr"),
+				UniAddr: []byte("testuni"),
+				Src: []byte("testusername testsessionid testsessionversion testnet testaddr testuni testsrc "),
+			}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ParseSdpOrigin(tt.args.v, tt.args.out)
-			// TODO: check input/outputs
+			if !bytes.Equal(tt.args.out.Username, tt.want.Username) {
+				t.Errorf("parseSdpConnectionData() Username = %v, want %v", tt.args.out.Username, tt.want.Username)
+			}
+			if !bytes.Equal(tt.args.out.SessionId, tt.want.SessionId) {
+				t.Errorf("parseSdpConnectionData() SessionId = %v, want %v", tt.args.out.SessionId, tt.want.SessionId)
+			}
+			if !bytes.Equal(tt.args.out.SessionVersion, tt.want.SessionVersion) {
+				t.Errorf("parseSdpConnectionData() SessionVersion = %v, want %v", tt.args.out.SessionVersion, tt.want.SessionVersion)
+			}
+			if !bytes.Equal(tt.args.out.NetType, tt.want.NetType) {
+				t.Errorf("parseSdpConnectionData() NetType = %v, want %v", tt.args.out.NetType, tt.want.NetType)
+			}
+			if !bytes.Equal(tt.args.out.AddrType, tt.want.AddrType) {
+				t.Errorf("parseSdpConnectionData() AddrType = %v, want %v", tt.args.out.AddrType, tt.want.AddrType)
+			}
+			if !bytes.Equal(tt.args.out.UniAddr, tt.want.UniAddr) {
+				t.Errorf("parseSdpConnectionData() ConnAddr = %v, want %v", tt.args.out.UniAddr, tt.want.UniAddr)
+			}
+			if !bytes.Equal(tt.args.out.Src, tt.want.Src) {
+				t.Errorf("parseSdpConnectionData() Src = %v, want %v", tt.args.out.Src, tt.want.Src)
+			}
 		})
 	}
 }
