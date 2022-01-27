@@ -17,7 +17,7 @@ const (
 	prompt = "kalbiclient> "
 )
 
-// example ClientProperties, struct which holds required information
+// ClientProperties, struct which holds required information
 type ClientProperties struct {
 	IP        string
 	Username  string
@@ -26,7 +26,7 @@ type ClientProperties struct {
 	Registrar string
 }
 
-// example Client, struct which holds pointers to stack and properties
+// Client, struct which holds pointers to stack and properties
 type Client struct {
 	stack      *kalbi.SipStack
 	properties *ClientProperties
@@ -120,7 +120,7 @@ func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
 }
 
-// HandleResponses()
+// HandleUnAuth()
 // example Client struct method to handle unauthorised events
 func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
 	response := event.GetSipMessage()
@@ -189,7 +189,7 @@ func (c *Client) SendInvite(to string) {
 	tx := txmng.NewClientTransaction(request)
 	tx.Send(request, c.properties.Registrar, "5060")
 }
-// SendInvite()
+// Start()
 // example Client struct method to start Sip Stack
 func (c *Client) Start(host string, port int) {
 	c.stack = kalbi.NewSipStack("Basic Client Example")
