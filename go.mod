@@ -1,4 +1,4 @@
-module github.com/Kalbi
+module github.com/KalbiProject/KalbiProxy
 
 go 1.17
 

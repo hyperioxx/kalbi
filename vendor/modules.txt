@@ -1,16 +1,41 @@
-# github.com/konsorten/go-windows-terminal-sequences v1.0.3
-github.com/konsorten/go-windows-terminal-sequences
-# github.com/looplab/fsm v0.1.0
+# github.com/KalbiProject/Kalbi v0.0.6
+## explicit; go 1.13
+github.com/KalbiProject/Kalbi
+github.com/KalbiProject/Kalbi/authentication
+github.com/KalbiProject/Kalbi/interfaces
+github.com/KalbiProject/Kalbi/log
+github.com/KalbiProject/Kalbi/sdp
+github.com/KalbiProject/Kalbi/sip
+github.com/KalbiProject/Kalbi/sip/dialog
+github.com/KalbiProject/Kalbi/sip/event
+github.com/KalbiProject/Kalbi/sip/message
+github.com/KalbiProject/Kalbi/sip/method
+github.com/KalbiProject/Kalbi/sip/status
+github.com/KalbiProject/Kalbi/sip/transaction
+github.com/KalbiProject/Kalbi/transport
+github.com/KalbiProject/Kalbi/utils
+# github.com/davecgh/go-spew v1.1.1
 ## explicit
+github.com/davecgh/go-spew/spew
+# github.com/libp2p/go-reuseport v0.1.0
+## explicit; go 1.16
+github.com/libp2p/go-reuseport
+# github.com/looplab/fsm v0.3.0
+## explicit; go 1.16
 github.com/looplab/fsm
-# github.com/marv2097/siprocket v0.0.0-20190829114445-b2fe8c7d1589
+# github.com/pmezard/go-difflib v1.0.0
 ## explicit
-github.com/marv2097/siprocket
-# github.com/pixelbender/go-sdp v1.0.0
-## explicit
-github.com/pixelbender/go-sdp/sdp
-# github.com/sirupsen/logrus v1.6.0
-## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/sirupsen/logrus v1.8.1
+## explicit; go 1.13
 github.com/sirupsen/logrus
-# golang.org/x/sys v0.0.0-20190422165155-953cdadca894
+# github.com/stretchr/testify v1.7.0
+## explicit; go 1.13
+github.com/stretchr/testify/assert
+# golang.org/x/sys v0.0.0-20191026070338-33540a1f6037
+## explicit; go 1.12
 golang.org/x/sys/unix
+golang.org/x/sys/windows
+# gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
+## explicit
+gopkg.in/yaml.v3
