@@ -1,0 +1,10 @@
+INVITE sip:145@test SIP/2.0
+Via: SIP/2.0/UDP 127.0.0.1:56437;branch=z9hG4bKPj99e15adb8c5641edbe960b2063d70ebc
+From: <sip:test@test>;tag=9c21a1c6358143d691abcf7eee553987
+To: <sip:145@test>
+Contact: test <sip:test@127.0.0.1:56437>
+Cseq: 20522 INVITE
+Content-Type: application/sdp
+Call-ID: b539f707b12d4f0c854861677bdbc1ee
+Max-Forwards: 70
+Content-Length: 343
