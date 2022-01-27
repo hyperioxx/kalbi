@@ -71,7 +71,7 @@ func (ed *SipStack) Start() {
 		go listeningPoint.Start()
 	}
 
-	for ed.Alive == true {
+	for ed.Alive {
 		msg := <-ed.TransportChannel
 		event := ed.TransManager.Handle(msg)
 		message := event.GetSipMessage()
