@@ -217,7 +217,7 @@ func configure() *ClientProperties {
 		fmt.Println(err)
 	}
 
-	//Password will be visable because I cba to set stty echo off using syscalls
+	//Password will be visible because I cba to set stty echo off using syscalls
 	fmt.Print("Password:")
 	_, err = fmt.Scan(&props.Password)
 	if err != nil {
