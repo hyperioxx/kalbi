@@ -69,7 +69,7 @@ package sdp
 //SdpOrigin SDP origin header "o="
 type SdpOrigin struct {
 	Username       []byte
-	SessionId      []byte
+	SessionID      []byte
 	SessionVersion []byte
 	NetType        []byte
 	AddrType       []byte
@@ -81,7 +81,7 @@ type SdpOrigin struct {
 func (so *SdpOrigin) String() string {
 	line := "o="
 	line += string(so.Username) + " "
-	line += string(so.SessionId) + " "
+	line += string(so.SessionID) + " "
 	line += string(so.SessionVersion) + " "
 	line += string(so.NetType) + " "
 	line += string(so.AddrType) + " "
@@ -96,7 +96,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 
 	// Init the output area
 	out.Username = nil
-	out.SessionId = nil
+	out.SessionID = nil
 	out.SessionVersion = nil
 	out.NetType = nil
 	out.AddrType = nil
@@ -125,7 +125,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 				pos++
 				continue
 			}
-			out.SessionId = append(out.SessionId, v[pos])
+			out.SessionID = append(out.SessionID, v[pos])
 
 		case fieldSessionVersion:
 			if v[pos] == ' ' {

@@ -7,7 +7,7 @@ func NewResponse(request *SipReq, via *SipVia, to *SipTo, from *SipFrom, callID 
 	r.Via = append(r.Via, *via)
 	r.To = *to
 	r.From = *from
-	r.CallId = *callID
+	r.CallID = *callID
 	r.MaxFwd = *maxfor
 	return r
 }

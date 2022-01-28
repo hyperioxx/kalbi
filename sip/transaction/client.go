@@ -40,10 +40,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip/message"
-	"github.com/KalbiProject/Kalbi/sip/method"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/looplab/fsm"
 )
 
@@ -116,7 +116,7 @@ func (ct *ClientTransaction) GetListeningPoint() interfaces.ListeningPoint {
 	return ct.ListeningPoint
 }
 
-//GetBranchID returns branchId which is the identifier of a transaction
+//GetBranchID returns branchID which is the identifier of a transaction
 func (ct *ClientTransaction) GetBranchID() string {
 	return ct.BranchID
 }

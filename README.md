@@ -1,8 +1,5 @@
 ![Kalbi Logo](https://raw.githubusercontent.com/hyperioxx/Kalbi/master/assets/images/logo_transparent_background.png "Kalbi Logo")
 
-
-
-
 <h1 align="center">
   Golang Session Initiated Protocol Framework/SDK
 </h1>
@@ -16,22 +13,16 @@
 
 <p>&nbsp;</p>
 
-
-
- [![Go Report Card](https://goreportcard.com/badge/github.com/KalbiProject/Kalbi)](https://goreportcard.com/report/github.com/KalbiProject/Kalbi) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/KalbiProject/Kalbi/LICENCE)  [![GitHub contributors](https://img.shields.io/github/contributors/KalbiProject/Kalbi)](https://github.com/KalbiProject/Kalbi/graphs/contributors/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Hyperioxx/Kalbi) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/KalbiProject/Kalbi)](https://goreportcard.com/report/github.com/KalbiProject/Kalbi) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/KalbiProject/kalbi/LICENCE) [![GitHub contributors](https://img.shields.io/github/contributors/KalbiProject/Kalbi)](https://github.com/KalbiProject/kalbi/graphs/contributors/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Hyperioxx/Kalbi)
 <br />
-
-
 
 ## Description
 
 Golang SIP/VoIP SDK/Framework used to build large platforms for VoIP and realtime communications
 
-
 ## Examples
 
-[Examples](https://github.com/KalbiProject/Kalbi/tree/master/examples) - Kalbi Examples folder 
-
+[Examples](https://github.com/KalbiProject/kalbi/tree/master/examples) - Kalbi Examples folder
 
 ## Core Team
 
@@ -50,7 +41,6 @@ Golang SIP/VoIP SDK/Framework used to build large platforms for VoIP and realtim
 
 ## Contributors
 
-
 <table>
    <tr>
       <td>
@@ -63,7 +53,3 @@ Golang SIP/VoIP SDK/Framework used to build large platforms for VoIP and realtim
         </td>
    </tr>
 </table>
-
-
-
-

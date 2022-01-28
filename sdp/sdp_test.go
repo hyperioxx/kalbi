@@ -26,7 +26,7 @@ var (
 
 	testSdpOrigin = SdpOrigin{
 		Username:       []byte{116, 101, 115, 116},
-		SessionId:      []byte{116, 101, 115, 116},
+		SessionID:      []byte{116, 101, 115, 116},
 		SessionVersion: []byte{116, 101, 115, 116},
 		NetType:        []byte{116, 101, 115, 116},
 		AddrType:       []byte{116, 101, 115, 116},
@@ -61,7 +61,7 @@ var (
 
 	testSpdMsgOrigin = SdpOrigin{
 		Username:       []byte{116, 101, 115, 116},
-		SessionId:      []byte{116, 101, 115, 116},
+		SessionID:      []byte{116, 101, 115, 116},
 		SessionVersion: []byte{116, 101, 115, 116},
 		NetType:        []byte{116, 101, 115, 116},
 		AddrType:       []byte{116, 101, 115, 116},

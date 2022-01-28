@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/KalbiProject/Kalbi/interfaces"
-	kalbi "github.com/KalbiProject/Kalbi"
+	kalbi "github.com/KalbiProject/kalbi"
+	"github.com/KalbiProject/kalbi/interfaces"
 )
 
 func main() {

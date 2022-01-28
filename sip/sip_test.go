@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/Kalbi/sdp"
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sdp"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 var (
@@ -51,7 +51,7 @@ var (
 			Src:     []uint8(nil)},
 		Via: []message.SipVia{},
 		Cseq: message.SipCseq{
-			Id:     []uint8(nil),
+			ID:     []uint8(nil),
 			Method: []uint8(nil),
 			Src:    []uint8(nil)},
 		Auth: message.SipAuth{
@@ -74,7 +74,7 @@ var (
 		MaxFwd: message.SipVal{
 			Value: []uint8(nil),
 			Src:   []uint8(nil)},
-		CallId: message.SipVal{
+		CallID: message.SipVal{
 			Value: []uint8(nil),
 			Src:   []uint8(nil)},
 		ContType: message.SipVal{
@@ -88,7 +88,7 @@ var (
 		Sdp: sdp.SdpMsg{
 			Origin: sdp.SdpOrigin{
 				Username:       []uint8(nil),
-				SessionId:      []uint8(nil),
+				SessionID:      []uint8(nil),
 				SessionVersion: []uint8(nil),
 				NetType:        []uint8(nil),
 				AddrType:       []uint8(nil),

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/Kalbi/sdp"
+	"github.com/KalbiProject/kalbi/sdp"
 )
 
 func TestSipMsg_SetAuthHeader(t *testing.T) {
@@ -19,7 +19,7 @@ func TestSipMsg_SetAuthHeader(t *testing.T) {
 		Ua       SipVal
 		Exp      SipVal
 		MaxFwd   SipVal
-		CallId   SipVal
+		CallID   SipVal
 		ContType SipVal
 		ContLen  SipVal
 		Src      []byte
@@ -49,7 +49,7 @@ func TestSipMsg_SetAuthHeader(t *testing.T) {
 				Ua:       tt.fields.Ua,
 				Exp:      tt.fields.Exp,
 				MaxFwd:   tt.fields.MaxFwd,
-				CallId:   tt.fields.CallId,
+				CallID:   tt.fields.CallID,
 				ContType: tt.fields.ContType,
 				ContLen:  tt.fields.ContLen,
 				Src:      tt.fields.Src,
@@ -73,7 +73,7 @@ func TestSipMsg_GetStatusCode(t *testing.T) {
 		Ua       SipVal
 		Exp      SipVal
 		MaxFwd   SipVal
-		CallId   SipVal
+		CallID   SipVal
 		ContType SipVal
 		ContLen  SipVal
 		Src      []byte
@@ -100,7 +100,7 @@ func TestSipMsg_GetStatusCode(t *testing.T) {
 				Ua:       tt.fields.Ua,
 				Exp:      tt.fields.Exp,
 				MaxFwd:   tt.fields.MaxFwd,
-				CallId:   tt.fields.CallId,
+				CallID:   tt.fields.CallID,
 				ContType: tt.fields.ContType,
 				ContLen:  tt.fields.ContLen,
 				Src:      tt.fields.Src,
@@ -126,7 +126,7 @@ func TestSipMsg_CopyHeaders(t *testing.T) {
 		Ua       SipVal
 		Exp      SipVal
 		MaxFwd   SipVal
-		CallId   SipVal
+		CallID   SipVal
 		ContType SipVal
 		ContLen  SipVal
 		Src      []byte
@@ -156,7 +156,7 @@ func TestSipMsg_CopyHeaders(t *testing.T) {
 				Ua:       tt.fields.Ua,
 				Exp:      tt.fields.Exp,
 				MaxFwd:   tt.fields.MaxFwd,
-				CallId:   tt.fields.CallId,
+				CallID:   tt.fields.CallID,
 				ContType: tt.fields.ContType,
 				ContLen:  tt.fields.ContLen,
 				Src:      tt.fields.Src,
@@ -180,7 +180,7 @@ func TestSipMsg_CopySdp(t *testing.T) {
 		Ua       SipVal
 		Exp      SipVal
 		MaxFwd   SipVal
-		CallId   SipVal
+		CallID   SipVal
 		ContType SipVal
 		ContLen  SipVal
 		Src      []byte
@@ -210,7 +210,7 @@ func TestSipMsg_CopySdp(t *testing.T) {
 				Ua:       tt.fields.Ua,
 				Exp:      tt.fields.Exp,
 				MaxFwd:   tt.fields.MaxFwd,
-				CallId:   tt.fields.CallId,
+				CallID:   tt.fields.CallID,
 				ContType: tt.fields.ContType,
 				ContLen:  tt.fields.ContLen,
 				Src:      tt.fields.Src,
@@ -234,7 +234,7 @@ func TestSipMsg_String(t *testing.T) {
 		Ua       SipVal
 		Exp      SipVal
 		MaxFwd   SipVal
-		CallId   SipVal
+		CallID   SipVal
 		ContType SipVal
 		ContLen  SipVal
 		Src      []byte
@@ -261,7 +261,7 @@ func TestSipMsg_String(t *testing.T) {
 				Ua:       tt.fields.Ua,
 				Exp:      tt.fields.Exp,
 				MaxFwd:   tt.fields.MaxFwd,
-				CallId:   tt.fields.CallId,
+				CallID:   tt.fields.CallID,
 				ContType: tt.fields.ContType,
 				ContLen:  tt.fields.ContLen,
 				Src:      tt.fields.Src,

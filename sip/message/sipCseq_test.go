@@ -21,7 +21,7 @@ func TestSipCseq_SetID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.ID,
+				ID:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}
@@ -49,7 +49,7 @@ func TestSipCseq_SetMethod(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.ID,
+				ID:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}
@@ -74,7 +74,7 @@ func TestSipCseq_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc := &SipCseq{
-				Id:     tt.fields.ID,
+				ID:     tt.fields.ID,
 				Method: tt.fields.Method,
 				Src:    tt.fields.Src,
 			}

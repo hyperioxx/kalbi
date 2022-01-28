@@ -3,7 +3,7 @@ package authentication_test
 import (
 	"testing"
 
-	"github.com/KalbiProject/Kalbi/authentication"
+	"github.com/KalbiProject/kalbi/authentication"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -11,7 +11,7 @@ type TestUser struct {
 	Username, Realm, Password, URI, Nonce, Cnonce, Nc, Qop, Method string
 }
 
-// MD5Challange returns computed challenge
+// MD5Challenge returns computed challenge
 func TestMD5Challenge(t *testing.T) {
 	expected := "6880451ac59baaffe5aa28eca8afa28c"
 	a := TestUser{
@@ -25,7 +25,7 @@ func TestMD5Challenge(t *testing.T) {
 		Qop:      "test",
 		Method:   "test",
 	}
-	output := authentication.MD5Challange(a.Username, a.Realm, a.Password, a.URI, a.Nonce, a.Cnonce, a.Nc, a.Qop, a.Method)
+	output := authentication.MD5Challenge(a.Username, a.Realm, a.Password, a.URI, a.Nonce, a.Cnonce, a.Nc, a.Qop, a.Method)
 	assert.EqualValues(t, expected, output)
 
 }

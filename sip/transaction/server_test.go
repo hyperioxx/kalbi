@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/looplab/fsm"
 )
 

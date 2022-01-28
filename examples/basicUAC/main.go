@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	kalbi "github.com/KalbiProject/Kalbi"
-	"github.com/KalbiProject/Kalbi/authentication"
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/sip/message"
-	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/sip/status"
+	kalbi "github.com/KalbiProject/kalbi"
+	"github.com/KalbiProject/kalbi/authentication"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/method"
+	"github.com/KalbiProject/kalbi/sip/status"
 )
 
 const (
@@ -74,7 +74,7 @@ func (c *Client) ReRegister(event interfaces.SipEventObject) {
 
 	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                                                //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                                  //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                                  //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060")                   //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
@@ -134,10 +134,10 @@ func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
 	authHeader.SetUsername(c.properties.Username)
 	authHeader.SetNc("00000001")
 	authHeader.SetURI("sip:" + c.properties.Domain)
-	authHeader.SetResponse(authentication.MD5Challange(authHeader.GetUsername(), authHeader.GetRealm(), c.properties.Password, authHeader.GetURI(), authHeader.GetNonce(), authHeader.GetCNonce(), authHeader.GetNc(), authHeader.GetQoP(), string(origin.Req.Method)))
+	authHeader.SetResponse(authentication.MD5Challenge(authHeader.GetUsername(), authHeader.GetRealm(), c.properties.Password, authHeader.GetURI(), authHeader.GetNonce(), authHeader.GetCNonce(), authHeader.GetNc(), authHeader.GetQoP(), string(origin.Req.Method)))
 	origin.SetAuthHeader(&authHeader)
 	if string(event.GetTransaction().GetOrigin().Req.Method) != "INVITE" {
-		origin.CallId.SetValue(message.GenerateNewCallID())
+		origin.CallID.SetValue(message.GenerateNewCallID())
 	}
 
 	txmng := c.stack.GetTransactionManager()
@@ -152,7 +152,7 @@ func (c *Client) SendRegister() {
 
 	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                                                //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                                  //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                                  //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060")                   //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
@@ -174,7 +174,7 @@ func (c *Client) SendInvite(to string) {
 
 	requestLine := message.NewRequestLine(method.INVITE, "sip", to, c.properties.Domain, "5060")    //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                              //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(to, "sip", c.properties.Domain, "5060")                  //Creates To e.g. To: <sip:5678@127.0.0.1>

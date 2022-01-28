@@ -2,12 +2,13 @@ package message
 
 import (
 	"fmt"
-	"github.com/KalbiProject/Kalbi/log"
 	"math/rand"
+
+	"github.com/KalbiProject/kalbi/log"
 )
 
-//GenerateBranchId generates a new branch ID
-func GenerateBranchId() string {
+//GenerateBranchID generates a new branch ID
+func GenerateBranchID() string {
 	b := make([]byte, 8)
 	_, err := rand.Read(b)
 	if err != nil {

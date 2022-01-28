@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 //ListeningPoint interface for listening point

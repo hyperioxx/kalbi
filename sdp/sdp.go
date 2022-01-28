@@ -69,7 +69,7 @@ func indexSep(s []byte) (int, byte) {
 
 //Parse Parses SDP
 func Parse(v []byte) (output SdpMsg) {
-	attrIdx := 0
+	attrIDX := 0
 	output.Attrib = make([]sdpAttrib, 0, 8)
 
 	lines := bytes.Split(v, []byte("\r\n"))
@@ -99,8 +99,8 @@ func Parse(v []byte) (output SdpMsg) {
 			case lhdr == "a":
 				var tmpAttrib sdpAttrib
 				output.Attrib = append(output.Attrib, tmpAttrib)
-				parseSdpAttrib(lval, &output.Attrib[attrIdx])
-				attrIdx++
+				parseSdpAttrib(lval, &output.Attrib[attrIDX])
+				attrIDX++
 
 			} // End of Switch
 

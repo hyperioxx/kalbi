@@ -8,7 +8,7 @@ func NewRequest(request *SipReq, via *SipVia, to *SipTo, from *SipFrom, contact 
 	r.To = *to
 	r.From = *from
 	r.Contact = *contact
-	r.CallId = *callID
+	r.CallID = *callID
 	r.Cseq = *cseq
 	r.MaxFwd = *maxfor
 	r.ContLen = *contlen

@@ -2,12 +2,13 @@ package transport
 
 import (
 	"fmt"
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip"
-	"github.com/KalbiProject/Kalbi/sip/event"
-	reuse "github.com/libp2p/go-reuseport"
 	"net"
+
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip"
+	"github.com/KalbiProject/kalbi/sip/event"
+	reuse "github.com/libp2p/go-reuseport"
 )
 
 //UDPTransport is a network protocol listening point for the EventDispatcher

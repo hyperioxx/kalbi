@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/Kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/interfaces"
 )
 
 func TestUDPTransport_Read(t *testing.T) {
