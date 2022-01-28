@@ -1,11 +1,10 @@
 package main
 
 import (
-	//"fmt"
 	"fmt"
 
-	"github.com/KalbiProject/Kalbi"
 	"github.com/KalbiProject/Kalbi/interfaces"
+	kalbi "github.com/KalbiProject/Kalbi"
 )
 
 func main() {

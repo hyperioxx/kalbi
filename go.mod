@@ -1,9 +1,8 @@
-module github.com/KalbiProject/KalbiProxy
+module github.com/KalbiProject/Kalbi
 
 go 1.17
 
 require (
-	github.com/KalbiProject/Kalbi v0.0.6
 	github.com/libp2p/go-reuseport v0.1.0
 	github.com/looplab/fsm v0.3.0
 	github.com/sirupsen/logrus v1.8.1
