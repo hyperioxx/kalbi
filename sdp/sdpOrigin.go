@@ -107,7 +107,7 @@ func ParseSdpOrigin(v []byte, out *SdpOrigin) {
 	if keepSrc {
 		out.Src = v
 	}
-	Exit:
+Exit:
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM

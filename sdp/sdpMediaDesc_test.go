@@ -42,12 +42,12 @@ func Test_parseSdpMediaDesc(t *testing.T) {
 		name string
 		args args
 	}{
-		{"test parseSdpMediaDesc",args{v: testInBytes,out:&sdpMediaDesc{MediaType: testInBytes, Port: testInBytes, Proto: testInBytes, Fmt: testInBytes, Src: testInBytes}}},
+		{"test parseSdpMediaDesc", args{v: testInBytes, out: &sdpMediaDesc{MediaType: testInBytes, Port: testInBytes, Proto: testInBytes, Fmt: testInBytes, Src: testInBytes}}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			parseSdpMediaDesc(tt.args.v, tt.args.out)
-			// TODO : add check 
+			// TODO : add check
 		})
 	}
 }

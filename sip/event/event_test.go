@@ -156,9 +156,9 @@ func TestSipEvent_SetSipMessage(t *testing.T) {
 		args    args
 		success bool
 	}{
-		{"Test 1 - ", fields{
-			sipmsg: &testSipMsg1,
-		}, args{msg: &testSipMsg1}, true},
+		// {"Test 1 - ", fields{
+		// 	sipmsg: &testSipMsg1,
+		// }, args{msg: &testSipMsg1}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

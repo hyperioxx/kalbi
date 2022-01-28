@@ -120,9 +120,9 @@ func TestDialogManager_NewDialog(t *testing.T) {
 			}
 			got := dm.NewDialog()
 			if reflect.TypeOf(got.DialogID).Kind() != reflect.Int32 {
-				t.Errorf("GenerateDialogID() = %v, want %v", fmt.Sprintf("%T",got),"int32")
+				t.Errorf("GenerateDialogID() = %v, want %v", fmt.Sprintf("%T", got), "int32")
 			}
-			if got.CallID != "" || got.ToTag != "" || got.FromTag != ""{
+			if got.CallID != "" || got.ToTag != "" || got.FromTag != "" {
 				t.Error("GenerateDialogID() = string key is not blank")
 
 			}

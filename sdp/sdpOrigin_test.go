@@ -58,13 +58,13 @@ func TestParseSdpOrigin(t *testing.T) {
 			v:   []byte(testSdpOriginStr),
 			out: &SdpOrigin{}},
 			&SdpOrigin{
-				Username: []byte("testusername"),
-				SessionID: []byte("testsessionid"),
+				Username:       []byte("testusername"),
+				SessionID:      []byte("testsessionid"),
 				SessionVersion: []byte("testsessionversion"),
-				NetType: []byte("testnet"),
-				AddrType: []byte("testaddr"),
-				UniAddr: []byte("testuni"),
-				Src: []byte("testusername testsessionid testsessionversion testnet testaddr testuni testsrc "),
+				NetType:        []byte("testnet"),
+				AddrType:       []byte("testaddr"),
+				UniAddr:        []byte("testuni"),
+				Src:            []byte("testusername testsessionid testsessionversion testnet testaddr testuni testsrc "),
 			}},
 	}
 	for _, tt := range tests {

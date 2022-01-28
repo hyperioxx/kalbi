@@ -13,7 +13,7 @@ func Test_sdpAttrib_String(t *testing.T) {
 		fields fields
 		want   string
 	}{
-		{"sdpAttribTest",fields{Cat:testInBytes,Val:testInBytes,Src: testInBytes},"a=test:test"},
+		{"sdpAttribTest", fields{Cat: testInBytes, Val: testInBytes, Src: testInBytes}, "a=test:test"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -38,7 +38,7 @@ func Test_parseSdpAttrib(t *testing.T) {
 		name string
 		args args
 	}{
-		{"sdpAttribTest",args{v:testInBytes,out:&sdpAttrib{Cat:testInBytes,Val:testInBytes,Src: testInBytes}}},
+		{"sdpAttribTest", args{v: testInBytes, out: &sdpAttrib{Cat: testInBytes, Val: testInBytes, Src: testInBytes}}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

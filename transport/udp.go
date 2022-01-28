@@ -27,7 +27,7 @@ func (ut *UDPTransport) Read() interfaces.SipEventObject {
 	if err != nil {
 		log.Log.Error(err)
 	}
-	
+
 	request := sip.Parse(buffer[:n])
 	event := new(event.SipEvent)
 	event.SetSipMessage(&request)
@@ -84,9 +84,6 @@ func (ut *UDPTransport) Send(host string, port string, msg string) error {
 	log.Log.Info("Sending message to " + host + ":" + port)
 	conn, err := reuse.Dial("udp", ut.Address.String(), addr.String())
 
-
-
-	
 	if err != nil {
 		fmt.Printf("Some error %v", err)
 		return err

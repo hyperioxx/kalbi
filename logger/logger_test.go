@@ -13,7 +13,7 @@ func TestGetLogger(t *testing.T) {
 		name string
 		want string
 	}{
-		// TODO: set up tests 
+		// TODO: set up tests
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
