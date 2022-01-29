@@ -109,6 +109,7 @@ var (
 		Body:     []byte(""),
 		Sdp:      sdp.SdpMsg{},
 	}
+	_ = testSipMsg2
 )
 
 func TestSipEvent_GetSipMessage(t *testing.T) {

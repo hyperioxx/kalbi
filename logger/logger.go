@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"fmt"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -36,22 +38,30 @@ func GetLogger() *zap.Logger {
 
 func Info(msg string, tags ...zap.Field) {
 	log.Info(msg, tags...)
-	log.Sync()
+	if err := log.Sync(); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func Debug(msg string, tags ...zap.Field) {
 	log.Debug(msg, tags...)
-	log.Sync()
+	if err := log.Sync(); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func Error(msg string, err error, tags ...zap.Field) {
 	tags = append(tags, zap.NamedError("error", err))
 	log.Error(msg, tags...)
-	log.Sync()
+	if err := log.Sync(); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func Critical(msg string, err error, tags ...zap.Field) {
 	tags = append(tags, zap.NamedError("critical", err))
 	log.Error(msg, tags...)
-	log.Sync()
+	if err := log.Sync(); err != nil {
+		fmt.Println(err)
+	}
 }
