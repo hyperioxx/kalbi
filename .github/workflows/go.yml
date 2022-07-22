@@ -2,9 +2,17 @@ name: Go
 
 on:
   push:
-    branches: [ master, 'v0.1.0' ]
+    tags:
+      - v*
+    branches:
+      - master
+      - main
   pull_request:
-    branches: [ master,'v0.1.0']
+    tags:
+      - v*
+    branches:
+      - master
+      - main
 
 jobs:
 
