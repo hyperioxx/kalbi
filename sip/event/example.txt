@@ -1,0 +1,131 @@
+"time":"2022-01-28T11:03:41.747Z",
+"msg":"SetSipMessage() msg - INVITE 
+sip:0800@test SIP/2.0
+Via: SIP/2.0/UDP 127.0.0.1:51231;branch=z9hG4bKPjebd93b2e12c94c08a547758740fbd9fb
+From: <sip:test@test>;tag=e788ae25565649ee9ea69e5fc09e3ec4
+To: <sip:0800@test>
+Contact: test <sip:test@127.0.0.1:51231>
+Cseq: 30148 INVITE
+Content-Type: application/sdp
+Call-ID: d318a7b8057b47f19b883851fafa973d
+Max-Forwards: 70Content-Length: 343v=0
+o=- 3852356614 3852356614 IN IP4 192.168.1.107
+s=pjmediab=AS:84t=0 0a=X-nat:0
+m=audio 4002 RTP/AVP 8 0 101
+c=IN IP4 192.168.1.107
+b=TIAS:64000
+a=rtcp:4003 IN IP4 192.168.1.107
+a=sendrecva=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:101 
+telephone-event/8000
+a=fmtp:101 0-16
+a=ssrc:1924799362 
+cname:6d0427ae7f807c0a"}
+
+REQ
+{GetSipMessage() se.sipmsg.Req.Method - INVITE"}
+{GetSipMessage() se.sipmsg.Req.UriType - sip"}
+{GetSipMessage() se.sipmsg.Req.StatusCode - "}
+{GetSipMessage() se.sipmsg.Req.StatusDesc - "}
+{GetSipMessage() se.sipmsg.Req.User - 0"}
+{GetSipMessage() se.sipmsg.Req.Host - test"}
+{GetSipMessage() se.sipmsg.Req.Port - "}
+{GetSipMessage() se.sipmsg.Req.UserType - "}
+{GetSipMessage() se.sipmsg.Req.Src - INVITE sip:0@test SIP/2.0"}
+
+FROM
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.871Z","msg":"GetSipMessage() se.sipmsg UriType - sip"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.872Z","msg":"GetSipMessage() se.sipmsg Name - test"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.873Z","msg":"GetSipMessage() se.sipmsg User - test"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.877Z","msg":"GetSipMessage() se.sipmsg Host - test"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.880Z","msg":"GetSipMessage() se.sipmsg Port - "}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.884Z","msg":"GetSipMessage() se.sipmsg Tag - 5627f2c27f324ac28fe114c0ef620404"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.889Z","msg":"GetSipMessage() se.sipmsg UserType - "}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T11:11:21.892Z","msg":"GetSipMessage() se.sipmsg Src - \"test\" <sip:test@test>;tag=5627f2c27f324ac28fe114c0ef620404"}
+
+
+
+
+SetSipMessage() se.sipmsg.Req.Method - INVITE"}
+SetSipMessage() se.sipmsg.Req.UriType - sip"}
+SetSipMessage() se.sipmsg.Req.StatusCode - "}
+SetSipMessage() se.sipmsg.Req.StatusDesc - "}
+SetSipMessage() se.sipmsg.Req.User - 0"}
+SetSipMessage() se.sipmsg.Req.Host - test"}
+SetSipMessage() se.sipmsg.Req.Port - "}
+SetSipMessage() se.sipmsg.Req.UserType - "}
+SetSipMessage() se.sipmsg.Req.Src - INVITE sip:0@test SIP/2.0"}
+SetSipMessage() se.sipmsg UriType - sip"}
+SetSipMessage() se.sipmsg Name - test"}
+SetSipMessage() se.sipmsg User - test"}
+SetSipMessage() se.sipmsg Host - test"}
+SetSipMessage() se.sipmsg Port - "}
+SetSipMessage() se.sipmsg Tag - a267e3817418456db1a442f6d50de7ff"}
+SetSipMessage() se.sipmsg UserType - "}
+SetSipMessage() se.sipmsg Src - \"test\" <sip:test@test>;tag=a267e3817418456db1a442f6d50de7ff"}
+SetSipMessage() se.sipmsg.To.Host - test"}
+SetSipMessage() se.sipmsg.To.Name - "}
+SetSipMessage() se.sipmsg.To.Port - "}
+SetSipMessage() se.sipmsg.To.Src - <sip:0@test>"}     
+SetSipMessage() se.sipmsg.To.Tag - "}
+SetSipMessage() se.sipmsg.To.UriType - sip"}
+SetSipMessage() se.sipmsg.To.User - 0"}
+SetSipMessage() se.sipmsg.To.UserType - "}
+SetSipMessage() se.sipmsg.Contact.Expires - "}        
+SetSipMessage() se.sipmsg.Contact.Host - 127.0.0.1"}  
+SetSipMessage() se.sipmsg.Contact.Name - test"}       
+SetSipMessage() se.sipmsg.Contact.Port - 51231"}      
+SetSipMessage() se.sipmsg.Contact.Qval - "}
+SetSipMessage() se.sipmsg.Contact.Src - \"test\" <sip:test@127.0.0.1:51231;ob>"}
+SetSipMessage() se.sipmsg.Contact.Tran - "}
+SetSipMessage() se.sipmsg.Contact.UriType - sip"}     
+SetSipMessage() se.sipmsg.Contact.User - test"}       
+SetSipMessage() se.sipmsg.Cseq.ID - 25400"}
+SetSipMessage() se.sipmsg.Cseq.Method - INVITE"}      
+SetSipMessage() se.sipmsg.Cseq.Src - 25400 INVITE"}   
+SetSipMessage() se.sipmsg.Auth.Algorithm - "}
+SetSipMessage() se.sipmsg.Auth.CNonce - "}
+SetSipMessage() se.sipmsg.Auth.Nc - "}
+SetSipMessage() se.sipmsg.Auth.Nonce - "}
+SetSipMessage() se.sipmsg.Auth.QoP - "}
+SetSipMessage() se.sipmsg.Auth.Realm - "}
+SetSipMessage() se.sipmsg.Auth.Response - "}
+SetSipMessage() se.sipmsg.Auth.Src - "}
+SetSipMessage() se.sipmsg.Auth.URI - "}
+SetSipMessage() se.sipmsg.Auth.Username - "}
+SetSipMessage() se.sipmsg.Ua.Src - "}
+SetSipMessage() se.sipmsg.Ua.Value - MicroSIP/3.20.7"}
+SetSipMessage() se.sipmsg.Exp.Src - "}
+SetSipMessage() se.sipmsg.Exp.Value - "}
+SetSipMessage() se.sipmsg.MaxFwd.Src - "}
+SetSipMessage() se.sipmsg.MaxFwd.Value - 70"}
+SetSipMessage() se.sipmsg.CallID.Src - "}
+SetSipMessage() se.sipmsg.CallID.Value - 919bd38a056b4fe78781f9b24146545a"}
+SetSipMessage() se.sipmsg.ContType.Src - "}
+SetSipMessage() se.sipmsg.ContType.Value - application/sdp"}
+SetSipMessage() se.sipmsg.ContLen.Src - "}
+SetSipMessage() se.sipmsg.ContLen.Value - 343"}       
+SetSipMessage() se.sipmsg.Src - INVITE sip:0@test SIP/2.0\r\nVia: SIP/2.0/UDP 127.0.0.1:51231;rport;branch=z9hG4bKPj7a6abc6d823c45f4bc52a948839de46e\r\nMax-Forwards: 70\r\nFrom: \"test\" <sip:test@test>;tag=a267e3817418456db1a442f6d50de7ff\r\nTo: <sip:0@test>\r\nContact: \"test\" <sip:test@127.0.0.1:51231;ob>\r\nCall-ID: 919bd38a056b4fe78781f9b24146545a\r\nCSeq: 25400 INVITE\r\nRoute: <sip:127.0.0.1;lr>\r\nAllow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS\r\nSupported: replaces, 100rel, timer, norefersub\r\nSession-Expires: 1800\r\nMin-SE: 90\r\nUser-Agent: MicroSIP/3.20.7\r\nContent-Type: application/sdp\r\nContent-Length:   343\r\n\r\nv=0\r\no=- 3852360317 3852360317 IN IP4 192.168.1.107\r\ns=pjmedia\r\nb=AS:84\r\nt=0 0\r\na=X-nat:0\r\nm=audio 4018 RTP/AVP 8 0 101\r\nc=IN IP4 192.168.1.107\r\nb=TIAS:64000\r\na=rtcp:4019 IN IP4 192.168.1.107\r\na=sendrecv\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:101 telephone-event/8000\r\na=fmtp:101 0-16\r\na=ssrc:1997041044 cname:1c344f79070b0ba4\r\n"}
+SetSipMessage() se.sipmsg.Sdp.Attrib - []"}
+SetSipMessage() se.sipmsg.Sdp.ConnData - {[] [] [] []}"}
+SetSipMessage() se.sipmsg.Sdp.MediaDesc - {[] [] [] [] []}"}
+SetSipMessage() se.sipmsg.Sdp.Origin.AddrType - "}    
+SetSipMessage() se.sipmsg.Sdp.Origin.NetType - "}     
+SetSipMessage() se.sipmsg.Sdp.Origin.SessionID - "}   
+SetSipMessage() se.sipmsg.Sdp.Origin.SessionVersion - "}
+SetSipMessage() se.sipmsg.Sdp.Origin.Src - "}
+SetSipMessage() se.sipmsg.Sdp.Origin.UniAddr - "}     
+SetSipMessage() se.sipmsg.Sdp.Origin.Username - "}    
+SetSipMessage() se.sipmsg.Sdp.Time - {[] [] []}"}     
+SetSipMessage() se.sipmsg.Sdp.Version - {[] []}"}  
+
+
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T12:05:21.408Z","msg":"SetSipMessage() se.sipmsg.Via - [{udp [49 50 55 46 48 
+46 48 46 49] [53 49 50 51 49] [122 57 104 71 52 98 75 80 106 55 97 54 97 98 99 54 100 56 50 51 99 52 53 102 52 98 99 53 50 97 57 52 56 56 51 57 100 101 52 54 101] [] [] [] [] [83 73 80 47 50 46 48 47 85 68 80 32 49 50 55 46 48 46 48 46 49 58 53 49 50 51 49 59 114 112 111 114 116 59 98 114 97 110 99 104 61 122 57 104 71 52 98 75 80 106 55 97 54 97 98 99 54 100 56 50 51 99 52 53 102 52 98 99 
+53 50 97 57 52 56 56 51 57 100 101 52 54 101]}]"}
+{"level":"\u001b[35mdebug\u001b[0m","time":"2022-01-28T12:05:21.425Z","msg":"SetSipMessage() se.sipmsg.Body - [118 61 48 13 10 111 
+61 45 32 51 56 53 50 51 54 48 51 49 55 32 51 56 53 50 51 54 48 51 49 55 32 73 78 32 73 80 52 32 49 57 50 46 49 54 56 46 49 46 49 48 55 13 10 115 61 112 106 109 101 100 105 97 13 10 98 61 65 83 58 56 52 13 10 116 61 48 32 48 13 10 97 61 88 45 110 97 116 58 48 13 
+10 109 61 97 117 100 105 111 32 52 48 49 56 32 82 84 80 47 65 86 80 32 56 32 48 32 49 48 49 13 10 99 61 73 78 32 73 80 52 32 49 57 
+50 46 49 54 56 46 49 46 49 48 55 13 10 98 61 84 73 65 83 58 54 52 48 48 48 13 10 97 61 114 116 99 112 58 52 48 49 57 32 73 78 32 73 80 52 32 49 57 50 46 49 54 56 46 49 46 49 48 55 13 10 97 61 115 101 110 100 114 101 99 118 13 10 97 61 114 116 112 109 97 112 58 56 32 80 67 77 65 47 56 48 48 48 13 10 97 61 114 116 112 109 97 112 58 48 32 80 67 77 85 47 56 48 48 48 13 10 97 61 114 116 112 109 
+97 112 58 49 48 49 32 116 101 108 101 112 104 111 110 101 45 101 118 101 110 116 47 56 48 48 48 13 10 97 61 102 109 116 112 58 49 48 49 32 48 45 49 54 13 10 97 61 115 115 114 99 58 49 57 57 55 48 52 49 48 52 52 32 99 110 97 109 101 58 49 99 51 52 52 102 55 57 48 55 48 98 48 98 97 52 13 10]"}

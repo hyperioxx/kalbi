@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"github.com/KalbiProject/Kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 //SipListener interface for sip listener i.e. Your Application

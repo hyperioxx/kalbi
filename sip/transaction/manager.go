@@ -1,12 +1,14 @@
 package transaction
 
 import (
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip/message"
-	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/sirupsen/logrus"
 	"sync"
+	"errors"
+
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/method"
+	"github.com/sirupsen/logrus"
 )
 
 //NewTransactionManager returns a new TransactionManager
@@ -37,8 +39,8 @@ func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces
 	if message.Req.StatusCode != nil {
 		log.Log.Info("Client transaction")
 
-		tx, exists := tm.FindClientTransaction(message)
-		if exists {
+		tx, exists, err := tm.FindClientTransaction(message)
+		if exists && err == nil {
 			tx.SetLastMessage(message)
 			log.Log.Info("Client Transaction already exists")
 		} else {
@@ -51,9 +53,9 @@ func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces
 
 	} else if message.Req.Method != nil {
 		log.Log.Info("Server transaction")
-		tx, exists := tm.FindServerTransaction(message)
+		tx, exists, err := tm.FindServerTransaction(message)
 
-		if exists {
+		if exists && err == nil {
 			tx.SetLastMessage(message)
 			log.Log.Info("Server Transaction already exists")
 
@@ -71,21 +73,29 @@ func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces
 }
 
 //FindServerTransaction finds transaction by SipMsg
-func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
+func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interfaces.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
+	if len(msg.Via) == 0 {
+		log.Log.Error("Via Headers Missing")
+		return nil, false, errors.New("missing via headers")
+	}
 	tm.txLock.RLock()
 	tx, exists := tm.ServerTX[string(msg.Via[0].Branch)]
 	tm.txLock.RUnlock()
-	return tx, exists
+	return tx, exists, nil
 }
 
 //FindClientTransaction finds transaction by SipMsg
-func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool) {
+func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
+	if len(msg.Via) == 0{
+		log.Log.Error("Via Headers Missing")
+		return nil, false, errors.New(("missung via headers"))
+	}
 	tm.txLock.RLock()
 	tx, exists := tm.ClientTX[string(msg.Via[0].Branch)]
 	tm.txLock.RUnlock()
-	return tx, exists
+	return tx, exists, nil
 }
 
 //FindServerTransactionByID finds transaction by id

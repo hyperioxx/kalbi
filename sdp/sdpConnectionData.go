@@ -64,7 +64,7 @@ Exit:
 
 		case fieldConnAddr:
 			if v[pos] == ' ' {
-				break Exit 
+				break Exit
 			}
 			out.ConnAddr = append(out.ConnAddr, v[pos])
 

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/KalbiProject/Kalbi/sdp"
+	"github.com/KalbiProject/kalbi/sdp"
 )
 
 var keepSrc = true
@@ -22,7 +22,7 @@ type SipMsg struct {
 	Ua       SipVal
 	Exp      SipVal
 	MaxFwd   SipVal
-	CallId   SipVal
+	CallID   SipVal
 	ContType SipVal
 	ContLen  SipVal
 	Src      []byte
@@ -50,7 +50,7 @@ func (sm *SipMsg) CopyHeaders(msg *SipMsg) {
 	sm.From = msg.From
 	sm.To = msg.To
 	sm.Contact = msg.Contact
-	sm.CallId = msg.CallId
+	sm.CallID = msg.CallID
 	sm.ContType = msg.ContType
 	sm.Cseq = msg.Cseq
 	sm.MaxFwd = msg.MaxFwd
@@ -79,7 +79,7 @@ func (sm *SipMsg) String() string {
 	} else if sm.Auth.Nonce != nil {
 		sipmsg += "WWW-Authenticate: " + sm.Auth.String() + "\r\n"
 	}
-	sipmsg += "Call-ID: " + sm.CallId.String() + "\r\n"
+	sipmsg += "Call-ID: " + sm.CallID.String() + "\r\n"
 	sipmsg += "Max-Forwards: " + sm.MaxFwd.String() + "\r\n"
 	sipmsg += "Content-Length: " + sm.ContLen.String() + "\r\n"
 	sipmsg += "\r\n"
@@ -111,7 +111,7 @@ func (sv *SipVal) String() string {
 func Parse(v []byte) (output SipMsg) {
 	output.Src = v
 	// Allow multiple vias and media Attribs
-	viaIdx := 0
+	viaIDX := 0
 	output.Via = make([]SipVia, 0, 8)
 
 	// Split SIP & Body
@@ -148,10 +148,10 @@ func Parse(v []byte) (output SipMsg) {
 				case lhdr == "v" || lhdr == "via":
 					var tmpVia SipVia
 					output.Via = append(output.Via, tmpVia)
-					ParseSipVia(lval, &output.Via[viaIdx])
-					viaIdx++
+					ParseSipVia(lval, &output.Via[viaIDX])
+					viaIDX++
 				case lhdr == "i" || lhdr == "call-id":
-					output.CallId.Value = lval
+					output.CallID.Value = lval
 				case lhdr == "c" || lhdr == "content-type":
 					output.ContType.Value = lval
 				case lhdr == "content-length":
@@ -275,7 +275,7 @@ func MessageDetails(data *SipMsg) string {
 	// UA
 	/*
 		fmt.Println("  [Cseq]")
-		fmt.Println("    [Id] =>", string(data.Cseq.Id))
+		fmt.Println("    [ID] =>", string(data.Cseq.ID))
 		fmt.Println("    [Method] =>", string(data.Cseq.Method))
 		fmt.Println("    [Src] =>", string(data.Cseq.Src))
 		// UA
@@ -290,10 +290,10 @@ func MessageDetails(data *SipMsg) string {
 		fmt.Println("  [Max Forwards]")
 		fmt.Println("    [Value] =>", string(data.MaxFwd.Value))
 		fmt.Println("    [Src] =>", string(data.MaxFwd.Src))
-		// CallId
+		// CallID
 		fmt.Println("  [Call-ID]")
-		fmt.Println("    [Value] =>", string(data.CallId.Value))
-		fmt.Println("    [Src] =>", string(data.CallId.Src))
+		fmt.Println("    [Value] =>", string(data.CallID.Value))
+		fmt.Println("    [Src] =>", string(data.CallID.Src))
 		// Content-Type
 		fmt.Println("  [Content-Type]")
 		fmt.Println("    [Value] =>", string(data.ContType.Value))
@@ -342,8 +342,8 @@ func MessageDetails(data *SipMsg) string {
 }
 
 const (
-	fieldNull       = 0
-	fieldBase       = 1
+	fieldNull = 0
+	fieldBase = 1
 	// fieldValue      = 2
 	fieldName       = 3
 	fieldNameQ      = 4
@@ -382,5 +382,5 @@ const (
 	// fieldProto    = 43
 	// fieldFmt      = 44
 	// fieldCat      = 45
-	fieldIgnore   = 255
+	fieldIgnore = 255
 )

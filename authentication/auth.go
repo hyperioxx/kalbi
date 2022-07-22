@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 )
 
-// MD5Challange returns computed challenge in string format
-func MD5Challange(username string, realm string, password string, uri string, nonce string, cnonce string, nc string, qop string, method string) string {
+// MD5Challenge returns computed challenge in string format
+func MD5Challenge(username string, realm string, password string, uri string, nonce string, cnonce string, nc string, qop string, method string) string {
 	first := md5.Sum([]byte(username + ":" + realm + ":" + password))
 	second := md5.Sum([]byte(method + ":" + uri))
 	ha1 := hex.EncodeToString(first[:])

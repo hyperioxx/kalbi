@@ -1,9 +1,10 @@
 package dialog
 
 import (
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/log"
 	"sync"
+
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/log"
 )
 
 /*
@@ -110,15 +111,15 @@ func (dm *DialogManager) DeleteDialog(value string) {
 //NewDialog creates a new Dialog
 func (dm *DialogManager) NewDialog() *Dialog {
 	diag := new(Dialog)
-	diag.DialogId = GenerateDialogId()
+	diag.DialogID = GenerateDialogID()
 
 	return diag
 }
 
 //Dialog used to store track multiple transactions
 type Dialog struct {
-	DialogId int32
-	CallId   string
+	DialogID int32
+	CallID   string
 	ToTag    string
 	FromTag  string
 	ServerTx interfaces.Transaction

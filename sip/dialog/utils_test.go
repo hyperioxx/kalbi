@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGenerateDialogId(t *testing.T) {
+func TestGenerateDialogID(t *testing.T) {
 	tests := []struct {
 		name string
 		want bool
@@ -20,9 +20,9 @@ func TestGenerateDialogId(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := GenerateDialogId()
+			got := GenerateDialogID()
 			if reflect.TypeOf(got).Kind() != reflect.Int32 {
-				t.Errorf("GenerateDialogId() = %v, want %v", got, tt.want)
+				t.Errorf("GenerateDialogID() = %v, want %v", got, tt.want)
 			}
 		})
 	}

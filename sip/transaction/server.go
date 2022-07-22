@@ -21,10 +21,10 @@ Server Transaction
 
 import (
 	//"fmt"
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip/message"
-	"github.com/KalbiProject/Kalbi/sip/method"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/looplab/fsm"
 )
 
@@ -94,7 +94,7 @@ func (st *ServerTransaction) GetListeningPoint() interfaces.ListeningPoint {
 	return st.ListeningPoint
 }
 
-//GetBranchID returns branchId which is the identifier of a transaction
+//GetBranchID returns branchID which is the identifier of a transaction
 func (st *ServerTransaction) GetBranchID() string {
 	return st.BranchID
 }
@@ -117,8 +117,8 @@ func (st *ServerTransaction) SetLastMessage(msg *message.SipMsg) {
 //Receive takes in the SIP message from the transport layer
 func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	st.LastMessage = msg
-	log.Log.Info("Message Received for transactionId " + st.BranchID + ": \n" + string(msg.Src))
-	log.Log.Info(message.MessageDetails(msg))
+	//log.Log.Info("Message Received for transactionID " + st.BranchID + ": \n" + string(msg.Src))
+	//log.Log.Info(message.MessageDetails(msg))
 	if msg.Req.Method != nil || string(msg.Req.Method) != method.ACK {
 		err := st.FSM.Event(serverInputRequest)
 		if err != nil {
@@ -130,8 +130,8 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 
 //Respond is used to process response from transport layer
 func (st *ServerTransaction) Respond(msg *message.SipMsg) {
-	//TODO: this will change due to issue https://github.com/KalbiProject/Kalbi/issues/20
-	log.Log.Info("Message Sent for transactionId " + st.BranchID + ": \n" + message.MessageDetails(msg))
+	//TODO: this will change due to issue https://github.com/KalbiProject/kalbi/issues/20
+	log.Log.Info("Message Sent for transactionID " + st.BranchID + ": \n" + message.MessageDetails(msg))
 	if msg.GetStatusCode() < 200 {
 		err := st.FSM.Event(serverInputUser1xx)
 		if err != nil {

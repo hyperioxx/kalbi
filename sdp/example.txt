@@ -1,0 +1,16 @@
+v=0
+o=- 3852290284 3852290284 IN IP4 192.168.1.107
+s=pjmedia
+b=AS:84
+t=0 0
+a=X-nat:0
+m=audio 4004 RTP/AVP 8 0 101
+c=IN IP4 192.168.1.107
+b=TIAS:64000
+a=rtcp:4005 IN IP4 192.168.1.107
+a=sendrecv
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-16
+a=ssrc:1109811507 cname:1d4e4dda3efa2240

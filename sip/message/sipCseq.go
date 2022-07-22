@@ -15,14 +15,14 @@ package message
 
 //SipCseq SIP CSeq Header
 type SipCseq struct {
-	Id     []byte // Cseq ID
+	ID     []byte // Cseq ID
 	Method []byte // Cseq Method
 	Src    []byte // Full source if needed
 }
 
 //SetID sets CSeq ID
 func (sc *SipCseq) SetID(id string) {
-	sc.Id = []byte(id)
+	sc.ID = []byte(id)
 }
 
 //SetMethod sets method
@@ -33,7 +33,7 @@ func (sc *SipCseq) SetMethod(method string) {
 //String returns Header as String
 func (sc *SipCseq) String() string {
 	line := "Cseq: "
-	line += string(sc.Id) + " " + string(sc.Method)
+	line += string(sc.ID) + " " + string(sc.Method)
 	return line
 }
 
@@ -43,7 +43,7 @@ func ParseSipCseq(v []byte, out *SipCseq) {
 	state := fieldID
 
 	// Init the output area
-	out.Id = nil
+	out.ID = nil
 	out.Method = nil
 	out.Src = nil
 
@@ -63,7 +63,7 @@ func ParseSipCseq(v []byte, out *SipCseq) {
 				pos++
 				continue
 			}
-			out.Id = append(out.Id, v[pos])
+			out.ID = append(out.ID, v[pos])
 
 		case fieldMethod:
 			out.Method = append(out.Method, v[pos])

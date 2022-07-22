@@ -12,7 +12,7 @@ func Test_sdpVersion_String(t *testing.T) {
 		fields fields
 		want   string
 	}{
-		{"test sdpVersionString",fields{Val: testInBytes,Src: testInBytes},"v=test"},
+		{"test sdpVersionString", fields{Val: testInBytes, Src: testInBytes}, "v=test"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

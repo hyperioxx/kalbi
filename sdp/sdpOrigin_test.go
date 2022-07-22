@@ -30,7 +30,7 @@ func TestSdpOrigin_String(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			so := &SdpOrigin{
 				Username:       tt.fields.Username,
-				SessionId:      tt.fields.SessionID,
+				SessionID:      tt.fields.SessionID,
 				SessionVersion: tt.fields.SessionVersion,
 				NetType:        tt.fields.NetType,
 				AddrType:       tt.fields.AddrType,
@@ -58,13 +58,13 @@ func TestParseSdpOrigin(t *testing.T) {
 			v:   []byte(testSdpOriginStr),
 			out: &SdpOrigin{}},
 			&SdpOrigin{
-				Username: []byte("testusername"),
-				SessionId: []byte("testsessionid"),
+				Username:       []byte("testusername"),
+				SessionID:      []byte("testsessionid"),
 				SessionVersion: []byte("testsessionversion"),
-				NetType: []byte("testnet"),
-				AddrType: []byte("testaddr"),
-				UniAddr: []byte("testuni"),
-				Src: []byte("testusername testsessionid testsessionversion testnet testaddr testuni testsrc "),
+				NetType:        []byte("testnet"),
+				AddrType:       []byte("testaddr"),
+				UniAddr:        []byte("testuni"),
+				Src:            []byte("testusername testsessionid testsessionversion testnet testaddr testuni testsrc "),
 			}},
 	}
 	for _, tt := range tests {
@@ -73,8 +73,8 @@ func TestParseSdpOrigin(t *testing.T) {
 			if !bytes.Equal(tt.args.out.Username, tt.want.Username) {
 				t.Errorf("parseSdpConnectionData() Username = %v, want %v", tt.args.out.Username, tt.want.Username)
 			}
-			if !bytes.Equal(tt.args.out.SessionId, tt.want.SessionId) {
-				t.Errorf("parseSdpConnectionData() SessionId = %v, want %v", tt.args.out.SessionId, tt.want.SessionId)
+			if !bytes.Equal(tt.args.out.SessionID, tt.want.SessionID) {
+				t.Errorf("parseSdpConnectionData() SessionID = %v, want %v", tt.args.out.SessionID, tt.want.SessionID)
 			}
 			if !bytes.Equal(tt.args.out.SessionVersion, tt.want.SessionVersion) {
 				t.Errorf("parseSdpConnectionData() SessionVersion = %v, want %v", tt.args.out.SessionVersion, tt.want.SessionVersion)

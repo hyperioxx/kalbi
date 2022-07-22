@@ -1,10 +1,11 @@
 package transport
 
 import (
-	"github.com/KalbiProject/Kalbi/log"
-	"github.com/KalbiProject/Kalbi/sip/message"
 	"net"
 	"os"
+
+	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 //TCPTransport is a network protocol listening point for the EventDispatcher

@@ -1,6 +1,6 @@
 package message
 
-import "github.com/KalbiProject/Kalbi/utils"
+import "github.com/KalbiProject/kalbi/utils"
 
 /*
 

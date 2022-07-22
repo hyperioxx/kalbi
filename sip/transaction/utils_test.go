@@ -2,7 +2,7 @@ package transaction
 
 import "testing"
 
-func TestGenerateBranchId(t *testing.T) {
+func TestGenerateBranchD(t *testing.T) {
 	tests := []struct {
 		name string
 		want string
@@ -11,8 +11,8 @@ func TestGenerateBranchId(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GenerateBranchId(); got != tt.want {
-				t.Errorf("GenerateBranchId() = %v, want %v", got, tt.want)
+			if got := GenerateBranchID(); got != tt.want {
+				t.Errorf("GenerateBranchID() = %v, want %v", got, tt.want)
 			}
 		})
 	}

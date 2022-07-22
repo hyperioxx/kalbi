@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	kalbi "github.com/KalbiProject/Kalbi"
-	"github.com/KalbiProject/Kalbi/authentication"
-	"github.com/KalbiProject/Kalbi/interfaces"
-	"github.com/KalbiProject/Kalbi/sip/message"
-	"github.com/KalbiProject/Kalbi/sip/method"
-	"github.com/KalbiProject/Kalbi/sip/status"
+	kalbi "github.com/KalbiProject/kalbi"
+	"github.com/KalbiProject/kalbi/authentication"
+	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/method"
+	"github.com/KalbiProject/kalbi/sip/status"
 )
 
 const (
@@ -32,7 +32,7 @@ type Client struct {
 	properties *ClientProperties
 }
 
-// HandleRequests()
+// HandleRequests
 // example Client struct method handle methods.
 func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 
@@ -63,7 +63,7 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 
 }
 
-// ReRegister()
+// ReRegister
 // example lient struct method to register event
 func (c *Client) ReRegister(event interfaces.SipEventObject) {
 	//response := event.GetSipMessage()
@@ -74,7 +74,7 @@ func (c *Client) ReRegister(event interfaces.SipEventObject) {
 
 	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                                                //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                                  //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                                  //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060")                   //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
@@ -96,7 +96,7 @@ func (c *Client) ReRegister(event interfaces.SipEventObject) {
 
 }
 
-// HandleResponses()
+// HandleResponses
 // example Client struct method to handle responses
 func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
@@ -120,7 +120,7 @@ func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
 }
 
-// HandleUnAuth()
+// HandleUnAuth
 // example Client struct method to handle unauthorised events
 func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
 	response := event.GetSipMessage()
@@ -134,10 +134,10 @@ func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
 	authHeader.SetUsername(c.properties.Username)
 	authHeader.SetNc("00000001")
 	authHeader.SetURI("sip:" + c.properties.Domain)
-	authHeader.SetResponse(authentication.MD5Challange(authHeader.GetUsername(), authHeader.GetRealm(), c.properties.Password, authHeader.GetURI(), authHeader.GetNonce(), authHeader.GetCNonce(), authHeader.GetNc(), authHeader.GetQoP(), string(origin.Req.Method)))
+	authHeader.SetResponse(authentication.MD5Challenge(authHeader.GetUsername(), authHeader.GetRealm(), c.properties.Password, authHeader.GetURI(), authHeader.GetNonce(), authHeader.GetCNonce(), authHeader.GetNc(), authHeader.GetQoP(), string(origin.Req.Method)))
 	origin.SetAuthHeader(&authHeader)
 	if string(event.GetTransaction().GetOrigin().Req.Method) != "INVITE" {
-		origin.CallId.SetValue(message.GenerateNewCallID())
+		origin.CallID.SetValue(message.GenerateNewCallID())
 	}
 
 	txmng := c.stack.GetTransactionManager()
@@ -146,13 +146,13 @@ func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
 
 }
 
-// SendRegister()
+// SendRegister
 // example Client struct method to register
 func (c *Client) SendRegister() {
 
 	requestLine := message.NewRequestLine(method.REGISTER, "sip", c.properties.Username, c.properties.Domain, "5060") //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                                                //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                                  //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                                  //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060")                   //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates To e.g. To: <sip:5678@127.0.0.1>
@@ -168,13 +168,13 @@ func (c *Client) SendRegister() {
 	c.stack.ListeningPoints[0].Send(c.properties.Registrar, "5060", request.String())
 }
 
-// SendInvite()
+// SendInvite
 // example Client struct method to send invitation
 func (c *Client) SendInvite(to string) {
 
 	requestLine := message.NewRequestLine(method.INVITE, "sip", to, c.properties.Domain, "5060")    //Create requestline e.g.  REGISTER sip:1234@127.0.0.1:5060 SIP/2.0
 	requestVia := message.NewViaHeader("udp", c.properties.IP, "5060")                              //Creates Via e.g. Via: SIP/2.0/UDP 127.0.0.1:5060
-	requestVia.SetBranch(message.GenerateBranchId())                                                //Generate Branch
+	requestVia.SetBranch(message.GenerateBranchID())                                                //Generate Branch
 	requestFrom := message.NewFromHeader(c.properties.Username, "sip", c.properties.Domain, "5060") //Creates From e.g. From: <sip:1234@127.0.0.1>
 	requestFrom.SetTag("3234jhf23")
 	requestTo := message.NewToHeader(to, "sip", c.properties.Domain, "5060")                  //Creates To e.g. To: <sip:5678@127.0.0.1>
@@ -190,7 +190,7 @@ func (c *Client) SendInvite(to string) {
 	tx.Send(request, c.properties.Registrar, "5060")
 }
 
-// Start()
+// Start
 // example Client struct method to start Sip Stack
 func (c *Client) Start(host string, port int) {
 	c.stack = kalbi.NewSipStack("Basic Client Example")
@@ -199,7 +199,7 @@ func (c *Client) Start(host string, port int) {
 	go c.stack.Start()
 }
 
-// configure()
+// configure
 // returns pointer to ClientProperties
 func configure() *ClientProperties {
 	props := new(ClientProperties)
@@ -243,7 +243,7 @@ func configure() *ClientProperties {
 	return props
 }
 
-// basicCliInterface()
+// basicCliInterface
 // example Client struct method to create basic Cli Interface
 func (c *Client) basicCliInterface() {
 
@@ -270,7 +270,7 @@ func (c *Client) basicCliInterface() {
 
 }
 
-// main()
+// main
 // example main function
 func main() {
 	props := configure()

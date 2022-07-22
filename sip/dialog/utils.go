@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-//GenerateDialogId creates new dialog ID
-func GenerateDialogId() int32 {
+//GenerateDialogID creates new dialog ID
+func GenerateDialogID() int32 {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Int31()
 }

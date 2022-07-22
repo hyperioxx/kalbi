@@ -40,7 +40,7 @@ func (sa *sdpAttrib) String() string {
 
 func parseSdpAttrib(v []byte, out *sdpAttrib) {
 	var (
-		pos int 
+		pos int
 	)
 	state := fieldCat
 

@@ -26,7 +26,7 @@ func TestContains(t *testing.T) {
 
 func TestContainsByte(t *testing.T) {
 	type args struct {
-		b   []byte
+		b  []byte
 		by byte
 	}
 	tests := []struct {

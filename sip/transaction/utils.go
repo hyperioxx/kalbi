@@ -2,12 +2,13 @@ package transaction
 
 import (
 	"fmt"
-	"github.com/KalbiProject/Kalbi/log"
 	"math/rand"
+
+	"github.com/KalbiProject/kalbi/log"
 )
 
-//GenerateBranchId creates new branch ID
-func GenerateBranchId() string {
+//GenerateBranchID creates new branch ID
+func GenerateBranchID() string {
 	b := make([]byte, 8)
 	_, err := rand.Read(b)
 	if err != nil {
