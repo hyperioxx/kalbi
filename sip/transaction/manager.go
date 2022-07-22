@@ -1,8 +1,8 @@
 package transaction
 
 import (
-	"sync"
 	"errors"
+	"sync"
 
 	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/log"
@@ -88,7 +88,7 @@ func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interf
 //FindClientTransaction finds transaction by SipMsg
 func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
-	if len(msg.Via) == 0{
+	if len(msg.Via) == 0 {
 		log.Log.Error("Via Headers Missing")
 		return nil, false, errors.New(("missung via headers"))
 	}

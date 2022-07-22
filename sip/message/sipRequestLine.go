@@ -126,25 +126,25 @@ func ParseSipReq(v []byte, out *SipReq) {
 				// Not a space so check for uri types
 				if getString(v, pos, pos+4) == "sip:" {
 					state = fieldUser
-					pos = pos + 4
+					pos += 4
 					out.UriType = "sip"
 					continue
 				}
 				if getString(v, pos, pos+5) == "sips:" {
 					state = fieldUser
-					pos = pos + 5
+					pos += 5
 					out.UriType = "sips"
 					continue
 				}
 				if getString(v, pos, pos+4) == "tel:" {
 					state = fieldUser
-					pos = pos + 4
+					pos += 4
 					out.UriType = "tel"
 					continue
 				}
 				if getString(v, pos, pos+5) == "user=" {
 					state = fieldUserType
-					pos = pos + 5
+					pos += 5
 					continue
 				}
 				if v[pos] == '@' {
