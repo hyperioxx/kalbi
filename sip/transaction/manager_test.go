@@ -93,7 +93,7 @@ func TestTransactionManager_FindServerTransaction(t *testing.T) {
 				ListeningPoint:  tt.fields.ListeningPoint,
 				txLock:          tt.fields.txLock,
 			}
-			got, got1 := tm.FindServerTransaction(tt.args.msg)
+			got, got1, _ := tm.FindServerTransaction(tt.args.msg)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("TransactionManager.FindServerTransaction() got = %v, want %v", got, tt.want)
 			}
@@ -135,7 +135,7 @@ func TestTransactionManager_FindClientTransaction(t *testing.T) {
 				ListeningPoint:  tt.fields.ListeningPoint,
 				txLock:          tt.fields.txLock,
 			}
-			got, got1 := tm.FindClientTransaction(tt.args.msg)
+			got, got1, _ := tm.FindClientTransaction(tt.args.msg)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("TransactionManager.FindClientTransaction() got = %v, want %v", got, tt.want)
 			}
