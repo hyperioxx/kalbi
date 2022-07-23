@@ -190,62 +190,62 @@ func ParseSipAuth(v []byte, out *SipAuth) {
 				if getString(v, pos, pos+9) == "username=" {
 					state = fieldUser
 					if v[pos+9] == '"' {
-						pos = pos + 10
+						pos += 10
 					} else {
-						pos = pos + 9
+						pos += 9
 					}
 					continue
 				}
 				if getString(v, pos, pos+9) == "response=" {
 					state = fieldResponse
 					if v[pos+9] == '"' {
-						pos = pos + 10
+						pos += 10
 					} else {
-						pos = pos + 9
+						pos += 9
 					}
 					continue
 				}
 				if getString(v, pos, pos+4) == "qop=" {
 					state = fieldQop
 					if v[pos+4] == '"' {
-						pos = pos + 5
+						pos += 5
 					} else {
-						pos = pos + 4
+						pos += 4
 					}
 					continue
 				}
 				if getString(v, pos, pos+4) == "uri=" {
 					state = fieldURI
 					if v[pos+4] == '"' {
-						pos = pos + 5
+						pos += 5
 					} else {
-						pos = pos + 4
+						pos += 4
 					}
 					continue
 				}
 				if getString(v, pos, pos+3) == "nc=" {
 					state = fieldNC
-					pos = pos + 3
+					pos += 3
 					continue
 				}
 				if getString(v, pos, pos+7) == "cnonce=" {
 					state = fieldCNonce
-					pos = pos + 8
+					pos += 8
 					continue
 				}
 				if getString(v, pos, pos+6) == "nonce=" {
 					state = fieldNonce
-					pos = pos + 7
+					pos += 7
 					continue
 				}
 				if getString(v, pos, pos+6) == "realm=" {
 					state = fieldRealm
-					pos = pos + 7
+					pos += 7
 					continue
 				}
 				if getString(v, pos, pos+10) == "algorithm=" {
 					state = fieldAlgorithm
-					pos = pos + 10
+					pos += 10
 					continue
 				}
 

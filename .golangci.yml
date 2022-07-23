@@ -1,0 +1,8 @@
+linters:
+  enable:
+    - gofmt
+    - misspell
+    # TODO fix warnings and uncomment these checks
+    # - gocritic
+    # - gocyclo
+    # - golint

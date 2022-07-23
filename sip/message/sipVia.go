@@ -85,56 +85,56 @@ func ParseSipVia(v []byte, out *SipVia) {
 				if getString(v, pos, pos+8) == "SIP/2.0/" {
 					// Transport type
 					state = fieldUserHost
-					pos = pos + 8
+					pos += 8
 					if getString(v, pos, pos+3) == "UDP" {
 						out.Trans = "udp"
-						pos = pos + 3
+						pos += 3
 						continue
 					}
 					if getString(v, pos, pos+3) == "TCP" {
 						out.Trans = "tcp"
-						pos = pos + 3
+						pos += 3
 						continue
 					}
 					if getString(v, pos, pos+3) == "TLS" {
 						out.Trans = "tls"
-						pos = pos + 3
+						pos += 3
 						continue
 					}
 					if getString(v, pos, pos+4) == "SCTP" {
 						out.Trans = "sctp"
-						pos = pos + 4
+						pos += 4
 						continue
 					}
 				}
 				// Look for a Branch identifier
 				if getString(v, pos, pos+7) == "branch=" {
 					state = fieldBranch
-					pos = pos + 7
+					pos += 7
 					continue
 				}
 				// Look for a Rport identifier
 				if getString(v, pos, pos+6) == "rport=" {
 					state = fieldRport
-					pos = pos + 6
+					pos += 6
 					continue
 				}
 				// Look for a maddr identifier
 				if getString(v, pos, pos+6) == "maddr=" {
 					state = fieldMaddr
-					pos = pos + 6
+					pos += 6
 					continue
 				}
 				// Look for a ttl identifier
 				if getString(v, pos, pos+4) == "ttl=" {
 					state = fieldTTL
-					pos = pos + 4
+					pos += 4
 					continue
 				}
 				// Look for a recevived identifier
 				if getString(v, pos, pos+9) == "received=" {
 					state = fieldRec
-					pos = pos + 9
+					pos += 9
 					continue
 				}
 			}
