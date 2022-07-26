@@ -1,7 +1,8 @@
 package kalbi
 
 import (
-	"github.com/KalbiProject/kalbi/interfaces"
+	"fmt"
+
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/dialog"
 	"github.com/KalbiProject/kalbi/sip/message"
@@ -14,8 +15,8 @@ func NewSipStack(Name string) *SipStack {
 	stack := new(SipStack)
 	stack.Name = Name
 	stack.TransManager = transaction.NewTransactionManager()
-	stack.TransportChannel = make(chan interfaces.SipEventObject)
-	stack.funcMap = make(map[string]func(interfaces.SipEventObject))
+	stack.TransportChannel = make(chan message.SipEventObject)
+	stack.funcMap = make(map[string]func(message.SipEventObject))
 
 	return stack
 }
@@ -23,15 +24,15 @@ func NewSipStack(Name string) *SipStack {
 //SipStack has multiple protocol listning points
 type SipStack struct {
 	Name             string
-	ListeningPoints  []interfaces.ListeningPoint
+	ListeningPoints  []message.ListeningPoint
 	OutputPoint      chan message.SipMsg
 	InputPoint       chan message.SipMsg
 	Alive            bool
 	TransManager     *transaction.TransactionManager
 	Dialogs          []dialog.Dialog
-	TransportChannel chan interfaces.SipEventObject
-	sipListener      interfaces.SipListener
-	funcMap          map[string]func(interfaces.SipEventObject)
+	TransportChannel chan message.SipEventObject
+	sipListener      message.SipListener
+	funcMap          map[string]func(message.SipEventObject)
 }
 
 //GetTransactionManager returns TransactionManager
@@ -40,7 +41,7 @@ func (ed *SipStack) GetTransactionManager() *transaction.TransactionManager {
 }
 
 //CreateListenPoint creates listening point to the event dispatcher
-func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) interfaces.ListeningPoint {
+func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) message.ListeningPoint {
 	listenpoint := transport.NewTransportListenPoint(protocol, host, port)
 	listenpoint.SetTransportChannel(ed.TransportChannel)
 	ed.ListeningPoints = append(ed.ListeningPoints, listenpoint)
@@ -48,63 +49,63 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) in
 }
 
 //SetSipListener sets a struct that follows the SipListener interface
-func (ed *SipStack) SetSipListener(listener interfaces.SipListener) {
+func (ed *SipStack) SetSipListener(listener message.SipListener) {
 	ed.sipListener = listener
 }
 
-func (ed *SipStack) INVITE(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) INVITE(handler func(message.SipEventObject)) {
 	ed.funcMap["INVITE"] = handler
 }
 
-func (ed *SipStack) ACK(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) ACK(handler func(message.SipEventObject)) {
 	ed.funcMap["ACK"] = handler
 }
 
-func (ed *SipStack) BYE(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) BYE(handler func(message.SipEventObject)) {
 	ed.funcMap["BYE"] = handler
 }
 
-func (ed *SipStack) CANCEL(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) CANCEL(handler func(message.SipEventObject)) {
 	ed.funcMap["CANCEL"] = handler
 }
 
-func (ed *SipStack) REGISTER(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) REGISTER(handler func(message.SipEventObject)) {
 	ed.funcMap["REGISTER"] = handler
 }
 
-func (ed *SipStack) INFO(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) INFO(handler func(message.SipEventObject)) {
 	ed.funcMap["INFO"] = handler
 }
 
-func (ed *SipStack) OPTIONS(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) OPTIONS(handler func(message.SipEventObject)) {
 	ed.funcMap["OPTIONS"] = handler
 }
 
-func (ed *SipStack) PRACK(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) PRACK(handler func(message.SipEventObject)) {
 	ed.funcMap["PRACK"] = handler
 }
 
-func (ed *SipStack) SUBSCRIBE(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) SUBSCRIBE(handler func(message.SipEventObject)) {
 	ed.funcMap["SUBSCRIBE"] = handler
 }
 
-func (ed *SipStack) NOTIFY(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) NOTIFY(handler func(message.SipEventObject)) {
 	ed.funcMap["NOTIFY"] = handler
 }
 
-func (ed *SipStack) PUBLISH(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) PUBLISH(handler func(message.SipEventObject)) {
 	ed.funcMap["PUBLISH"] = handler
 }
 
-func (ed *SipStack) REFER(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) REFER(handler func(message.SipEventObject)) {
 	ed.funcMap["REFER"] = handler
 }
 
-func (ed *SipStack) MESSAGE(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) MESSAGE(handler func(message.SipEventObject)) {
 	ed.funcMap["MESSAGE"] = handler
 }
 
-func (ed *SipStack) UPDATE(handler func(interfaces.SipEventObject)) {
+func (ed *SipStack) UPDATE(handler func(message.SipEventObject)) {
 	ed.funcMap["UPDATE"] = handler
 }
 
@@ -132,6 +133,7 @@ func (ed *SipStack) Start() {
 		msg := <-ed.TransportChannel
 		event := ed.TransManager.Handle(msg)
 		message := event.GetSipMessage()
+		fmt.Print(message)
 		if message.Req.StatusCode != nil {
 			go ed.sipListener.HandleResponses(event)
 		} else if message.Req.Method != nil {

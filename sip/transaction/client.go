@@ -40,7 +40,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/sip/method"
@@ -68,7 +67,7 @@ type ClientTransaction struct {
 	Origin         *message.SipMsg
 	FSM            *fsm.FSM
 	msgHistory     []*message.SipMsg
-	ListeningPoint interfaces.ListeningPoint
+	ListeningPoint message.ListeningPoint
 	Host           string
 	Port           string
 	LastMessage    *message.SipMsg
@@ -107,12 +106,12 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 }
 
 //SetListeningPoint sets a listening point to the client transaction
-func (ct *ClientTransaction) SetListeningPoint(lp interfaces.ListeningPoint) {
+func (ct *ClientTransaction) SetListeningPoint(lp message.ListeningPoint) {
 	ct.ListeningPoint = lp
 }
 
 //GetListeningPoint returns current listening point
-func (ct *ClientTransaction) GetListeningPoint() interfaces.ListeningPoint {
+func (ct *ClientTransaction) GetListeningPoint() message.ListeningPoint {
 	return ct.ListeningPoint
 }
 

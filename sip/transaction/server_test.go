@@ -4,7 +4,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/looplab/fsm"
 )
@@ -17,7 +16,7 @@ func TestServerTransaction_InitFSM(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -59,13 +58,13 @@ func TestServerTransaction_SetListeningPoint(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
 	}
 	type args struct {
-		lp interfaces.ListeningPoint
+		lp message.ListeningPoint
 	}
 	tests := []struct {
 		name   string
@@ -101,7 +100,7 @@ func TestServerTransaction_GetListeningPoint(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -109,7 +108,7 @@ func TestServerTransaction_GetListeningPoint(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   interfaces.ListeningPoint
+		want   message.ListeningPoint
 	}{
 		// TODO: Add test cases.
 	}
@@ -142,7 +141,7 @@ func TestServerTransaction_GetBranchID(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -183,7 +182,7 @@ func TestServerTransaction_GetOrigin(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -224,7 +223,7 @@ func TestServerTransaction_GetLastMessage(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -265,7 +264,7 @@ func TestServerTransaction_SetLastMessage(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -307,7 +306,7 @@ func TestServerTransaction_Receive(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -349,7 +348,7 @@ func TestServerTransaction_Respond(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -391,7 +390,7 @@ func TestServerTransaction_GetServerTransactionID(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -432,7 +431,7 @@ func TestServerTransaction_Send(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -476,7 +475,7 @@ func TestServerTransaction_actRespond(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -518,7 +517,7 @@ func TestServerTransaction_actRespondDelete(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -560,7 +559,7 @@ func TestServerTransaction_actTransErr(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg
@@ -602,7 +601,7 @@ func TestServerTransaction_actDelete(t *testing.T) {
 		Origin         *message.SipMsg
 		FSM            *fsm.FSM
 		msgHistory     []*message.SipMsg
-		ListeningPoint interfaces.ListeningPoint
+		ListeningPoint message.ListeningPoint
 		Host           string
 		Port           string
 		LastMessage    *message.SipMsg

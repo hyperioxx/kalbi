@@ -3,16 +3,13 @@ package message
 import (
 	"reflect"
 	"testing"
+
 )
 
 func TestNewResponse(t *testing.T) {
 	type args struct {
-		request *SipReq
-		via     *SipVia
-		to      *SipTo
-		from    *SipFrom
-		callID  *SipVal
-		maxfor  *SipVal
+		statuscode int
+		tx  Transaction
 	}
 	tests := []struct {
 		name string
@@ -23,7 +20,7 @@ func TestNewResponse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewResponse(tt.args.request, tt.args.via, tt.args.to, tt.args.from, tt.args.callID, tt.args.maxfor); !reflect.DeepEqual(got, tt.want) {
+			if got := NewResponse(&tt.args.tx, tt.args.statuscode, nil); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewResponse() = %v, want %v", got, tt.want)
 			}
 		})

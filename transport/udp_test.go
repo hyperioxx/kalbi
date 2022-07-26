@@ -4,8 +4,7 @@ import (
 	"net"
 	"reflect"
 	"testing"
-
-	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 func TestUDPTransport_Read(t *testing.T) {
@@ -14,12 +13,12 @@ func TestUDPTransport_Read(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	tests := []struct {
 		name   string
 		fields fields
-		want   interfaces.SipEventObject
+		want   message.SipEventObject
 	}{
 		// TODO: Add test cases.
 	}
@@ -45,7 +44,7 @@ func TestUDPTransport_GetHost(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	tests := []struct {
 		name   string
@@ -76,7 +75,7 @@ func TestUDPTransport_GetPort(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	tests := []struct {
 		name   string
@@ -107,7 +106,7 @@ func TestUDPTransport_Build(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	type args struct {
 		host string
@@ -140,7 +139,7 @@ func TestUDPTransport_Start(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	tests := []struct {
 		name   string
@@ -168,10 +167,10 @@ func TestUDPTransport_SetTransportChannel(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	type args struct {
-		channel chan interfaces.SipEventObject
+		channel chan message.SipEventObject
 	}
 	tests := []struct {
 		name   string
@@ -200,7 +199,7 @@ func TestUDPTransport_Send(t *testing.T) {
 		Port             int
 		Address          net.UDPAddr
 		Connection       net.PacketConn
-		TransportChannel chan interfaces.SipEventObject
+		TransportChannel chan message.SipEventObject
 	}
 	type args struct {
 		host string

@@ -4,25 +4,43 @@ import (
 	"fmt"
 
 	kalbi "github.com/KalbiProject/kalbi"
-	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/status"
 )
+
+
+
+
 
 func main() {
 	stack := kalbi.NewSipStack("My New Sip Stack")
 
-	stack.REGISTER(func(event interfaces.SipEventObject) {
-
+	stack.REGISTER(func(event message.SipEventObject) {
 		tx := event.GetTransaction()
-		fmt.Println(tx.GetLastMessage())
-		//tx.Send()
+		response := message.NewResponse(tx, status.OK, nil)
+		tx.Send(response,  string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	})
-	stack.INVITE(func(event interfaces.SipEventObject) {
 
+	stack.INVITE(func(event message.SipEventObject) {
 		tx := event.GetTransaction()
-		fmt.Println(tx.GetLastMessage())
-		//tx.Send()
+		response := message.NewResponse(tx, status.OK, nil)
+		tx.Send(response, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
+	})
+
+	stack.BYE(func(event message.SipEventObject) {
+		tx := event.GetTransaction()
+		response := message.NewResponse(tx, status.OK, nil)
+		fmt.Println(tx.GetOrigin().Contact.Host)
+		fmt.Println(tx.GetOrigin().Contact.Port)
+		tx.Send(response, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+
+	})
+
+	stack.ACK(func(event message.SipEventObject) {
+		_ = event.GetTransaction()
+		
 	})
 
 	stack.CreateListenPoint("udp", "127.0.0.1", 5060)

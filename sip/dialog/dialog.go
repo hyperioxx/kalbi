@@ -2,8 +2,7 @@ package dialog
 
 import (
 	"sync"
-
-	"github.com/KalbiProject/kalbi/interfaces"
+   "github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/log"
 )
 
@@ -122,7 +121,7 @@ type Dialog struct {
 	CallID   string
 	ToTag    string
 	FromTag  string
-	ServerTx interfaces.Transaction
-	ClientTx interfaces.Transaction
+	ServerTx message.Transaction
+	ClientTx message.Transaction
 	Cseq     uint32
 }

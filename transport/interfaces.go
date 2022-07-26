@@ -1,16 +1,15 @@
 package transport
 
 import (
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 //ListeningPoint interface for listening point
 type ListeningPoint interface {
-	Read() interfaces.SipEventObject
+	Read() message.SipEventObject
 	Build(string, int)
 	Start()
-	SetTransportChannel(chan interfaces.SipEventObject)
+	SetTransportChannel(chan message.SipEventObject)
 	Send(string, string, string) error
 }
 

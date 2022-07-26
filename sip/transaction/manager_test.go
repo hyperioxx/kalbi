@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/sip/message"
 )
 
@@ -27,21 +26,21 @@ func TestNewTransactionManager(t *testing.T) {
 
 func TestTransactionManager_Handle(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
-		event interfaces.SipEventObject
+		event message.SipEventObject
 	}
 	tests := []struct {
 		name   string
 		fields fields
 		args   args
-		want   interfaces.SipEventObject
+		want   message.SipEventObject
 	}{
 		// TODO: Add test cases.
 	}
@@ -64,11 +63,11 @@ func TestTransactionManager_Handle(t *testing.T) {
 
 func TestTransactionManager_FindServerTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -78,7 +77,7 @@ func TestTransactionManager_FindServerTransaction(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   interfaces.Transaction
+		want   message.Transaction
 		want1  bool
 	}{
 		// TODO: Add test cases.
@@ -106,11 +105,11 @@ func TestTransactionManager_FindServerTransaction(t *testing.T) {
 
 func TestTransactionManager_FindClientTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -120,7 +119,7 @@ func TestTransactionManager_FindClientTransaction(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   interfaces.Transaction
+		want   message.Transaction
 		want1  bool
 	}{
 		// TODO: Add test cases.
@@ -148,11 +147,11 @@ func TestTransactionManager_FindClientTransaction(t *testing.T) {
 
 func TestTransactionManager_FindServerTransactionByID(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -162,7 +161,7 @@ func TestTransactionManager_FindServerTransactionByID(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   interfaces.Transaction
+		want   message.Transaction
 		want1  bool
 	}{
 		// TODO: Add test cases.
@@ -190,11 +189,11 @@ func TestTransactionManager_FindServerTransactionByID(t *testing.T) {
 
 func TestTransactionManager_FindClientTransactionByID(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -204,7 +203,7 @@ func TestTransactionManager_FindClientTransactionByID(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   interfaces.Transaction
+		want   message.Transaction
 		want1  bool
 	}{
 		// TODO: Add test cases.
@@ -232,15 +231,15 @@ func TestTransactionManager_FindClientTransactionByID(t *testing.T) {
 
 func TestTransactionManager_PutServerTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
-		tx interfaces.Transaction
+		tx message.Transaction
 	}
 	tests := []struct {
 		name   string
@@ -266,15 +265,15 @@ func TestTransactionManager_PutServerTransaction(t *testing.T) {
 
 func TestTransactionManager_PutClientTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
-		tx interfaces.Transaction
+		tx message.Transaction
 	}
 	tests := []struct {
 		name   string
@@ -300,11 +299,11 @@ func TestTransactionManager_PutClientTransaction(t *testing.T) {
 
 func TestTransactionManager_DeleteServerTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -334,11 +333,11 @@ func TestTransactionManager_DeleteServerTransaction(t *testing.T) {
 
 func TestTransactionManager_DeleteClientTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -368,11 +367,11 @@ func TestTransactionManager_DeleteClientTransaction(t *testing.T) {
 
 func TestTransactionManager_MakeKey(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -405,11 +404,11 @@ func TestTransactionManager_MakeKey(t *testing.T) {
 
 func TestTransactionManager_NewClientTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {
@@ -442,11 +441,11 @@ func TestTransactionManager_NewClientTransaction(t *testing.T) {
 
 func TestTransactionManager_NewServerTransaction(t *testing.T) {
 	type fields struct {
-		ServerTX        map[string]interfaces.Transaction
-		ClientTX        map[string]interfaces.Transaction
-		RequestChannel  chan interfaces.Transaction
-		ResponseChannel chan interfaces.Transaction
-		ListeningPoint  interfaces.ListeningPoint
+		ServerTX        map[string]message.Transaction
+		ClientTX        map[string]message.Transaction
+		RequestChannel  chan message.Transaction
+		ResponseChannel chan message.Transaction
+		ListeningPoint  message.ListeningPoint
 		txLock          *sync.RWMutex
 	}
 	type args struct {

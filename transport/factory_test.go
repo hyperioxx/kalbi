@@ -3,12 +3,11 @@ package transport
 import (
 	"reflect"
 	"testing"
-
-	"github.com/KalbiProject/kalbi/interfaces"
+	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 type ListenPoint struct {
-	Want interfaces.ListeningPoint
+	Want message.ListeningPoint
 }
 
 func TestNewTransportListenPoint(t *testing.T) {
@@ -22,7 +21,7 @@ func TestNewTransportListenPoint(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want interfaces.ListeningPoint
+		want message.ListeningPoint
 	}{
 		// {"test 1", args{protocol: "test", host: "test", port: 5000}, output.Want},
 	}
