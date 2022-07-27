@@ -51,7 +51,7 @@ func (c *Client) HandleRequests(event message.SipEventObject) {
 
 	default:
 
-		msg := message.NewResponse(status.OK)
+		msg := message.NewResponse(tx, status.OK, nil)
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 	}
 
