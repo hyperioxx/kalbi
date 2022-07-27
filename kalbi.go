@@ -53,22 +53,22 @@ func (ed *SipStack) SetSipListener(listener message.SipListener) {
 	ed.sipListener = listener
 }
 
-//INVITE used to attach a callback function when an INVITE is received 
+//INVITE used to attach a callback function when an INVITE is received
 func (ed *SipStack) INVITE(handler func(message.SipEventObject)) {
 	ed.funcMap["INVITE"] = handler
 }
 
-//ACK used to attach a callback function when an ACK is received 
+//ACK used to attach a callback function when an ACK is received
 func (ed *SipStack) ACK(handler func(message.SipEventObject)) {
 	ed.funcMap["ACK"] = handler
 }
 
-//BYE used to attach a callback function when an BYE is received 
+//BYE used to attach a callback function when an BYE is received
 func (ed *SipStack) BYE(handler func(message.SipEventObject)) {
 	ed.funcMap["BYE"] = handler
 }
 
-//CANCEL used to attach a callback function when an CANCEL is received 
+//CANCEL used to attach a callback function when an CANCEL is received
 func (ed *SipStack) CANCEL(handler func(message.SipEventObject)) {
 	ed.funcMap["CANCEL"] = handler
 }
