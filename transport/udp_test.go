@@ -1,10 +1,10 @@
 package transport
 
 import (
+	"github.com/KalbiProject/kalbi/sip/message"
 	"net"
 	"reflect"
 	"testing"
-	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 func TestUDPTransport_Read(t *testing.T) {

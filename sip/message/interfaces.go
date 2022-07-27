@@ -1,12 +1,10 @@
 package message
 
-
 //SipListener interface for sip listener i.e. Your Application
 type SipListener interface {
 	HandleRequests(SipEventObject)
 	HandleResponses(SipEventObject)
 }
-
 
 //Transaction interface for SIP transactions
 type Transaction interface {

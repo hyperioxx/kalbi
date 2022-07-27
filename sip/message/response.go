@@ -2,8 +2,8 @@ package message
 
 import (
 	"fmt"
-    "strconv"
 	"github.com/KalbiProject/kalbi/sip/status"
+	"strconv"
 )
 
 // NewResponse creates new SIP Response

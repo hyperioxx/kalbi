@@ -1,9 +1,9 @@
 package dialog
 
 import (
-	"sync"
-   "github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/log"
+	"github.com/KalbiProject/kalbi/sip/message"
+	"sync"
 )
 
 /*

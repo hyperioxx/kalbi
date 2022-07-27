@@ -1,9 +1,9 @@
 package transport
 
 import (
+	"github.com/KalbiProject/kalbi/sip/message"
 	"reflect"
 	"testing"
-	"github.com/KalbiProject/kalbi/sip/message"
 )
 
 type ListenPoint struct {

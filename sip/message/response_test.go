@@ -3,13 +3,12 @@ package message
 import (
 	"reflect"
 	"testing"
-
 )
 
 func TestNewResponse(t *testing.T) {
 	type args struct {
 		statuscode int
-		tx  Transaction
+		tx         Transaction
 	}
 	tests := []struct {
 		name string
