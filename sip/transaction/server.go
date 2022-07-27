@@ -132,17 +132,18 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 	//TODO: this will change due to issue https://github.com/KalbiProject/kalbi/issues/20
 	log.Log.Info("Message Sent for transactionID " + st.BranchID + ": \n" + message.MessageDetails(msg))
-	if msg.GetStatusCode() < 200 {
+	switch {
+	case msg.GetStatusCode() < 200:
 		err := st.FSM.Event(serverInputUser1xx)
 		if err != nil {
 			log.Log.Error(err)
 		}
-	} else if msg.GetStatusCode() < 300 {
+	case msg.GetStatusCode() < 300:
 		err := st.FSM.Event(serverInputUser2xx)
 		if err != nil {
 			log.Log.Error(err)
 		}
-	} else {
+	default:
 		err := st.FSM.Event(serverInputUser300Plus)
 		if err != nil {
 			log.Log.Error(err)
