@@ -32,8 +32,6 @@ func main() {
 	stack.BYE(func(event message.SipEventObject) {
 		tx := event.GetTransaction()
 		response := message.NewResponse(tx, status.OK, nil)
-		fmt.Println(tx.GetOrigin().Contact.Host)
-		fmt.Println(tx.GetOrigin().Contact.Port)
 		tx.Send(response, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	})
