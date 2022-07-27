@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	kalbi "github.com/KalbiProject/kalbi"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/sip/status"
