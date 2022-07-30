@@ -1,8 +1,6 @@
 package kalbi
 
 import (
-	"fmt"
-
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/dialog"
 	"github.com/KalbiProject/kalbi/sip/message"
@@ -147,7 +145,7 @@ func (ed *SipStack) Start() {
 		msg := <-ed.TransportChannel
 		event := ed.TransManager.Handle(msg)
 		message := event.GetSipMessage()
-		fmt.Print(message)
+		log.Log.Info(message)
 		if message.Req.StatusCode != nil {
 			go ed.sipListener.HandleResponses(event)
 		} else if message.Req.Method != nil {
