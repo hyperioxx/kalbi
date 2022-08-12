@@ -4,6 +4,7 @@ import (
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/dialog"
 	"github.com/KalbiProject/kalbi/sip/message"
+	"github.com/KalbiProject/kalbi/sip/status"
 	"github.com/KalbiProject/kalbi/sip/transaction"
 	"github.com/KalbiProject/kalbi/transport"
 )
@@ -46,27 +47,34 @@ func (ed *SipStack) CreateListenPoint(protocol string, host string, port int) me
 	return listenpoint
 }
 
+func (ed *SipStack) defaultCallback(event message.SipEventObject){
+	tx := event.GetTransaction()
+	response := message.NewResponse(tx, status.NotAcceptable606, nil)
+	tx.Send(response, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
+}
+
+
 //SetSipListener sets a struct that follows the SipListener interface
 func (ed *SipStack) SetSipListener(listener message.SipListener) {
 	ed.sipListener = listener
 }
 
-//INVITE used to attach a callback function when an INVITE is received
+//INVITE used to attach a callback function when an INVITE is received 
 func (ed *SipStack) INVITE(handler func(message.SipEventObject)) {
 	ed.funcMap["INVITE"] = handler
 }
 
-//ACK used to attach a callback function when an ACK is received
+//ACK used to attach a callback function when an ACK is received 
 func (ed *SipStack) ACK(handler func(message.SipEventObject)) {
 	ed.funcMap["ACK"] = handler
 }
 
-//BYE used to attach a callback function when an BYE is received
+//BYE used to attach a callback function when an BYE is received 
 func (ed *SipStack) BYE(handler func(message.SipEventObject)) {
 	ed.funcMap["BYE"] = handler
 }
 
-//CANCEL used to attach a callback function when an CANCEL is received
+//CANCEL used to attach a callback function when an CANCEL is received 
 func (ed *SipStack) CANCEL(handler func(message.SipEventObject)) {
 	ed.funcMap["CANCEL"] = handler
 }
@@ -145,7 +153,6 @@ func (ed *SipStack) Start() {
 		msg := <-ed.TransportChannel
 		event := ed.TransManager.Handle(msg)
 		message := event.GetSipMessage()
-		log.Log.Info(message)
 		if message.Req.StatusCode != nil {
 			go ed.sipListener.HandleResponses(event)
 		} else if message.Req.Method != nil {
@@ -160,6 +167,8 @@ func (ed *SipStack) Start() {
 				ed.funcMap["CANCEL"](event)
 			case "REGISTER":
 				ed.funcMap["REGISTER"](event)
+			default:
+                ed.defaultCallback(event)
 
 			}
 		}

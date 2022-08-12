@@ -18,7 +18,7 @@ func main() {
 
 	stack.INVITE(func(event message.SipEventObject) {
 		tx := event.GetTransaction()
-		response := message.NewResponse(tx, status.OK, nil)
+		response := message.NewResponse(tx, status.Trying, nil)
 		tx.Send(response, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	})
@@ -31,9 +31,14 @@ func main() {
 	})
 
 	stack.ACK(func(event message.SipEventObject) {
-		_ = event.GetTransaction()
+
 
 	})
+
+	stack.CANCEL(func(event message.SipEventObject) {
+		
+	})
+
 
 	stack.CreateListenPoint("udp", "127.0.0.1", 5060)
 	stack.CreateListenPoint("udp", "127.0.0.1", 5061)
