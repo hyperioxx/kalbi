@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip"
 	"github.com/KalbiProject/kalbi/sip/event"
+	"github.com/KalbiProject/kalbi/sip/message"
 	reuse "github.com/libp2p/go-reuseport"
 )
 
@@ -17,11 +17,11 @@ type UDPTransport struct {
 	Port             int
 	Address          net.UDPAddr
 	Connection       net.PacketConn
-	TransportChannel chan interfaces.SipEventObject
+	TransportChannel chan message.SipEventObject
 }
 
 //Read from UDP Socket
-func (ut *UDPTransport) Read() interfaces.SipEventObject {
+func (ut *UDPTransport) Read() message.SipEventObject {
 	buffer := make([]byte, 2048)
 	n, _, err := ut.Connection.ReadFrom(buffer)
 	if err != nil {
@@ -71,7 +71,7 @@ func (ut *UDPTransport) Start() {
 }
 
 //SetTransportChannel setter that allows to set SipStack's Transport Channel
-func (ut *UDPTransport) SetTransportChannel(channel chan interfaces.SipEventObject) {
+func (ut *UDPTransport) SetTransportChannel(channel chan message.SipEventObject) {
 	ut.TransportChannel = channel
 }
 

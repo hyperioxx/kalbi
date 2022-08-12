@@ -1,8 +1,4 @@
-package interfaces
-
-import (
-	"github.com/KalbiProject/kalbi/sip/message"
-)
+package message
 
 //SipListener interface for sip listener i.e. Your Application
 type SipListener interface {
@@ -13,20 +9,20 @@ type SipListener interface {
 //Transaction interface for SIP transactions
 type Transaction interface {
 	GetBranchID() string
-	GetOrigin() *message.SipMsg
+	GetOrigin() *SipMsg
 	SetListeningPoint(ListeningPoint)
-	Send(*message.SipMsg, string, string)
-	Receive(*message.SipMsg)
-	GetLastMessage() *message.SipMsg
+	Send(*SipMsg, string, string)
+	Receive(*SipMsg)
+	GetLastMessage() *SipMsg
 	GetServerTransactionID() string
-	SetLastMessage(*message.SipMsg)
+	SetLastMessage(*SipMsg)
 	GetListeningPoint() ListeningPoint
 }
 
 //SipEventObject interface for SIP events
 type SipEventObject interface {
-	GetSipMessage() *message.SipMsg
-	SetSipMessage(*message.SipMsg)
+	GetSipMessage() *SipMsg
+	SetSipMessage(*SipMsg)
 	GetTransaction() Transaction
 	SetTransaction(Transaction)
 	SetListeningPoint(ListeningPoint)

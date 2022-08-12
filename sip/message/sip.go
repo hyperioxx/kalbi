@@ -66,7 +66,9 @@ func (sm *SipMsg) CopySdp(msg *SipMsg) {
 func (sm *SipMsg) String() string {
 	sipmsg := ""
 	sipmsg += sm.Req.String() + "\r\n"
-	sipmsg += sm.Via[0].String() + "\r\n"
+	for _, v := range sm.Via {
+		sipmsg += v.String() + "\r\n"
+	}
 	sipmsg += sm.From.String() + "\r\n"
 	sipmsg += sm.To.String() + "\r\n"
 	sipmsg += sm.Contact.String() + "\r\n"

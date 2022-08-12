@@ -4,7 +4,6 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/sip/method"
@@ -14,8 +13,8 @@ import (
 //NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
-	txmng.ClientTX = make(map[string]interfaces.Transaction)
-	txmng.ServerTX = make(map[string]interfaces.Transaction)
+	txmng.ClientTX = make(map[string]message.Transaction)
+	txmng.ServerTX = make(map[string]message.Transaction)
 	txmng.txLock = &sync.RWMutex{}
 
 	return txmng
@@ -23,16 +22,16 @@ func NewTransactionManager() *TransactionManager {
 
 //TransactionManager handles SIP transactions
 type TransactionManager struct {
-	ServerTX        map[string]interfaces.Transaction
-	ClientTX        map[string]interfaces.Transaction
-	RequestChannel  chan interfaces.Transaction
-	ResponseChannel chan interfaces.Transaction
-	ListeningPoint  interfaces.ListeningPoint
+	ServerTX        map[string]message.Transaction
+	ClientTX        map[string]message.Transaction
+	RequestChannel  chan message.Transaction
+	ResponseChannel chan message.Transaction
+	ListeningPoint  message.ListeningPoint
 	txLock          *sync.RWMutex
 }
 
 // Handle runs TransManager
-func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces.SipEventObject {
+func (tm *TransactionManager) Handle(event message.SipEventObject) message.SipEventObject {
 
 	message := event.GetSipMessage()
 
@@ -73,7 +72,7 @@ func (tm *TransactionManager) Handle(event interfaces.SipEventObject) interfaces
 }
 
 //FindServerTransaction finds transaction by SipMsg
-func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interfaces.Transaction, bool, error) {
+func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (message.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
 	if len(msg.Via) == 0 {
 		log.Log.Error("Via Headers Missing")
@@ -86,7 +85,7 @@ func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (interf
 }
 
 //FindClientTransaction finds transaction by SipMsg
-func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interfaces.Transaction, bool, error) {
+func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (message.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
 	if len(msg.Via) == 0 {
 		log.Log.Error("Via Headers Missing")
@@ -99,7 +98,7 @@ func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (interf
 }
 
 //FindServerTransactionByID finds transaction by id
-func (tm *TransactionManager) FindServerTransactionByID(value string) (interfaces.Transaction, bool) {
+func (tm *TransactionManager) FindServerTransactionByID(value string) (message.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ServerTX[value]
@@ -108,7 +107,7 @@ func (tm *TransactionManager) FindServerTransactionByID(value string) (interface
 }
 
 //FindClientTransactionByID finds transaction by id
-func (tm *TransactionManager) FindClientTransactionByID(value string) (interfaces.Transaction, bool) {
+func (tm *TransactionManager) FindClientTransactionByID(value string) (message.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
 	tx, exists := tm.ClientTX[value]
@@ -117,14 +116,14 @@ func (tm *TransactionManager) FindClientTransactionByID(value string) (interface
 }
 
 //PutServerTransaction stores a transaction
-func (tm *TransactionManager) PutServerTransaction(tx interfaces.Transaction) {
+func (tm *TransactionManager) PutServerTransaction(tx message.Transaction) {
 	tm.txLock.Lock()
 	tm.ServerTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
 }
 
 //PutClientTransaction stores a transaction
-func (tm *TransactionManager) PutClientTransaction(tx interfaces.Transaction) {
+func (tm *TransactionManager) PutClientTransaction(tx message.Transaction) {
 	tm.txLock.Lock()
 	tm.ClientTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()

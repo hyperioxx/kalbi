@@ -21,7 +21,7 @@ Server Transaction
 
 import (
 	//"fmt"
-	"github.com/KalbiProject/kalbi/interfaces"
+
 	"github.com/KalbiProject/kalbi/log"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/sip/method"
@@ -49,7 +49,7 @@ type ServerTransaction struct {
 	Origin         *message.SipMsg
 	FSM            *fsm.FSM
 	msgHistory     []*message.SipMsg
-	ListeningPoint interfaces.ListeningPoint
+	ListeningPoint message.ListeningPoint
 	Host           string
 	Port           string
 	LastMessage    *message.SipMsg
@@ -68,7 +68,7 @@ func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 			{Name: serverInputUser2xx, Src: []string{"Proceeding"}, Dst: "Terminated"},
 		}, fsm.Callbacks{serverInputUser1xx: st.actRespond,
 			serverInputTransportErr: st.actTransErr,
-			serverInputUser2xx:      st.actRespondDelete,
+			serverInputUser2xx:      st.actRespond,
 			serverInputUser300Plus:  st.actRespond})
 	default:
 		st.FSM = fsm.NewFSM("", fsm.Events{
@@ -85,12 +85,12 @@ func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 }
 
 //SetListeningPoint sets a listening point to the client transaction
-func (st *ServerTransaction) SetListeningPoint(lp interfaces.ListeningPoint) {
+func (st *ServerTransaction) SetListeningPoint(lp message.ListeningPoint) {
 	st.ListeningPoint = lp
 }
 
 //GetListeningPoint returns current listening point
-func (st *ServerTransaction) GetListeningPoint() interfaces.ListeningPoint {
+func (st *ServerTransaction) GetListeningPoint() message.ListeningPoint {
 	return st.ListeningPoint
 }
 

@@ -6,7 +6,6 @@ import (
 
 	kalbi "github.com/KalbiProject/kalbi"
 	"github.com/KalbiProject/kalbi/authentication"
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/KalbiProject/kalbi/sip/status"
@@ -34,17 +33,14 @@ type Client struct {
 
 // HandleRequests
 // example Client struct method handle methods.
-func (c *Client) HandleRequests(event interfaces.SipEventObject) {
+func (c *Client) HandleRequests(event message.SipEventObject) {
 
 	tx := event.GetTransaction()
 	switch string(tx.GetLastMessage().Req.Method) {
 	case method.CANCEL:
 		//handle CANCEL request
 	case method.INVITE:
-		responseLine := message.NewResponseLine(status.OK, "It's Cool")
-		msg := message.NewResponse(responseLine, nil, nil, nil, nil, nil)
-		msg.CopyHeaders(tx.GetOrigin())
-		msg.ContLen.SetValue("0")
+		msg := message.NewResponse(tx, status.OK, nil)
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 
 	case method.REGISTER:
@@ -54,10 +50,8 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 	case method.ACK:
 
 	default:
-		responseLine := message.NewResponseLine(status.OK, "It's Cool")
-		msg := message.NewResponse(responseLine, nil, nil, nil, nil, nil)
-		msg.CopyHeaders(tx.GetOrigin())
-		msg.ContLen.SetValue("0")
+
+		msg := message.NewResponse(tx, status.OK, nil)
 		tx.Send(msg, string(tx.GetOrigin().Contact.Host), string(tx.GetOrigin().Contact.Port))
 	}
 
@@ -65,7 +59,7 @@ func (c *Client) HandleRequests(event interfaces.SipEventObject) {
 
 // ReRegister
 // example lient struct method to register event
-func (c *Client) ReRegister(event interfaces.SipEventObject) {
+func (c *Client) ReRegister(event message.SipEventObject) {
 	//response := event.GetSipMessage()
 
 	time.Sleep(60 * time.Second)
@@ -98,7 +92,7 @@ func (c *Client) ReRegister(event interfaces.SipEventObject) {
 
 // HandleResponses
 // example Client struct method to handle responses
-func (c *Client) HandleResponses(event interfaces.SipEventObject) {
+func (c *Client) HandleResponses(event message.SipEventObject) {
 
 	response := event.GetTransaction()
 	fmt.Println(string(event.GetSipMessage().Src))
@@ -122,7 +116,7 @@ func (c *Client) HandleResponses(event interfaces.SipEventObject) {
 
 // HandleUnAuth
 // example Client struct method to handle unauthorised events
-func (c *Client) HandleUnAuth(event interfaces.SipEventObject) {
+func (c *Client) HandleUnAuth(event message.SipEventObject) {
 	response := event.GetSipMessage()
 
 	origin := event.GetTransaction().GetOrigin()

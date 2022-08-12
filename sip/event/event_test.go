@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/interfaces"
 	"github.com/KalbiProject/kalbi/sdp"
 	"github.com/KalbiProject/kalbi/sip/message"
 )
@@ -115,8 +114,8 @@ var (
 func TestSipEvent_GetSipMessage(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	tests := []struct {
 		name    string
@@ -145,8 +144,8 @@ func TestSipEvent_GetSipMessage(t *testing.T) {
 func TestSipEvent_SetSipMessage(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	type args struct {
 		msg *message.SipMsg
@@ -183,13 +182,13 @@ func TestSipEvent_SetSipMessage(t *testing.T) {
 func TestSipEvent_GetTransaction(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	tests := []struct {
 		name   string
 		fields fields
-		want   interfaces.Transaction
+		want   message.Transaction
 	}{
 		// TODO: Add test cases.
 	}
@@ -210,11 +209,11 @@ func TestSipEvent_GetTransaction(t *testing.T) {
 func TestSipEvent_SetTransaction(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	type args struct {
-		tx interfaces.Transaction
+		tx message.Transaction
 	}
 	tests := []struct {
 		name   string
@@ -238,11 +237,11 @@ func TestSipEvent_SetTransaction(t *testing.T) {
 func TestSipEvent_SetListeningPoint(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	type args struct {
-		lp interfaces.ListeningPoint
+		lp message.ListeningPoint
 	}
 	tests := []struct {
 		name   string
@@ -266,13 +265,13 @@ func TestSipEvent_SetListeningPoint(t *testing.T) {
 func TestSipEvent_GetListeningPoint(t *testing.T) {
 	type fields struct {
 		sipmsg *message.SipMsg
-		tx     interfaces.Transaction
-		lp     interfaces.ListeningPoint
+		tx     message.Transaction
+		lp     message.ListeningPoint
 	}
 	tests := []struct {
 		name   string
 		fields fields
-		want   interfaces.ListeningPoint
+		want   message.ListeningPoint
 	}{
 		// TODO: Add test cases.
 	}
