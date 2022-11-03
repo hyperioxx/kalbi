@@ -132,7 +132,11 @@ func (sa *SipAuth) String() string {
 		line += "qop=" + string(sa.QoP) + " "
 	}
 	if sa.Nonce != nil {
-		line += ",nonce=\"" + string(sa.Nonce) + "\" "
+		if sa.QoP == nil {
+			line += "nonce=\"" + string(sa.Nonce) + "\" "
+		} else {
+			line += ",nonce=\"" + string(sa.Nonce) + "\" "
+		}
 	}
 	if sa.Realm != nil {
 		line += ",realm=\"" + string(sa.Realm) + "\" "
