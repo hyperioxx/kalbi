@@ -30,6 +30,6 @@ go.work
 /Godeps/
 
 .vscode/
-.idea/
+.idea/*
 
 # End of https://www.toptal.com/developers/gitignore/api/go
