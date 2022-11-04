@@ -2,10 +2,10 @@ package message
 
 import (
 	"bytes"
+	"github.com/KalbiProject/kalbi/sdp"
+	"github.com/KalbiProject/kalbi/sip/method"
 	"strconv"
 	"strings"
-	"github.com/KalbiProject/kalbi/sip/method"
-	"github.com/KalbiProject/kalbi/sdp"
 )
 
 var keepSrc = true
@@ -79,7 +79,7 @@ func (sm *SipMsg) String() string {
 	if sm.Auth.Response != nil && string(sm.Req.Method) == method.REGISTER {
 		sipmsg += "Authorization: " + sm.Auth.String() + "\r\n"
 	} else if sm.Auth.Response != nil && string(sm.Req.Method) == method.INVITE {
-			sipmsg += "Proxy-Authorization: " + sm.Auth.String() + "\r\n"
+		sipmsg += "Proxy-Authorization: " + sm.Auth.String() + "\r\n"
 	} else if sm.Auth.Nonce != nil {
 		sipmsg += "WWW-Authenticate: " + sm.Auth.String() + "\r\n"
 	}
