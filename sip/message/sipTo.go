@@ -16,6 +16,79 @@ type SipTo struct {
 	Src      []byte // Full source if needed
 }
 
+// Scan makes it easier to parse messages
+type Scan struct {
+	body []byte
+	pos  int
+}
+
+// NewScan is the constructor for Scan
+func NewScan(body []byte) *Scan {
+	return &Scan{body, 0}
+}
+
+// CaptureString will capture matching options and consume the characters, returns captured string and bool
+func (scan *Scan) CaptureString(options ...string) (string, bool) {
+	for _, option := range options {
+		if getString(scan.body, scan.pos, scan.pos+len(option)) == option {
+			scan.pos += len(option)
+			return option, true
+		}
+	}
+	return "", false
+}
+
+// ConsumeString will capture matching options and consume the characters, returns true if one of options found
+func (scan *Scan) ConsumeString(options ...string) bool {
+	_, found := scan.CaptureString(options...)
+	return found
+}
+
+// CaptureChar will capture a single character from the options, returns the current char and a boolean (is the character one of the options)
+func (scan *Scan) CaptureChar(options ...byte) (byte, bool) {
+	currentChar := scan.body[scan.pos]
+	for _, option := range options {
+		if option == currentChar {
+			scan.pos++
+			return currentChar, true
+		}
+	}
+	return currentChar, false
+}
+
+// CheckChar looks for matches ahead but does not consume
+func (scan *Scan) CheckChar(options ...byte) bool {
+	currentChar := scan.body[scan.pos]
+	for _, option := range options {
+		if option == currentChar {
+			return true
+		}
+	}
+	return false
+}
+
+// ConsumeChar will capture a single character from the options, returns the current char and a boolean (is the character one of the options)
+func (scan *Scan) ConsumeChar(options ...byte) bool {
+	_, found := scan.CaptureChar(options...)
+	return found
+}
+
+// CaptureUntil will search the scan until it reaches a delimeter option
+func (scan *Scan) CaptureUntil(options ...byte) ([]byte, byte, bool) {
+	captured := []byte{}
+	for scan.pos < len(scan.body) {
+		currentChar := scan.body[scan.pos]
+		scan.pos++
+		for _, option := range options {
+			if option == currentChar {
+				return captured, currentChar, true
+			}
+		}
+		captured = append(captured, currentChar)
+	}
+	return captured, '\n', false
+}
+
 //SetUriType gives the ability to set URI type e.g. sip:, sips:
 func (sf *SipTo) SetUriType(uriType string) {
 	sf.UriType = uriType
@@ -77,128 +150,98 @@ func ParseSipTo(v []byte, out *SipTo) {
 		out.Src = v
 	}
 
+	scan := NewScan(v)
+
 	// Loop through the bytes making up the line
 	for pos < len(v) {
 		// FSM
 		switch state {
 		case fieldBase:
-			if v[pos] == '"' && out.UriType == "" {
-				state = fieldNameQ
-				pos++
-				continue
-			}
-			if v[pos] != ' ' {
-				// Not a space so check for uri types
-				if getString(v, pos, pos+4) == "sip:" {
-					state = fieldUser
-					pos += 4
-					out.UriType = "sip"
-					continue
-				}
-				if getString(v, pos, pos+5) == "sips:" {
-					state = fieldUser
-					pos += 5
-					out.UriType = "sips"
-					continue
-				}
-				if getString(v, pos, pos+4) == "tel:" {
-					state = fieldUser
-					pos += 4
-					out.UriType = "tel"
-					continue
-				}
-				// Look for a Tag identifier
-				if getString(v, pos, pos+4) == "tag=" {
-					state = fieldTag
-					pos += 4
-					continue
-				}
-				// Look for a User Type identifier
-				if getString(v, pos, pos+5) == "user=" {
-					state = fieldUserType
-					pos += 5
-					continue
-				}
-				// Look for other identifiers and ignore
-				if v[pos] == '=' {
-					state = fieldIgnore
-					pos++
-					continue
-				}
-				// Check for other chrs
-				if v[pos] != '<' && v[pos] != '>' && v[pos] != ';' && out.UriType == "" {
-					state = fieldName
-					continue
-				}
-			}
+			state = handleFieldBaseState(scan, out)
 
 		case fieldNameQ:
-			if v[pos] == '"' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.Name = append(out.Name, v[pos])
+			capturedString, _, _ := scan.CaptureUntil('"')
+			state = fieldBase
+			out.Name = capturedString
+			continue
 
 		case fieldName:
-			if v[pos] == '<' || v[pos] == ' ' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.Name = append(out.Name, v[pos])
+			capturedString, _, _ := scan.CaptureUntil('<', ' ')
+			state = fieldBase
+			out.Name = capturedString
+			continue
 
 		case fieldUser:
-			if v[pos] == '@' {
-				state = fieldUserHost
-				pos++
-				continue
-			}
-			out.User = append(out.User, v[pos])
+			capturedString, _, _ := scan.CaptureUntil('@')
+			state = fieldUserHost
+			out.User = capturedString
+			continue
 
 		case fieldUserHost:
-			if v[pos] == ':' {
+			capturedString, last, _ := scan.CaptureUntil(':', ';', '>')
+			out.Host = capturedString
+			state = fieldBase
+			if last == ':' {
 				state = fieldPort
-				pos++
-				continue
 			}
-			if v[pos] == ';' || v[pos] == '>' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.Host = append(out.Host, v[pos])
+			continue
 
 		case fieldPort:
-			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.Port = append(out.Port, v[pos])
+			capturedString, _, _ := scan.CaptureUntil(';', '>', ' ')
+			state = fieldBase
+			out.Port = capturedString
+			continue
 
 		case fieldUserType:
-			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.UserType = append(out.UserType, v[pos])
+			capturedString, _, _ := scan.CaptureUntil(';', '>', ' ')
+			state = fieldBase
+			out.UserType = capturedString
+			continue
 
 		case fieldTag:
-			if v[pos] == ';' || v[pos] == '>' || v[pos] == ' ' {
-				state = fieldBase
-				pos++
-				continue
-			}
-			out.Tag = append(out.Tag, v[pos])
+			capturedString, _, _ := scan.CaptureUntil(';', '>', ' ')
+			state = fieldBase
+			out.Tag = capturedString
+			continue
+
 		case fieldIgnore:
-			if v[pos] == ';' || v[pos] == '>' {
-				state = fieldBase
-				pos++
-				continue
-			}
+			scan.CaptureUntil(';', '>')
+			state = fieldBase
+			continue
 		}
 		pos++
 	}
+}
+
+func handleFieldBaseState(scan *Scan, out *SipTo) int {
+	if scan.ConsumeChar('"') && out.UriType == "" {
+		return fieldNameQ
+	}
+	if scan.ConsumeChar(' ') {
+		// Not a space so check for uri types
+		protocol, hasProtocol := scan.CaptureString("sip:", "sips:", "tel:")
+		if hasProtocol {
+			out.UriType = protocol[:len(protocol)-1]
+			return fieldUser
+		}
+
+		// Look for a Tag identifier
+		if scan.ConsumeString("tag=") {
+			return fieldTag
+		}
+		// Look for a User Type identifier
+		if scan.ConsumeString("user=") {
+			return fieldUserType
+		}
+		// Look for other identifiers and ignore
+		if scan.ConsumeChar('=') {
+			return fieldIgnore
+		}
+		// Check for other chrs
+		if !scan.CheckChar('<', '>', ';') && out.UriType == "" {
+			return fieldName
+		}
+	}
+	return fieldBase
+
 }
