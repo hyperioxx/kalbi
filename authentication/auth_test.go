@@ -3,8 +3,8 @@ package authentication_test
 import (
 	"testing"
 
-	"github.com/KalbiProject/kalbi/authentication"
 	"github.com/stretchr/testify/assert"
+	"kalbi/authentication"
 )
 
 type TestUser struct {

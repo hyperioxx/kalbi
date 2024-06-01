@@ -4,13 +4,13 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/KalbiProject/kalbi/log"
-	"github.com/KalbiProject/kalbi/sip/message"
-	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/sirupsen/logrus"
+	"kalbi/log"
+	"kalbi/sip/message"
+	"kalbi/sip/method"
 )
 
-//NewTransactionManager returns a new TransactionManager
+// NewTransactionManager returns a new TransactionManager
 func NewTransactionManager() *TransactionManager {
 	txmng := new(TransactionManager)
 	txmng.ClientTX = make(map[string]message.Transaction)
@@ -20,7 +20,7 @@ func NewTransactionManager() *TransactionManager {
 	return txmng
 }
 
-//TransactionManager handles SIP transactions
+// TransactionManager handles SIP transactions
 type TransactionManager struct {
 	ServerTX        map[string]message.Transaction
 	ClientTX        map[string]message.Transaction
@@ -71,7 +71,7 @@ func (tm *TransactionManager) Handle(event message.SipEventObject) message.SipEv
 	return event
 }
 
-//FindServerTransaction finds transaction by SipMsg
+// FindServerTransaction finds transaction by SipMsg
 func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (message.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
 	if len(msg.Via) == 0 {
@@ -84,7 +84,7 @@ func (tm *TransactionManager) FindServerTransaction(msg *message.SipMsg) (messag
 	return tx, exists, nil
 }
 
-//FindClientTransaction finds transaction by SipMsg
+// FindClientTransaction finds transaction by SipMsg
 func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (message.Transaction, bool, error) {
 	//key := tm.MakeKey(*msg)
 	if len(msg.Via) == 0 {
@@ -97,7 +97,7 @@ func (tm *TransactionManager) FindClientTransaction(msg *message.SipMsg) (messag
 	return tx, exists, nil
 }
 
-//FindServerTransactionByID finds transaction by id
+// FindServerTransactionByID finds transaction by id
 func (tm *TransactionManager) FindServerTransactionByID(value string) (message.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -106,7 +106,7 @@ func (tm *TransactionManager) FindServerTransactionByID(value string) (message.T
 	return tx, exists
 }
 
-//FindClientTransactionByID finds transaction by id
+// FindClientTransactionByID finds transaction by id
 func (tm *TransactionManager) FindClientTransactionByID(value string) (message.Transaction, bool) {
 	//key := tm.MakeKey(*msg)
 	tm.txLock.RLock()
@@ -115,21 +115,21 @@ func (tm *TransactionManager) FindClientTransactionByID(value string) (message.T
 	return tx, exists
 }
 
-//PutServerTransaction stores a transaction
+// PutServerTransaction stores a transaction
 func (tm *TransactionManager) PutServerTransaction(tx message.Transaction) {
 	tm.txLock.Lock()
 	tm.ServerTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
 }
 
-//PutClientTransaction stores a transaction
+// PutClientTransaction stores a transaction
 func (tm *TransactionManager) PutClientTransaction(tx message.Transaction) {
 	tm.txLock.Lock()
 	tm.ClientTX[tx.GetBranchID()] = tx
 	tm.txLock.Unlock()
 }
 
-//DeleteServerTransaction removes a stored transaction
+// DeleteServerTransaction removes a stored transaction
 func (tm *TransactionManager) DeleteServerTransaction(branch string) {
 	log.Log.Info("Deleting transaction with ID: " + branch)
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.ServerTX)}).Debug("Current transaction count before DeleteTransaction() is called")
@@ -139,7 +139,7 @@ func (tm *TransactionManager) DeleteServerTransaction(branch string) {
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.ServerTX)}).Debug("Current transaction count after DeleteTransaction() is called")
 }
 
-//DeleteClientTransaction removes a stored transaction
+// DeleteClientTransaction removes a stored transaction
 func (tm *TransactionManager) DeleteClientTransaction(branch string) {
 	log.Log.Info("Deleting transaction with ID: " + branch)
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.ClientTX)}).Debug("Current transaction count before DeleteTransaction() is called")
@@ -149,7 +149,7 @@ func (tm *TransactionManager) DeleteClientTransaction(branch string) {
 	log.Log.WithFields(logrus.Fields{"transactions": len(tm.ClientTX)}).Debug("Current transaction count after DeleteTransaction() is called")
 }
 
-//MakeKey creates new transaction identifier
+// MakeKey creates new transaction identifier
 func (tm *TransactionManager) MakeKey(msg message.SipMsg) string {
 
 	key := string(msg.Via[0].Branch)
@@ -168,7 +168,7 @@ func (tm *TransactionManager) MakeKey(msg message.SipMsg) string {
 	return key
 }
 
-//NewClientTransaction builds new CLientTransaction
+// NewClientTransaction builds new CLientTransaction
 func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientTransaction {
 
 	tx := new(ClientTransaction)
@@ -185,7 +185,7 @@ func (tm *TransactionManager) NewClientTransaction(msg *message.SipMsg) *ClientT
 
 }
 
-//NewServerTransaction builds new ServerTransaction
+// NewServerTransaction builds new ServerTransaction
 func (tm *TransactionManager) NewServerTransaction(msg *message.SipMsg) *ServerTransaction {
 
 	tx := new(ServerTransaction)

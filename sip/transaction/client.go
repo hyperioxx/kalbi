@@ -40,10 +40,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/KalbiProject/kalbi/log"
-	"github.com/KalbiProject/kalbi/sip/message"
-	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/looplab/fsm"
+	"kalbi/log"
+	"kalbi/sip/message"
+	"kalbi/sip/method"
 )
 
 const (
@@ -78,7 +78,7 @@ type ClientTransaction struct {
 	timerD         *time.Timer
 }
 
-//InitFSM initializes the finite state machine within the client transaction
+// InitFSM initializes the finite state machine within the client transaction
 func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 	switch string(msg.Req.Method) {
 	case method.INVITE:
@@ -105,27 +105,27 @@ func (ct *ClientTransaction) InitFSM(msg *message.SipMsg) {
 	}
 }
 
-//SetListeningPoint sets a listening point to the client transaction
+// SetListeningPoint sets a listening point to the client transaction
 func (ct *ClientTransaction) SetListeningPoint(lp message.ListeningPoint) {
 	ct.ListeningPoint = lp
 }
 
-//GetListeningPoint returns current listening point
+// GetListeningPoint returns current listening point
 func (ct *ClientTransaction) GetListeningPoint() message.ListeningPoint {
 	return ct.ListeningPoint
 }
 
-//GetBranchID returns branchID which is the identifier of a transaction
+// GetBranchID returns branchID which is the identifier of a transaction
 func (ct *ClientTransaction) GetBranchID() string {
 	return ct.BranchID
 }
 
-//GetOrigin returns the SIP message that initiated this transaction
+// GetOrigin returns the SIP message that initiated this transaction
 func (ct *ClientTransaction) GetOrigin() *message.SipMsg {
 	return ct.Origin
 }
 
-//Receive takes in the SIP message from the transport layer
+// Receive takes in the SIP message from the transport layer
 func (ct *ClientTransaction) Receive(msg *message.SipMsg) {
 
 	//fmt.Println("CURRENT STATE: " + ct.FSM.Current())
@@ -152,22 +152,22 @@ func (ct *ClientTransaction) act100(event *fsm.Event) {
 	ct.timerA.Stop()
 }
 
-//SetServerTransaction is used to set a Server Transaction
+// SetServerTransaction is used to set a Server Transaction
 func (ct *ClientTransaction) SetServerTransaction(txID string) {
 	ct.ServerTxID = txID
 }
 
-//GetServerTransactionID returns a ServerTransaction that has been set with SetServerTransaction()
+// GetServerTransactionID returns a ServerTransaction that has been set with SetServerTransaction()
 func (ct *ClientTransaction) GetServerTransactionID() string {
 	return ct.ServerTxID
 }
 
-//GetLastMessage returns the last received SIP message to this transaction
+// GetLastMessage returns the last received SIP message to this transaction
 func (ct *ClientTransaction) GetLastMessage() *message.SipMsg {
 	return ct.LastMessage
 }
 
-//SetLastMessage sets the last message received
+// SetLastMessage sets the last message received
 func (ct *ClientTransaction) SetLastMessage(msg *message.SipMsg) {
 	ct.LastMessage = msg
 }
@@ -211,7 +211,7 @@ func (ct *ClientTransaction) actResend(event *fsm.Event) {
 	ct.Resend()
 }
 
-//Resend is used for retransmissions
+// Resend is used for retransmissions
 func (ct *ClientTransaction) Resend() {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
@@ -222,7 +222,7 @@ func (ct *ClientTransaction) Resend() {
 	}
 }
 
-//StatelessSend send a sip message without acting on the FSM
+// StatelessSend send a sip message without acting on the FSM
 func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, port string) {
 	err := ct.ListeningPoint.Send(ct.Host, ct.Port, ct.Origin.String())
 	if err != nil {
@@ -230,7 +230,7 @@ func (ct *ClientTransaction) StatelessSend(msg *message.SipMsg, host string, por
 	}
 }
 
-//Send is used to send a SIP message
+// Send is used to send a SIP message
 func (ct *ClientTransaction) Send(msg *message.SipMsg, host string, port string) {
 	ct.Origin = msg
 	ct.Host = host

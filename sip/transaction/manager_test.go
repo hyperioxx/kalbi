@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/sip/message"
+	"kalbi/sip/message"
 )
 
 func TestNewTransactionManager(t *testing.T) {

@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/KalbiProject/kalbi/sdp"
+	"kalbi/sdp"
 )
 
 func TestSDPParser(t *testing.T) {

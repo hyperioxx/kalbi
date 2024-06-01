@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/looplab/fsm"
+	"kalbi/sip/message"
 )
 
 func TestClientTransaction_InitFSM(t *testing.T) {

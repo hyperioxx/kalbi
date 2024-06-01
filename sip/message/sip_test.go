@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/sdp"
+	"kalbi/sdp"
 )
 
 func TestSipMsg_SetAuthHeader(t *testing.T) {

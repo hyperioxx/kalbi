@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/authentication"
-	"github.com/KalbiProject/kalbi/sip/message"
+	"kalbi/authentication"
+	"kalbi/sip/message"
 )
 
 func TestSIPParser(t *testing.T) {

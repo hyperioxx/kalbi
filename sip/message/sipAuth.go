@@ -1,28 +1,26 @@
 package message
 
-import "github.com/KalbiProject/kalbi/utils"
+import "kalbi/utils"
 
 /*
-
 20.7 Authorization
 
-   The Authorization header field contains authentication credentials of
-   a UA.  Section 22.2 overviews the use of the Authorization header
-   field, and Section 22.4 describes the syntax and semantics when used
-   with HTTP authentication.
+	The Authorization header field contains authentication credentials of
+	a UA.  Section 22.2 overviews the use of the Authorization header
+	field, and Section 22.4 describes the syntax and semantics when used
+	with HTTP authentication.
 
-   This header field, along with Proxy-Authorization, breaks the general
-   rules about multiple header field values.  Although not a comma-
-   separated list, this header field name may be present multiple times,
-   and MUST NOT be combined into a single header line using the usual
-   rules described in Section 7.3.
-
+	This header field, along with Proxy-Authorization, breaks the general
+	rules about multiple header field values.  Although not a comma-
+	separated list, this header field name may be present multiple times,
+	and MUST NOT be combined into a single header line using the usual
+	rules described in Section 7.3.
 */
 var (
 	condByteSlice = []byte{',', ' '}
 )
 
-//SipAuth SIP Authorization Header
+// SipAuth SIP Authorization Header
 type SipAuth struct {
 	Username  []byte
 	Realm     []byte
@@ -36,92 +34,92 @@ type SipAuth struct {
 	Src       []byte
 }
 
-//SetUsername sets username
+// SetUsername sets username
 func (sa *SipAuth) SetUsername(value string) {
 	sa.Username = []byte(value)
 }
 
-//GetUsername returns username
+// GetUsername returns username
 func (sa *SipAuth) GetUsername() string {
 	return string(sa.Username)
 }
 
-//SetRealm sets realm
+// SetRealm sets realm
 func (sa *SipAuth) SetRealm(value string) {
 	sa.Realm = []byte(value)
 }
 
-//GetRealm returns realm
+// GetRealm returns realm
 func (sa *SipAuth) GetRealm() string {
 	return string(sa.Realm)
 }
 
-//SetNonce sets nonce
+// SetNonce sets nonce
 func (sa *SipAuth) SetNonce(value string) {
 	sa.Nonce = []byte(value)
 }
 
-//GetNonce returns nonce
+// GetNonce returns nonce
 func (sa *SipAuth) GetNonce() string {
 	return string(sa.Nonce)
 }
 
-//SetCNonce sets cnonce
+// SetCNonce sets cnonce
 func (sa *SipAuth) SetCNonce(value string) {
 	sa.CNonce = []byte(value)
 }
 
-//GetCNonce returns cnonce
+// GetCNonce returns cnonce
 func (sa *SipAuth) GetCNonce() string {
 	return string(sa.CNonce)
 }
 
-//SetQoP sets qop
+// SetQoP sets qop
 func (sa *SipAuth) SetQoP(value string) {
 	sa.QoP = []byte(value)
 }
 
-//GetQoP returns qop
+// GetQoP returns qop
 func (sa *SipAuth) GetQoP() string {
 	return string(sa.QoP)
 }
 
-//SetAlgorithm sets algorithm
+// SetAlgorithm sets algorithm
 func (sa *SipAuth) SetAlgorithm(value string) {
 	sa.Algorithm = []byte(value)
 }
 
-//GetAlgorithm returns algorithm
+// GetAlgorithm returns algorithm
 func (sa *SipAuth) GetAlgorithm() string {
 	return string(sa.Algorithm)
 }
 
-//SetNc sets nc
+// SetNc sets nc
 func (sa *SipAuth) SetNc(value string) {
 	sa.Nc = []byte(value)
 }
 
-//GetNc returns nc
+// GetNc returns nc
 func (sa *SipAuth) GetNc() string {
 	return string(sa.Nc)
 }
 
-//SetURI sets nc
+// SetURI sets nc
 func (sa *SipAuth) SetURI(value string) {
 	sa.URI = []byte(value)
 }
 
-//GetURI returns nc
+// GetURI returns nc
 func (sa *SipAuth) GetURI() string {
 	return string(sa.URI)
 }
 
-//SetResponse sets response
+// SetResponse sets response
 func (sa *SipAuth) SetResponse(value string) {
 	sa.Response = []byte(value)
 }
 
-//GetResponse returns response
+// GetResponse returns response
 func (sa *SipAuth) GetResponse() string {
 	return string(sa.Response)
 }
@@ -162,7 +160,7 @@ func (sa *SipAuth) String() string {
 	return line
 }
 
-//ParseSipAuth parse's WWW-Authenticate/Authorization headers
+// ParseSipAuth parse's WWW-Authenticate/Authorization headers
 func ParseSipAuth(v []byte, out *SipAuth) {
 
 	pos := 0

@@ -5,7 +5,7 @@
 </h1>
 
 <h3 align="center">
-  <a href="https://pkg.go.dev/github.com/KalbiProject/Kalbi">Documentation</a> • 
+  <a href="https://pkg.go.dev/Kalbi">Documentation</a> • 
   <a href="https://twitter.com/KalbiProject">Twitter</a> • 
   <a href="https://www.reddit.com/r/Kalbi/">Community</a> •
   <a href="https://discord.gg/6NCKgrz">Discord</a>
@@ -13,7 +13,7 @@
 
 <p>&nbsp;</p>
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/KalbiProject/Kalbi)](https://goreportcard.com/report/github.com/KalbiProject/Kalbi) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/KalbiProject/kalbi/LICENCE) [![GitHub contributors](https://img.shields.io/github/contributors/KalbiProject/Kalbi)](https://github.com/KalbiProject/kalbi/graphs/contributors/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Hyperioxx/Kalbi)
+[![Go Report Card](https://goreportcard.com/badge/Kalbi)](https://goreportcard.com/report/Kalbi) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://kalbi/LICENCE) [![GitHub contributors](https://img.shields.io/github/contributors/KalbiProject/Kalbi)](https://kalbi/graphs/contributors/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Hyperioxx/Kalbi)
 <br />
 
 ## Description
@@ -22,7 +22,7 @@ Golang SIP/VoIP SDK/Framework used to build large platforms for VoIP and realtim
 
 ## Examples
 
-[Examples](https://github.com/KalbiProject/kalbi/tree/master/examples) - Kalbi Examples folder
+[Examples](https://kalbi/tree/master/examples) - Kalbi Examples folder
 
 ## Core Team
 

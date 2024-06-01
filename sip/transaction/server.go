@@ -22,10 +22,10 @@ Server Transaction
 import (
 	//"fmt"
 
-	"github.com/KalbiProject/kalbi/log"
-	"github.com/KalbiProject/kalbi/sip/message"
-	"github.com/KalbiProject/kalbi/sip/method"
 	"github.com/looplab/fsm"
+	"kalbi/log"
+	"kalbi/sip/message"
+	"kalbi/sip/method"
 )
 
 const (
@@ -41,7 +41,7 @@ const (
 	serverInputDelete       = "server_input_delete"
 )
 
-//ServerTransaction is a representation of a Server Transaction references in RFC3261
+// ServerTransaction is a representation of a Server Transaction references in RFC3261
 type ServerTransaction struct {
 	ID             string
 	BranchID       string
@@ -55,7 +55,7 @@ type ServerTransaction struct {
 	LastMessage    *message.SipMsg
 }
 
-//InitFSM initializes the finite state machine within the client transaction
+// InitFSM initializes the finite state machine within the client transaction
 func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 
 	switch string(msg.Req.Method) {
@@ -84,37 +84,37 @@ func (st *ServerTransaction) InitFSM(msg *message.SipMsg) {
 	}
 }
 
-//SetListeningPoint sets a listening point to the client transaction
+// SetListeningPoint sets a listening point to the client transaction
 func (st *ServerTransaction) SetListeningPoint(lp message.ListeningPoint) {
 	st.ListeningPoint = lp
 }
 
-//GetListeningPoint returns current listening point
+// GetListeningPoint returns current listening point
 func (st *ServerTransaction) GetListeningPoint() message.ListeningPoint {
 	return st.ListeningPoint
 }
 
-//GetBranchID returns branchID which is the identifier of a transaction
+// GetBranchID returns branchID which is the identifier of a transaction
 func (st *ServerTransaction) GetBranchID() string {
 	return st.BranchID
 }
 
-//GetOrigin returns the SIP message that initiated this transaction
+// GetOrigin returns the SIP message that initiated this transaction
 func (st *ServerTransaction) GetOrigin() *message.SipMsg {
 	return st.Origin
 }
 
-//GetLastMessage returns the last received SIP message to this transaction
+// GetLastMessage returns the last received SIP message to this transaction
 func (st *ServerTransaction) GetLastMessage() *message.SipMsg {
 	return st.LastMessage
 }
 
-//SetLastMessage sets the last message received
+// SetLastMessage sets the last message received
 func (st *ServerTransaction) SetLastMessage(msg *message.SipMsg) {
 	st.LastMessage = msg
 }
 
-//Receive takes in the SIP message from the transport layer
+// Receive takes in the SIP message from the transport layer
 func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 	st.LastMessage = msg
 	//log.Log.Info("Message Received for transactionID " + st.BranchID + ": \n" + string(msg.Src))
@@ -128,9 +128,9 @@ func (st *ServerTransaction) Receive(msg *message.SipMsg) {
 
 }
 
-//Respond is used to process response from transport layer
+// Respond is used to process response from transport layer
 func (st *ServerTransaction) Respond(msg *message.SipMsg) {
-	//TODO: this will change due to issue https://github.com/KalbiProject/kalbi/issues/20
+	//TODO: this will change due to issue https://kalbi/issues/20
 	log.Log.Info("Message Sent for transactionID " + st.BranchID + ": \n" + message.MessageDetails(msg))
 	switch {
 	case msg.GetStatusCode() < 200:
@@ -152,12 +152,12 @@ func (st *ServerTransaction) Respond(msg *message.SipMsg) {
 
 }
 
-//GetServerTransactionID  returns Server transaction ID
+// GetServerTransactionID  returns Server transaction ID
 func (st *ServerTransaction) GetServerTransactionID() string {
 	return st.GetBranchID()
 }
 
-//Send used to send SIP message to specified host
+// Send used to send SIP message to specified host
 func (st *ServerTransaction) Send(msg *message.SipMsg, host string, port string) {
 	st.LastMessage = msg
 	st.Host = host

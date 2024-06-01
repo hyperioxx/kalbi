@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KalbiProject/kalbi/sip/message"
 	"github.com/looplab/fsm"
+	"kalbi/sip/message"
 )
 
 func TestServerTransaction_InitFSM(t *testing.T) {

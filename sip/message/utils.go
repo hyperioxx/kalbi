@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/KalbiProject/kalbi/log"
+	"kalbi/log"
 )
 
-//GenerateBranchID generates a new branch ID
+// GenerateBranchID generates a new branch ID
 func GenerateBranchID() string {
 	b := make([]byte, 8)
 	_, err := rand.Read(b)
@@ -18,7 +18,7 @@ func GenerateBranchID() string {
 	return "z9hG4bK-" + uuid
 }
 
-//GenerateNewCallID generates new Call ID
+// GenerateNewCallID generates new Call ID
 func GenerateNewCallID() string {
 	b := make([]byte, 16)
 	_, err := rand.Read(b)

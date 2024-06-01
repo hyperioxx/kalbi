@@ -2,7 +2,7 @@ package message
 
 import (
 	"fmt"
-	"github.com/KalbiProject/kalbi/sip/status"
+	"kalbi/sip/status"
 	"strconv"
 )
 
